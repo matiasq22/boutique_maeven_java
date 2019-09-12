@@ -29,13 +29,11 @@ public class inicio extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         sidebar = new javax.swing.JPanel();
-        lblhora = new javax.swing.JLabel();
         lblacceso = new javax.swing.JLabel();
         lblnombre = new javax.swing.JLabel();
-        lblidusuario = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        lblhora = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,76 +42,43 @@ public class inicio extends javax.swing.JFrame {
         sidebar.setBackground(new java.awt.Color(73, 181, 172));
         sidebar.setToolTipText("");
 
-        lblhora.setFont(new java.awt.Font("Agency FB", 1, 36)); // NOI18N
-        lblhora.setForeground(new java.awt.Color(255, 255, 255));
-        lblhora.setText("Muestra hora");
-
-        lblacceso.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        lblacceso.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         lblacceso.setForeground(new java.awt.Color(255, 255, 255));
         lblacceso.setText("MUESTRA TIPO ACCESO");
 
-        lblnombre.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        lblnombre.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         lblnombre.setForeground(new java.awt.Color(255, 255, 255));
         lblnombre.setText("MUESTRA NOMBRE");
-
-        lblidusuario.setFont(new java.awt.Font("Yu Gothic", 1, 18)); // NOI18N
-        lblidusuario.setForeground(new java.awt.Color(255, 255, 255));
-        lblidusuario.setText("MUESTRA ID");
-        lblidusuario.setRequestFocusEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario (2).png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/candado.png"))); // NOI18N
-
         javax.swing.GroupLayout sidebarLayout = new javax.swing.GroupLayout(sidebar);
         sidebar.setLayout(sidebarLayout);
         sidebarLayout.setHorizontalGroup(
             sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
-            .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(sidebarLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(sidebarLayout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(lblidusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lblnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(sidebarLayout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(10, 10, 10)
-                            .addComponent(lblacceso, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(sidebarLayout.createSequentialGroup()
-                            .addGap(150, 150, 150)
-                            .addComponent(lblhora, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblacceso, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30))
         );
         sidebarLayout.setVerticalGroup(
             sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 760, Short.MAX_VALUE)
-            .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(sidebarLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(sidebarLayout.createSequentialGroup()
-                            .addGap(40, 40, 40)
-                            .addComponent(lblidusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(10, 10, 10)
-                    .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(sidebarLayout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(lblacceso)))
-                    .addGap(360, 360, 360)
-                    .addComponent(lblhora, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarLayout.createSequentialGroup()
+                .addContainerGap(669, Short.MAX_VALUE)
+                .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(sidebarLayout.createSequentialGroup()
+                        .addComponent(lblnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblacceso)
+                        .addGap(14, 14, 14)))
+                .addGap(19, 19, 19))
         );
 
         jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 760));
@@ -121,6 +86,12 @@ public class inicio extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(33, 45, 62));
         jPanel2.setForeground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblhora.setFont(new java.awt.Font("Agency FB", 1, 36)); // NOI18N
+        lblhora.setForeground(new java.awt.Color(255, 255, 255));
+        lblhora.setText("Muestra hora");
+        jPanel2.add(lblhora, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 670, 300, 90));
+
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 1070, 760));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,13 +144,11 @@ public class inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JLabel lblacceso;
     private javax.swing.JLabel lblhora;
-    public static javax.swing.JLabel lblidusuario;
     public static javax.swing.JLabel lblnombre;
     private javax.swing.JPanel sidebar;
     // End of variables declaration//GEN-END:variables
