@@ -75,39 +75,40 @@ public class ClienteJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cliente persistentCliente = em.find(Cliente.class, cliente.getId());
-            Collection<Factura> facturaCollectionOld = persistentCliente.getFacturaCollection();
-            Collection<Factura> facturaCollectionNew = cliente.getFacturaCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Factura facturaCollectionOldFactura : facturaCollectionOld) {
-                if (!facturaCollectionNew.contains(facturaCollectionOldFactura)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Factura " + facturaCollectionOldFactura + " since its clienteId field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<Factura> attachedFacturaCollectionNew = new ArrayList<Factura>();
-            for (Factura facturaCollectionNewFacturaToAttach : facturaCollectionNew) {
-                facturaCollectionNewFacturaToAttach = em.getReference(facturaCollectionNewFacturaToAttach.getClass(), facturaCollectionNewFacturaToAttach.getId());
-                attachedFacturaCollectionNew.add(facturaCollectionNewFacturaToAttach);
-            }
-            facturaCollectionNew = attachedFacturaCollectionNew;
-            cliente.setFacturaCollection(facturaCollectionNew);
-            cliente = em.merge(cliente);
-            for (Factura facturaCollectionNewFactura : facturaCollectionNew) {
-                if (!facturaCollectionOld.contains(facturaCollectionNewFactura)) {
-                    Cliente oldClienteIdOfFacturaCollectionNewFactura = facturaCollectionNewFactura.getClienteId();
-                    facturaCollectionNewFactura.setClienteId(cliente);
-                    facturaCollectionNewFactura = em.merge(facturaCollectionNewFactura);
-                    if (oldClienteIdOfFacturaCollectionNewFactura != null && !oldClienteIdOfFacturaCollectionNewFactura.equals(cliente)) {
-                        oldClienteIdOfFacturaCollectionNewFactura.getFacturaCollection().remove(facturaCollectionNewFactura);
-                        oldClienteIdOfFacturaCollectionNewFactura = em.merge(oldClienteIdOfFacturaCollectionNewFactura);
-                    }
-                }
-            }
+//            Collection<Factura> facturaCollectionOld = persistentCliente.getFacturaCollection();
+//            Collection<Factura> facturaCollectionNew = cliente.getFacturaCollection();
+//            List<String> illegalOrphanMessages = null;
+//            for (Factura facturaCollectionOldFactura : facturaCollectionOld) {
+//                if (!facturaCollectionNew.contains(facturaCollectionOldFactura)) {
+//                    if (illegalOrphanMessages == null) {
+//                        illegalOrphanMessages = new ArrayList<String>();
+//                    }
+//                    illegalOrphanMessages.add("You must retain Factura " + facturaCollectionOldFactura + " since its clienteId field is not nullable.");
+//                }
+//            }
+//            if (illegalOrphanMessages != null) {
+//                throw new IllegalOrphanException(illegalOrphanMessages);
+//            }
+//            Collection<Factura> attachedFacturaCollectionNew = new ArrayList<Factura>();
+//            for (Factura facturaCollectionNewFacturaToAttach : facturaCollectionNew) {
+//                facturaCollectionNewFacturaToAttach = em.getReference(facturaCollectionNewFacturaToAttach.getClass(), facturaCollectionNewFacturaToAttach.getId());
+//                attachedFacturaCollectionNew.add(facturaCollectionNewFacturaToAttach);
+//            }
+//            facturaCollectionNew = attachedFacturaCollectionNew;
+//            cliente.setFacturaCollection(facturaCollectionNew);
+//            cliente = em.merge(cliente);
+//            for (Factura facturaCollectionNewFactura : facturaCollectionNew) {
+//                if (!facturaCollectionOld.contains(facturaCollectionNewFactura)) {
+//                    Cliente oldClienteIdOfFacturaCollectionNewFactura = facturaCollectionNewFactura.getClienteId();
+//                    facturaCollectionNewFactura.setClienteId(cliente);
+//                    facturaCollectionNewFactura = em.merge(facturaCollectionNewFactura);
+//                    if (oldClienteIdOfFacturaCollectionNewFactura != null && !oldClienteIdOfFacturaCollectionNewFactura.equals(cliente)) {
+//                        oldClienteIdOfFacturaCollectionNewFactura.getFacturaCollection().remove(facturaCollectionNewFactura);
+//                        oldClienteIdOfFacturaCollectionNewFactura = em.merge(oldClienteIdOfFacturaCollectionNewFactura);
+//                    }
+//                }
+//            }
+            em.merge(cliente);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -188,13 +189,13 @@ public class ClienteJpaController implements Serializable {
             query.setParameter("nombre", "%"+ nombre + "%");
         try {
             clients =  query.getResultList();
+            em.close();
+            return clients;
         } catch (Exception e) {
             System.out.println("error = " + e.getMessage());
             em.close();
             return null;
         }
-        em.close();
-        return clients;
     }
 
     public Cliente findCliente(Integer id) {

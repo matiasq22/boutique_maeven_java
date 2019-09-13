@@ -25,7 +25,7 @@ private DefaultComboBoxModel comboModelo;
     public frmproducto() {
         initComponents();
         llenacombo();
-        bloquear();
+//        bloquear();
         mostrar("");
     }
     
@@ -528,7 +528,7 @@ private DefaultComboBoxModel comboModelo;
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
         // TODO add your handling code here:
-        bloquear();
+//        bloquear();
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
@@ -548,7 +548,7 @@ private DefaultComboBoxModel comboModelo;
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
         // TODO add your handling code here:
-        desbloquear();
+//        desbloquear();
     }//GEN-LAST:event_btnnuevoActionPerformed
 
     private void tbproductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbproductoKeyPressed

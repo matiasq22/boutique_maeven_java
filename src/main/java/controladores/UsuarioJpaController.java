@@ -168,13 +168,13 @@ public class UsuarioJpaController implements Serializable {
             query.setParameter("nombre", "%"+ nombre + "%");
         try {
             users =  query.getResultList();
+            em.close();
+            return users;
         } catch (Exception e) {
             System.out.println("error = " + e.getMessage());
             em.close();
             return null;
         }
-        em.close();
-        return users;
     }
 
     public Usuario login(String usuario, String pass) {

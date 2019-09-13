@@ -6,7 +6,6 @@
 package com.mycompany.boutique;
 
 import vistas.IniciarSesion;
-import vistas.inicio;
 
 /**
  *

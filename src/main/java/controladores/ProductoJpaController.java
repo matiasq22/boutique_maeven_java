@@ -267,13 +267,13 @@ public class ProductoJpaController implements Serializable {
             query.setParameter("nombre", "%"+ nombre + "%");
         try {
             productos =  query.getResultList();
+            em.close();
+            return productos;
         } catch (Exception e) {
             System.out.println("error = " + e.getMessage());
             em.close();
             return null;
         }
-        em.close();
-        return productos;
     }
     
 }

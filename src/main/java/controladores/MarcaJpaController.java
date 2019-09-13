@@ -206,16 +206,16 @@ public class MarcaJpaController implements Serializable {
         EntityManager em = getEntityManager();
         List<Marca> marcas;
         Query query = em.createNamedQuery("Marca.findByDescripcion");
-            query.setParameter("nombre", "%"+ nombre + "%");
+            query.setParameter("descripcion", "%"+ nombre + "%");
         try {
             marcas =  query.getResultList();
+            em.close();
+            return marcas;
         } catch (Exception e) {
             System.out.println("error = " + e.getMessage());
             em.close();
             return null;
         }
-        em.close();
-        return marcas;
     }
     
 }

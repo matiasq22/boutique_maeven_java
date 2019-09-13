@@ -11,6 +11,7 @@ import controladores.ProductoJpaController;
 import controladores.UsuarioJpaController;
 import controladores.exceptions.NonexistentEntityException;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,6 +40,7 @@ public class inicio extends javax.swing.JFrame {
        ClienteJpaController clienteController;
        MarcaJpaController marcasController;
        ProductoJpaController productoController;
+       MarcaJpaController marcaController;
     /**
      * Creates new form inicio
      */
@@ -48,13 +50,14 @@ public class inicio extends javax.swing.JFrame {
         this.setResizable(false);
 //        this.setExtendedState(frminicio.MAXIMIZED_BOTH);
         this.setTitle("MENU DEL SISTEMA");
-      h1 = new Thread();
-      h1.start();
-      
      Usercontroller = new UsuarioJpaController();
      clienteController = new ClienteJpaController();
      marcasController = new MarcaJpaController();
      productoController =new ProductoJpaController();
+     marcaController = new MarcaJpaController();
+     
+     mostrarUsuarios("");
+     mostrarClientes("");
     }
     private final String accion="guardar";
 
@@ -174,11 +177,13 @@ public class inicio extends javax.swing.JFrame {
                 
                  modelo.addRow(clientes);
              });
+             System.out.println("clientes = " + Arrays.toString(clientes));
+             System.out.println("modelo = " + modelo);
              
              tbclientes.setModel(modelo);
 //             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
          } catch (Exception e) {
-              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
+              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de clientes");
               System.out.println("error = " + e.getMessage());
          }
     }
@@ -186,10 +191,8 @@ public class inicio extends javax.swing.JFrame {
     void bloquearClientes(){
     txtidcliente.setEnabled(false);
     txtnom.setEnabled(false);
-    txtape.setEnabled(false);
     txtdir.setEnabled(false);
     txtemail.setEnabled(false);
-    txttel.setEnabled(false);
     txtruc.setEnabled(false);
     txtdni.setEnabled(false);
     btnguardarClientes.setEnabled(false);
@@ -201,10 +204,8 @@ public class inicio extends javax.swing.JFrame {
     void desbloquearClientes(){
     txtidcliente.setEnabled(true);
     txtnom.setEnabled(true);
-    txtape.setEnabled(true);
     txtdir.setEnabled(true);
     txtemail.setEnabled(true);
-    txttel.setEnabled(true);
     txtruc.setEnabled(true);
     txtdni.setEnabled(true);
     btnguardarClientes.setEnabled(true);
@@ -221,8 +222,6 @@ public class inicio extends javax.swing.JFrame {
     txtdni.setText("");
     txtemail.setText("");
     txtruc.setText("");
-    txttel.setText("");
-    txtape.setText("");
      }
 
     //marca
@@ -391,6 +390,7 @@ public class inicio extends javax.swing.JFrame {
         btnProve = new rojeru_san.RSButton();
         btnRepor = new rojeru_san.RSButton();
         btnVenta = new rojeru_san.RSButton();
+        btnMarca = new rojeru_san.RSButton();
         jPanel2 = new javax.swing.JPanel();
         lblhora = new javax.swing.JLabel();
         rSPanelsSlider1 = new rojeru_san.RSPanelsSlider();
@@ -425,12 +425,8 @@ public class inicio extends javax.swing.JFrame {
         txtidcliente = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtnom = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtape = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtdni = new javax.swing.JTextField();
-        txttel = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         txtemail = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtdir = new javax.swing.JTextField();
@@ -455,12 +451,12 @@ public class inicio extends javax.swing.JFrame {
         txtidmarca = new javax.swing.JTextField();
         txtnombremarca = new javax.swing.JTextField();
         txtdescripcionmarca = new javax.swing.JTextField();
-        btnnuevoMarca = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         btncancelarMarca = new javax.swing.JButton();
         btnguardarMarca = new javax.swing.JButton();
         btneliminarMarca = new javax.swing.JButton();
         btneditarMarca = new javax.swing.JButton();
+        btnnuevoMarca = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbmarca = new javax.swing.JTable();
         txtbuscarMarca = new javax.swing.JTextField();
@@ -596,7 +592,7 @@ public class inicio extends javax.swing.JFrame {
                 btnProductosActionPerformed(evt);
             }
         });
-        sidebar.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 330, 50));
+        sidebar.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 330, 50));
 
         btnProve.setBackground(new java.awt.Color(73, 181, 172));
         btnProve.setBorder(null);
@@ -608,7 +604,7 @@ public class inicio extends javax.swing.JFrame {
                 btnProveActionPerformed(evt);
             }
         });
-        sidebar.add(btnProve, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 330, 50));
+        sidebar.add(btnProve, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 330, 50));
 
         btnRepor.setBackground(new java.awt.Color(73, 181, 172));
         btnRepor.setBorder(null);
@@ -620,7 +616,7 @@ public class inicio extends javax.swing.JFrame {
                 btnReporActionPerformed(evt);
             }
         });
-        sidebar.add(btnRepor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 330, 50));
+        sidebar.add(btnRepor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 330, 50));
 
         btnVenta.setBackground(new java.awt.Color(73, 181, 172));
         btnVenta.setBorder(null);
@@ -632,7 +628,20 @@ public class inicio extends javax.swing.JFrame {
                 btnVentaActionPerformed(evt);
             }
         });
-        sidebar.add(btnVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 330, 50));
+        sidebar.add(btnVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 330, 50));
+
+        btnMarca.setBackground(new java.awt.Color(73, 181, 172));
+        btnMarca.setBorder(null);
+        btnMarca.setText("Marcas");
+        btnMarca.setColorHover(new java.awt.Color(0, 153, 153));
+        btnMarca.setFont(new java.awt.Font("Cantarell", 1, 18)); // NOI18N
+        btnMarca.setName("btnMarca"); // NOI18N
+        btnMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcaActionPerformed(evt);
+            }
+        });
+        sidebar.add(btnMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 330, 50));
 
         jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 760));
 
@@ -860,34 +869,30 @@ public class inicio extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(0, 102, 204));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detalle Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Codigo:");
+        jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 33, -1, -1));
+        jPanel6.add(txtidcliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 30, 84, -1));
 
         jLabel5.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Nombres:");
+        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 62, -1, -1));
 
         txtnom.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtnomKeyTyped(evt);
             }
         });
-
-        jLabel6.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Apellidos:");
-
-        txtape.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtapeKeyTyped(evt);
-            }
-        });
+        jPanel6.add(txtnom, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 59, 152, -1));
 
         jLabel4.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("DNI:");
+        jPanel6.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 100, -1, -1));
 
         txtdni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -895,41 +900,37 @@ public class inicio extends javax.swing.JFrame {
             }
         });
         txtdni.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtdniKeyPressed(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtdniKeyTyped(evt);
             }
-        });
-
-        txttel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txttelKeyTyped(evt);
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtdniKeyPressed(evt);
             }
         });
-
-        jLabel7.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Telefono:");
+        jPanel6.add(txtdni, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 97, 152, -1));
+        jPanel6.add(txtemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 138, 152, -1));
 
         jLabel10.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Email:");
+        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 141, -1, -1));
 
         txtdir.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtdirKeyTyped(evt);
             }
         });
+        jPanel6.add(txtdir, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 175, 185, -1));
 
         jLabel12.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Direccion:");
+        jPanel6.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 178, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("RUC:");
+        jPanel6.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
 
         txtruc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -941,87 +942,7 @@ public class inicio extends javax.swing.JFrame {
                 txtrucKeyTyped(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtidcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtemail, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtnom, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                                    .addComponent(txtdni, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(78, 78, 78)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addGap(3, 3, 3)
-                                                .addComponent(jLabel15))
-                                            .addComponent(jLabel7))
-                                        .addGap(38, 38, 38)
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txttel, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtruc, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(35, 35, 35)
-                                        .addComponent(txtape, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(txtdir, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(157, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtidcliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtape, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(txtnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txttel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtruc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtdni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))))
-                .addGap(14, 14, 14)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(txtdir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
-        );
+        jPanel6.add(txtruc, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 172, -1));
 
         pnelClientes.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 780, 240));
 
@@ -1190,22 +1111,9 @@ public class inicio extends javax.swing.JFrame {
 
         pnelMarca.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 670, 180));
 
-        btnnuevoMarca.setBackground(new java.awt.Color(255, 255, 255));
-        btnnuevoMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
-        btnnuevoMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N
-        btnnuevoMarca.setBorderPainted(false);
-        btnnuevoMarca.setContentAreaFilled(false);
-        btnnuevoMarca.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_press.png"))); // NOI18N
-        btnnuevoMarca.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_roll.png"))); // NOI18N
-        btnnuevoMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnnuevoMarcaActionPerformed(evt);
-            }
-        });
-        pnelMarca.add(btnnuevoMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
         jPanel10.setBackground(new java.awt.Color(0, 102, 204));
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ACCIONES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btncancelarMarca.setBackground(new java.awt.Color(255, 255, 255));
         btncancelarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
@@ -1219,6 +1127,7 @@ public class inicio extends javax.swing.JFrame {
                 btncancelarMarcaActionPerformed(evt);
             }
         });
+        jPanel10.add(btncancelarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
 
         btnguardarMarca.setBackground(new java.awt.Color(255, 255, 255));
         btnguardarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
@@ -1232,6 +1141,7 @@ public class inicio extends javax.swing.JFrame {
                 btnguardarMarcaActionPerformed(evt);
             }
         });
+        jPanel10.add(btnguardarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
         btneliminarMarca.setBackground(new java.awt.Color(255, 255, 255));
         btneliminarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
@@ -1245,6 +1155,7 @@ public class inicio extends javax.swing.JFrame {
                 btneliminarMarcaActionPerformed(evt);
             }
         });
+        jPanel10.add(btneliminarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, -1));
 
         btneditarMarca.setBackground(new java.awt.Color(255, 255, 255));
         btneditarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
@@ -1258,36 +1169,23 @@ public class inicio extends javax.swing.JFrame {
                 btneditarMarcaActionPerformed(evt);
             }
         });
+        jPanel10.add(btneditarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btneliminarMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnguardarMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btneditarMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btncancelarMarca))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(btnguardarMarca)
-                .addGap(18, 18, 18)
-                .addComponent(btneliminarMarca)
-                .addGap(28, 28, 28)
-                .addComponent(btneditarMarca)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btncancelarMarca)
-                .addGap(29, 29, 29))
-        );
+        btnnuevoMarca.setBackground(new java.awt.Color(255, 255, 255));
+        btnnuevoMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
+        btnnuevoMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N
+        btnnuevoMarca.setBorderPainted(false);
+        btnnuevoMarca.setContentAreaFilled(false);
+        btnnuevoMarca.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_press.png"))); // NOI18N
+        btnnuevoMarca.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_roll.png"))); // NOI18N
+        btnnuevoMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnuevoMarcaActionPerformed(evt);
+            }
+        });
+        jPanel10.add(btnnuevoMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
 
-        pnelMarca.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 50, -1, 421));
+        pnelMarca.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 50, 180, 421));
 
         tbmarca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -2031,6 +1929,7 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnProductos.setSelected(false);
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
+            inicio.btnMarca.setSelected(false);
             
             rSPanelsSlider1.setPanelSlider(pnelUsuario, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2046,6 +1945,7 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnProductos.setSelected(false);
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
+            inicio.btnMarca.setSelected(false);
             
             rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2210,62 +2110,6 @@ public class inicio extends javax.swing.JFrame {
         mostrarUsuarios("");
     }//GEN-LAST:event_btnbuscar1UsuariosActionPerformed
 
-    private void txtnomKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnomKeyTyped
-        // TODO add your handling code here:
-        char car = evt.getKeyChar();
-        if((car<'a' || car>'z') && (car<'A' || car>'Z') && (car!=(char)KeyEvent.VK_SPACE))
-        {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtnomKeyTyped
-
-    private void txtapeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapeKeyTyped
-        // TODO add your handling code here:
-        char car = evt.getKeyChar();
-        if((car<'a' || car>'z') && (car<'A' || car>'Z') && (car!=(char)KeyEvent.VK_SPACE))
-        {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtapeKeyTyped
-
-    private void txtdniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdniActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdniActionPerformed
-
-    private void txtdniKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdniKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdniKeyPressed
-
-    private void txtdniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdniKeyTyped
-        // TODO add your handling code here:
-        char car = evt.getKeyChar();
-        if(txtdni.getText().length()>=8) evt.consume();
-        if((car<'0' || car>'9')) evt.consume();
-    }//GEN-LAST:event_txtdniKeyTyped
-
-    private void txttelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelKeyTyped
-        // TODO add your handling code here:
-        char car = evt.getKeyChar();
-        if(txttel.getText().length()>=9) evt.consume();
-        if((car<'0' || car>'9')) evt.consume();
-    }//GEN-LAST:event_txttelKeyTyped
-
-    private void txtdirKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdirKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdirKeyTyped
-
-    private void txtrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrucActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrucActionPerformed
-
-    private void txtrucKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrucKeyTyped
-        // TODO add your handling code here:
-        char car = evt.getKeyChar();
-        if(txtruc.getText().length()>=11) evt.consume();
-        if((car<'0' || car>'9') && (car<'A' || car>'Z')) evt.consume();
-        
-    }//GEN-LAST:event_txtrucKeyTyped
-
     private void btnnuevoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoClientesActionPerformed
         // TODO add your handling code here:
         desbloquearClientes();
@@ -2282,21 +2126,9 @@ public class inicio extends javax.swing.JFrame {
             return;
         }
 
-        if (txtape.getText().length() == 0) {
-            JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar los apellido");
-            txtape.requestFocus();
-            return;
-        }
-
         if (txtdni.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el numero de cedula");
             txtdni.requestFocus();
-            return;
-        }
-
-        if (txttel.getText().length() == 0) {
-            JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el celular");
-            txttel.requestFocus();
             return;
         }
           try {
@@ -2327,21 +2159,10 @@ public class inicio extends javax.swing.JFrame {
             return;
         }
 
-        if(txtape.getText().length()==0){
-            JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar los apellido");
-            txtape.requestFocus();
-            return;
-        }
 
         if(txtdni.getText().length()==0){
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el numero de cedula");
             txtdni.requestFocus();
-            return;
-        }
-
-        if(txttel.getText().length()==0){
-            JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el celular");
-            txttel.requestFocus();
             return;
         }
 
@@ -2355,9 +2176,9 @@ public class inicio extends javax.swing.JFrame {
             cliente.setEstado("A");
 
             clienteController.edit(cliente);
-            JOptionPane.showMessageDialog(rootPane, "El cliente fue registrado satisfactoriamente");
-            mostrarUsuarios("");
-            limpiarUsuarios();
+            JOptionPane.showMessageDialog(rootPane, "El cliente fue actualizado satisfactoriamente");
+            mostrarClientes("");
+            limpiarClientes();
             bloquearClientes();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
@@ -2380,12 +2201,10 @@ public class inicio extends javax.swing.JFrame {
         {
             txtidcliente.setText(tbclientes.getValueAt(filamodificar, 0).toString());
             txtnom.setText(tbclientes.getValueAt(filamodificar, 1).toString());
-            txtape.setText(tbclientes.getValueAt(filamodificar, 2).toString());
+            txtemail.setText(tbclientes.getValueAt(filamodificar, 2).toString());
             txtruc.setText(tbclientes.getValueAt(filamodificar, 3).toString());
-            txtdni.setText(tbclientes.getValueAt(filamodificar, 4).toString());
-            txttel.setText(tbclientes.getValueAt(filamodificar, 5).toString());
-            txtemail.setText(tbclientes.getValueAt(filamodificar, 6).toString());
-
+            txtdni.setText(tbclientes.getValueAt(filamodificar, 4).toString());            
+            
         }
         else
         {
@@ -2453,38 +2272,41 @@ public class inicio extends javax.swing.JFrame {
             txtdescripcionmarca.requestFocus();
             return;
         }
-        //
-        //        vmarca dts =new vmarca();
-        //        ftmarca func=new ftmarca();
-        //
-        //        dts.setmarca(txtnombremarca.getText());
-        //        dts.setdescripcion(txtdescripcionmarca.getText());
-        //
-        //
-        //            if(func.insertar(dts)){
-            //                JOptionPane.showConfirmDialog(rootPane, "la marca fue registrada exitosamente");
-            //                mostrar("");
-            //                limpiar();
-            //                bloquear();
-            //            }
+           try {
+            Marca marca = new Marca();
+
+            marca.setMarca(txtnombremarca.getText());
+            marca.setDescripcion(txtdescripcionmarca.getText());
+            
+            marcaController.create(marca);
+            JOptionPane.showMessageDialog(rootPane, "Marca creada satisfactoriamente");
+            mostrarMarcas("");
+            limpiarMarca();
+            bloquearMarca();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
+              System.out.println("error = " + e.getMessage());
+        }
     }//GEN-LAST:event_btnguardarMarcaActionPerformed
 
     private void btneliminarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarMarcaActionPerformed
         // TODO add your handling code here:
 
-        if(!txtidmarca.getText().equals("")){
-            int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar la marca","Confirmar",2);
-            //
-            //            if(confirmacion==0){
-                //                ftmarca func=new ftmarca();
-                //                vmarca dts=new vmarca();
-                //
-                //                dts.setidmarca(Integer.parseInt(txtidmarca.getText()));
-                //                func.eliminar(dts);
-                //                mostrar("");
-                //                bloquear();
-                //            }
-            //
+        if (!txtidmarca.getText().equals("")) {
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar la marca", "Confirmar", 2);
+            if (confirmacion == 1) {
+                try {
+                    Marca marca = marcaController.findMarca(Integer.parseInt(txtidmarca.getText()));
+                    marcaController.destroy(marca.getId());
+                    JOptionPane.showMessageDialog(rootPane, "Marca creada satisfactoriamente");
+                    mostrarMarcas("");
+                    limpiarMarca();
+                    bloquearMarca();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
+                    System.out.println("error = " + e.getMessage());
+                }
+            }
         }
     }//GEN-LAST:event_btneliminarMarcaActionPerformed
 
@@ -2502,20 +2324,21 @@ public class inicio extends javax.swing.JFrame {
             return;
         }
 
-        //        vmarca dts =new vmarca();
-        //        ftmarca func=new ftmarca();
-        //
-        //        dts.setmarca(txtnombremarca.getText());
-        //        dts.setdescripcion(txtdescripcionmarca.getText());
-        //        dts.setidmarca(Integer.parseInt(txtidmarca.getText()));
-        //
-        //
-        //            if(func.editar(dts)){
-            //                JOptionPane.showConfirmDialog(rootPane, "la marca fue registrada exitosamente");
-            //                mostrar("");
-            //                limpiar();
-            //                bloquear();
-            //            }
+           try {
+            Marca marca = marcaController.findMarca(Integer.parseInt(txtidmarca.getText()));
+
+            marca.setMarca(txtnombremarca.getText());
+            marca.setDescripcion(txtdescripcionmarca.getText());
+            
+            marcaController.edit(marca);
+            JOptionPane.showMessageDialog(rootPane, "Marca actualizada satisfactoriamente");
+            mostrarMarcas("");
+            limpiarMarca();
+            bloquearMarca();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
+              System.out.println("error = " + e.getMessage());
+        }
     }//GEN-LAST:event_btneditarMarcaActionPerformed
 
     private void txtmodeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmodeloActionPerformed
@@ -2807,6 +2630,7 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnProductos.setSelected(true);
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
+            inicio.btnMarca.setSelected(false);
             
             rSPanelsSlider1.setPanelSlider(pnelProducto, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2835,6 +2659,7 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnProductos.setSelected(false);
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(true);
+            inicio.btnMarca.setSelected(false);
             
             rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2849,10 +2674,73 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnProductos.setSelected(false);
             inicio.btnVenta.setSelected(true);
             inicio.btnRepor.setSelected(false);
+            inicio.btnMarca.setSelected(false);
 
             rSPanelsSlider1.setPanelSlider(pnelVenta, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_btnVentaActionPerformed
+
+    private void txtrucKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrucKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if(txtruc.getText().length()>=11) evt.consume();
+        if((car<'0' || car>'9') && (car<'A' || car>'Z')) evt.consume();
+
+    }//GEN-LAST:event_txtrucKeyTyped
+
+    private void txtrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrucActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtrucActionPerformed
+
+    private void txtdirKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdirKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtdirKeyTyped
+
+    private void txtdniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdniKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if(txtdni.getText().length()>=8){
+            JOptionPane.showMessageDialog(rootPane, "Favor verifique el numero de cedula, debe ser mayor a 8 digitos");
+            evt.consume();
+        }
+        if((car<'0' || car>'9')){
+            JOptionPane.showMessageDialog(rootPane, "Solo numeros del 0 al 9");
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtdniKeyTyped
+
+    private void txtdniKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdniKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtdniKeyPressed
+
+    private void txtdniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtdniActionPerformed
+
+    private void txtnomKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnomKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if((car<'a' || car>'z') && (car<'A' || car>'Z') && (car!=(char)KeyEvent.VK_SPACE))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Favor ingrese solo letras");
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtnomKeyTyped
+
+    private void btnMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcaActionPerformed
+        // TODO add your handling code here:
+        if(!inicio.btnMarca.isSelected()){
+            inicio.btnClientes.setSelected(false);
+            inicio.btnUsers.setSelected(false);
+            inicio.btnProve.setSelected(false);
+            inicio.btnProductos.setSelected(false);
+            inicio.btnVenta.setSelected(false);
+            inicio.btnRepor.setSelected(false);
+            inicio.btnMarca.setSelected(true);
+            
+            rSPanelsSlider1.setPanelSlider(pnelMarca, RSPanelsSlider.DIRECT.RIGHT);
+        }
+    }//GEN-LAST:event_btnMarcaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2892,6 +2780,7 @@ public class inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Idproducto;
     public static rojeru_san.RSButton btnClientes;
+    public static rojeru_san.RSButton btnMarca;
     public static rojeru_san.RSButton btnProductos;
     public static rojeru_san.RSButton btnProve;
     public static rojeru_san.RSButton btnRepor;
@@ -2973,8 +2862,6 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -3015,7 +2902,6 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JTable tbdetalle;
     private javax.swing.JTable tbmarca;
     private javax.swing.JTable tbproducto;
-    private javax.swing.JTextField txtape;
     private javax.swing.JTextField txtbuscarClientes;
     private javax.swing.JTextField txtbuscarMarca;
     private javax.swing.JTextField txtbuscarProducto;
@@ -3045,7 +2931,6 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JTextField txtruc;
     public static javax.swing.JTextField txtruc1;
     private javax.swing.JTextField txtsubtotal;
-    private javax.swing.JTextField txttel;
     private javax.swing.JTextField txttotal;
     // End of variables declaration//GEN-END:variables
 
