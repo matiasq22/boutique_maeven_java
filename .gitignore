@@ -2,4 +2,5 @@
 # Compiled source #
 ###################
 *.class
-target/
+target/*
+.form

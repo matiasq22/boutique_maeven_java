@@ -26,9 +26,9 @@ public class frmclientes extends javax.swing.JInternalFrame {
         initComponents();
         mostrar("");
         setResizable(false);
-        bloquear();        
+        bloquearClientes();        
     }
-     void bloquear(){
+     void bloquearClientes(){
     txtcod.setEnabled(false);
     txtnom.setEnabled(false);
     txtape.setEnabled(false);
@@ -43,7 +43,7 @@ public class frmclientes extends javax.swing.JInternalFrame {
     btnactualizar.setEnabled(false);
     }
      
-     void desbloquear(){
+     void desbloquearClientes(){
     txtcod.setEnabled(true);
     txtnom.setEnabled(true);
     txtape.setEnabled(true);
@@ -58,7 +58,7 @@ public class frmclientes extends javax.swing.JInternalFrame {
     btnactualizar.setEnabled(true);
     
     }
-    void limpiar(){
+    void limpiarClientes(){
     txtcod.setText("");
     txtnom.setText("");
     txtdir.setText("");
@@ -625,8 +625,8 @@ private void mnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
         // TODO add your handling code here:
-        limpiar();
-        bloquear();
+        limpiarClientes();
+        bloquearClientes();
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
@@ -750,8 +750,8 @@ private void mnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
         // TODO add your handling code here:
-        desbloquear();
-        limpiar();
+        desbloquearClientes();
+        limpiarClientes();
         txtcod.requestFocus();
     }//GEN-LAST:event_btnnuevoActionPerformed
 
