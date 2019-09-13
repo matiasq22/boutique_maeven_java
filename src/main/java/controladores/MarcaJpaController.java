@@ -5,6 +5,7 @@
  */
 package controladores;
 
+import configs.configs;
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
 import java.io.Serializable;
@@ -26,8 +27,8 @@ import modelo.Marca;
  */
 public class MarcaJpaController implements Serializable {
 
-    public MarcaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public MarcaJpaController() {
+        this.emf = configs.conexion();
     }
     private EntityManagerFactory emf = null;
 
@@ -199,6 +200,22 @@ public class MarcaJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public List<Marca> search(String nombre) {
+        EntityManager em = getEntityManager();
+        List<Marca> marcas;
+        Query query = em.createNamedQuery("Marca.findByDescripcion");
+            query.setParameter("nombre", "%"+ nombre + "%");
+        try {
+            marcas =  query.getResultList();
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+            em.close();
+            return null;
+        }
+        em.close();
+        return marcas;
     }
     
 }

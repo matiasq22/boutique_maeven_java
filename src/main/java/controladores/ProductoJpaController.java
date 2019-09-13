@@ -5,6 +5,7 @@
  */
 package controladores;
 
+import configs.configs;
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
 import java.io.Serializable;
@@ -28,8 +29,8 @@ import modelo.Producto;
  */
 public class ProductoJpaController implements Serializable {
 
-    public ProductoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ProductoJpaController() {
+        this.emf = configs.conexion();
     }
     private EntityManagerFactory emf = null;
 
@@ -257,6 +258,22 @@ public class ProductoJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public List<Producto> search(String nombre) {
+        EntityManager em = getEntityManager();
+        List<Producto> productos;
+        Query query = em.createNamedQuery("Producto.findByNombre");
+            query.setParameter("nombre", "%"+ nombre + "%");
+        try {
+            productos =  query.getResultList();
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+            em.close();
+            return null;
+        }
+        em.close();
+        return productos;
     }
     
 }

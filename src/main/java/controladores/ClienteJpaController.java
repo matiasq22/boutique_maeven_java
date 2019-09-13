@@ -20,6 +20,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import modelo.Cliente;
+import modelo.Usuario;
 
 /**
  *
@@ -178,6 +179,22 @@ public class ClienteJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public List<Cliente> search(String nombre) {
+        EntityManager em = getEntityManager();
+        List<Cliente> clients;
+        Query query = em.createNamedQuery("Cliente.findByNombre");
+            query.setParameter("nombre", "%"+ nombre + "%");
+        try {
+            clients =  query.getResultList();
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+            em.close();
+            return null;
+        }
+        em.close();
+        return clients;
     }
 
     public Cliente findCliente(Integer id) {

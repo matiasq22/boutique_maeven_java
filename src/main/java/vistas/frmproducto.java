@@ -61,7 +61,7 @@ private DefaultComboBoxModel comboModelo;
               JOptionPane.showConfirmDialog(rootPane, e);
          }
     }
-     void bloquear(){
+     void bloquearProducto(){
     
     txtproducto.setEnabled(false);
     txtmodelo.setEnabled(false);
@@ -76,7 +76,7 @@ private DefaultComboBoxModel comboModelo;
     btncancelar.setEnabled(false);
     }
      
-     void desbloquear(){
+     void desbloquearProducto(){
     
     txtproducto.setEnabled(true);
     txtmodelo.setEnabled(true);
@@ -91,7 +91,7 @@ private DefaultComboBoxModel comboModelo;
     btncancelar.setEnabled(true);
     
     }
-       void desbloquearcliked(){
+       void desbloquearclikedProducto(){
     
    txtproducto.setEnabled(true);
     txtmodelo.setEnabled(true);
@@ -105,7 +105,7 @@ private DefaultComboBoxModel comboModelo;
     btncancelar.setEnabled(true);
     }
      
-    void limpiar(){
+    void limpiarProducto(){
     txtproducto.setText("");
     txtmodelo.setText("");
     txtcantidad.setText(""); 

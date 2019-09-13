@@ -6,8 +6,11 @@
 package vistas;
 
 import controladores.ClienteJpaController;
+import controladores.MarcaJpaController;
+import controladores.ProductoJpaController;
 import controladores.UsuarioJpaController;
 import controladores.exceptions.NonexistentEntityException;
+import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -18,9 +21,10 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuario;
 import rojeru_san.RSPanelsSlider;
-import java.awt.event.KeyEvent;
 import java.util.logging.Logger;
 import modelo.Cliente;
+import modelo.Marca;
+import modelo.Producto;
 
 /**
  *
@@ -33,6 +37,8 @@ public class inicio extends javax.swing.JFrame {
     private DefaultComboBoxModel comboModelo;
        UsuarioJpaController Usercontroller;
        ClienteJpaController clienteController;
+       MarcaJpaController marcasController;
+       ProductoJpaController productoController;
     /**
      * Creates new form inicio
      */
@@ -47,10 +53,12 @@ public class inicio extends javax.swing.JFrame {
       
      Usercontroller = new UsuarioJpaController();
      clienteController = new ClienteJpaController();
+     marcasController = new MarcaJpaController();
+     productoController =new ProductoJpaController();
     }
     private final String accion="guardar";
 
-        
+        //usuarios
     private void inhabilitarUsuarios(){
         txtidusuario.setVisible(false);
         txtlogin.setEnabled(false);
@@ -130,10 +138,8 @@ public class inicio extends javax.swing.JFrame {
               JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
               System.out.println("error = " + e.getMessage());
          }
-    }   
+    }
     
-   //Funcion para llenar el jcombobox en el formulario frmusuarios
-
     private void llenacombo() throws NullPointerException { 
         try{
         List<Usuario> users = Usercontroller.findUsuarioEntities(); 
@@ -150,40 +156,33 @@ public class inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Error al cargar el lista de usuarios");
         }
     }
-
-      void desbloquearcliked(){
     
-    txtnombremarca.setEnabled(true);
-    txtdescripcionmarca.setEnabled(true);
-    btnguardarUsuarios.setEnabled(true);
-    btnnuevoUsuarios.setEnabled(true);
-    btneliminarUsuarios.setEnabled(true);
-    btncancelarUsuarios.setEnabled(true);
-    
+    //clientes
+    private void mostrarClientes(String buscar)  {
+         try {
+         String[] titulos = {"Codigo","Nombre", "Email", "Ruc", "Cedula", "Estado"};
+         DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            List<Cliente> clients = clienteController.search(buscar);
+             String[] clientes = new String[6];
+             clients.forEach((cliente) -> {
+                 clientes[0] = cliente.getId().toString();
+                 clientes[1] = cliente.getNombre();
+                 clientes[2] = cliente.getEmail();
+                 clientes[3] = cliente.getRuc();
+                 clientes[4] = cliente.getCedula().toString();
+                 clientes[5] = cliente.getEstado();
+                
+                 modelo.addRow(clientes);
+             });
+             
+             tbclientes.setModel(modelo);
+//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+         } catch (Exception e) {
+              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
+              System.out.println("error = " + e.getMessage());
+         }
     }
       
-       void bloquear(){
-    
-    txtnombremarca.setEnabled(false);
-    txtdescripcionmarca.setEnabled(false);
-    btnguardarUsuarios.setEnabled(false);
-    btnnuevoUsuarios.setEnabled(true);
-    btneditarUsuarios.setEnabled(false);
-    btneliminarUsuarios.setEnabled(false);
-    btncancelarUsuarios.setEnabled(false);
-    }
-     
-     void desbloquear(){
-    
-    txtnombremarca.setEnabled(true);
-    txtdescripcionmarca.setEnabled(true);
-    btnguardarUsuarios.setEnabled(true);
-    btnnuevoUsuarios.setEnabled(false);
-    btneliminarUsuarios.setEnabled(true);
-    btneditarUsuarios.setEnabled(true);
-    btncancelarUsuarios.setEnabled(true);
-     }
-    
     void bloquearClientes(){
     txtidcliente.setEnabled(false);
     txtnom.setEnabled(false);
@@ -199,7 +198,7 @@ public class inicio extends javax.swing.JFrame {
     btnactualizarClientes.setEnabled(false);
     }
      
-     void desbloquearClientes(){
+    void desbloquearClientes(){
     txtidcliente.setEnabled(true);
     txtnom.setEnabled(true);
     txtape.setEnabled(true);
@@ -214,6 +213,7 @@ public class inicio extends javax.swing.JFrame {
     btnactualizarClientes.setEnabled(true);
     
     }
+     
     void limpiarClientes(){
     txtidcliente.setText("");
     txtnom.setText("");
@@ -224,6 +224,151 @@ public class inicio extends javax.swing.JFrame {
     txttel.setText("");
     txtape.setText("");
      }
+
+    //marca
+    void bloquearMarca(){
+    
+    txtnombremarca.setEnabled(false);
+    txtdescripcionmarca.setEnabled(false);
+    btnguardarMarca.setEnabled(false);
+    btnnuevoMarca.setEnabled(true);
+    btneditarMarca.setEnabled(false);
+    btneliminarMarca.setEnabled(false);
+    btncancelarMarca.setEnabled(false);
+    }
+     
+    void desbloquearMarca(){
+    
+    txtnombremarca.setEnabled(true);
+    txtdescripcionmarca.setEnabled(true);
+    btnguardarMarca.setEnabled(true);
+    btnnuevoMarca.setEnabled(false);
+    btneliminarMarca.setEnabled(true);
+    btneditarMarca.setEnabled(true);
+    btncancelarMarca.setEnabled(true);
+    
+    }
+    
+    void desbloquearclikedMarca(){
+    
+    txtnombremarca.setEnabled(true);
+    txtdescripcionmarca.setEnabled(true);
+    btnguardarMarca.setEnabled(true);
+    btnnuevoMarca.setEnabled(true);
+    btneliminarMarca.setEnabled(true);
+    btncancelarMarca.setEnabled(true);
+    
+    }
+     
+    void limpiarMarca(){
+    txtnombremarca.setText("");
+    txtdescripcionmarca.setText("");
+    }
+   
+    void mostrarProductos(String buscar)  {
+         try {
+         String[] titulos = {"Codigo","Marca", "Proveedor","Descriptcion","Modelo","Stock","Precio"};
+         DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            List<Producto> products = productoController.search(buscar);
+             String[] productos = new String[7];
+             products.forEach((producto) -> {
+                 productos[0] = producto.getId().toString();
+                 productos[1] = producto.getMarcaId().getDescripcion();
+                 productos[2] = producto.getProveedorId().getDescripcion();
+                 productos[3] = producto.getNombre();
+                 productos[4] = producto.getModelo();
+                 productos[5] = producto.getCantidad().toString();
+                 productos[6] = producto.getPrecio().toString();
+                 
+                modelo.addRow(productos);
+             });
+             
+             tbproducto.setModel(modelo);
+//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+         } catch (Exception e) {
+              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
+              System.out.println("error = " + e.getMessage());
+         }
+    }
+
+    
+    //productos
+    void bloquearProducto(){
+    
+    txtproducto.setEnabled(false);
+    txtmodelo.setEnabled(false);
+    txtcantidad.setEnabled(false);
+    cbomarca.setEnabled(false);
+    txtprecio.setEnabled(false);
+    txtmodelo.setEnabled(false);
+    btnnuevoProducto.setEnabled(true);
+    btnguardarProducto.setEnabled(false);
+    btneditarProducto.setEnabled(false);
+    btneliminarProducto.setEnabled(false);
+    btncancelarProducto.setEnabled(false);
+    }
+     
+    void desbloquearProducto(){
+    
+    txtproducto.setEnabled(true);
+    txtmodelo.setEnabled(true);
+    txtcantidad.setEnabled(true);
+    cbomarca.setEnabled(true);
+    txtprecio.setEnabled(true);
+    txtmodelo.setEnabled(true);
+    btnnuevoProducto.setEnabled(false);
+    btnguardarProducto.setEnabled(true);
+    btneditarProducto.setEnabled(true);
+    btneliminarProducto.setEnabled(true);
+    btncancelarProducto.setEnabled(true);
+    
+    }
+     
+    void desbloquearclikedProducto(){
+    
+   txtproducto.setEnabled(true);
+    txtmodelo.setEnabled(true);
+    txtcantidad.setEnabled(true);
+    cbomarca.setEnabled(true);
+    txtmodelo.setEnabled(true);
+    btnnuevoProducto.setEnabled(true);
+    btnnuevoProducto.setEnabled(true);
+    btneditarProducto.setEnabled(true);
+    btneliminarProducto.setEnabled(true);
+    btncancelarProducto.setEnabled(true);
+    }
+     
+    void limpiarProducto(){
+    txtproducto.setText("");
+    txtmodelo.setText("");
+    txtcantidad.setText(""); 
+    //cbomarca.setText("");
+    txtmodelo.setText("");
+    }
+    
+    void mostrarMarcas(String buscar)  {
+         try {
+         String[] titulos = {"Codigo","Marca", "Descripcion"};
+         DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            List<Marca> marks = marcasController.search(buscar);
+             String[] marcas = new String[3];
+             marks.forEach((marca) -> {
+                 marcas[0] = marca.getId().toString();
+                 marcas[1] = marca.getMarca();
+                 marcas[2] = marca.getDescripcion();
+                
+                 modelo.addRow(marcas);
+             });
+             
+             tbmarca.setModel(modelo);
+//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+         } catch (Exception e) {
+              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
+              System.out.println("error = " + e.getMessage());
+         }
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -247,7 +392,7 @@ public class inicio extends javax.swing.JFrame {
         btnRepor = new rojeru_san.RSButton();
         btnVenta = new rojeru_san.RSButton();
         jPanel2 = new javax.swing.JPanel();
-        labelhora = new javax.swing.JLabel();
+        lblhora = new javax.swing.JLabel();
         rSPanelsSlider1 = new rojeru_san.RSPanelsSlider();
         pnelUsuario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -268,7 +413,7 @@ public class inicio extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablausuario = new javax.swing.JTable();
-        txtbuscar = new javax.swing.JTextField();
+        txtbuscarUsuarios = new javax.swing.JTextField();
         btneliminarUsuarios = new javax.swing.JButton();
         lbltotalregistros = new javax.swing.JLabel();
         btneditarUsuarios = new javax.swing.JButton();
@@ -299,9 +444,9 @@ public class inicio extends javax.swing.JFrame {
         btncancelarClientes = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbclientes = new javax.swing.JTable();
-        txtbuscar1 = new javax.swing.JTextField();
+        txtbuscarClientes = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        btnbuscar = new javax.swing.JButton();
+        btnbuscarClientes = new javax.swing.JButton();
         pnelMarca = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -310,17 +455,16 @@ public class inicio extends javax.swing.JFrame {
         txtidmarca = new javax.swing.JTextField();
         txtnombremarca = new javax.swing.JTextField();
         txtdescripcionmarca = new javax.swing.JTextField();
+        btnnuevoMarca = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
-        btncancelar2 = new javax.swing.JButton();
-        btnnuevo2 = new javax.swing.JButton();
-        btnguardar2 = new javax.swing.JButton();
-        btneliminar1 = new javax.swing.JButton();
-        btneditar1 = new javax.swing.JButton();
+        btncancelarMarca = new javax.swing.JButton();
+        btnguardarMarca = new javax.swing.JButton();
+        btneliminarMarca = new javax.swing.JButton();
+        btneditarMarca = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbmarca = new javax.swing.JTable();
-        txtbuscar2 = new javax.swing.JTextField();
-        btnmostrar = new javax.swing.JButton();
-        lblhora = new javax.swing.JLabel();
+        txtbuscarMarca = new javax.swing.JTextField();
+        btnmostrarMarca = new javax.swing.JButton();
         pnelProducto = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
@@ -336,15 +480,15 @@ public class inicio extends javax.swing.JFrame {
         txtcantidad = new javax.swing.JTextField();
         cbomarca = new javax.swing.JComboBox<>();
         jPanel12 = new javax.swing.JPanel();
-        btnnuevo3 = new javax.swing.JButton();
-        btnguardar3 = new javax.swing.JButton();
-        btneditar2 = new javax.swing.JButton();
-        btneliminar2 = new javax.swing.JButton();
-        btncancelar3 = new javax.swing.JButton();
+        btnnuevoProducto = new javax.swing.JButton();
+        btnguardarProducto = new javax.swing.JButton();
+        btneditarProducto = new javax.swing.JButton();
+        btneliminarProducto = new javax.swing.JButton();
+        btncancelarProducto = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tbproducto = new javax.swing.JTable();
-        btnbuscar2 = new javax.swing.JButton();
-        txtbuscar3 = new javax.swing.JTextField();
+        btnbuscarProducto = new javax.swing.JButton();
+        txtbuscarProducto = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         pnelVenta = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
@@ -359,7 +503,7 @@ public class inicio extends javax.swing.JFrame {
         txtnomape = new javax.swing.JTextField();
         btnclientes = new javax.swing.JButton();
         txtruc1 = new javax.swing.JTextField();
-        btnproductos = new javax.swing.JButton();
+        btnproductosFactura = new javax.swing.JButton();
         txtcod1 = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
         txtdni1 = new javax.swing.JTextField();
@@ -386,10 +530,10 @@ public class inicio extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tbdet = new javax.swing.JTable();
         jPanel17 = new javax.swing.JPanel();
-        btnguardar4 = new javax.swing.JButton();
+        btnguardarFactura = new javax.swing.JButton();
         btnsalir2 = new javax.swing.JButton();
-        btncalcular = new javax.swing.JButton();
-        btneliminar3 = new javax.swing.JButton();
+        btncalcularFactura = new javax.swing.JButton();
+        btneliminarFactura = new javax.swing.JButton();
         jLabel46 = new javax.swing.JLabel();
 
         txtidusuario.setText("jTextField1");
@@ -496,8 +640,10 @@ public class inicio extends javax.swing.JFrame {
         jPanel2.setForeground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        labelhora.setText("HORA");
-        jPanel2.add(labelhora, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 710, 200, 50));
+        lblhora.setFont(new java.awt.Font("Agency FB", 1, 36)); // NOI18N
+        lblhora.setForeground(new java.awt.Color(255, 255, 255));
+        lblhora.setText("Muestra hora");
+        jPanel2.add(lblhora, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 670, 280, 90));
 
         rSPanelsSlider1.setBackground(new java.awt.Color(33, 45, 62));
 
@@ -645,12 +791,12 @@ public class inicio extends javax.swing.JFrame {
 
         jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 176, 650, 172));
 
-        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtbuscarUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtbuscarKeyReleased(evt);
+                txtbuscarUsuariosKeyReleased(evt);
             }
         });
-        jPanel5.add(txtbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 117, 333, 30));
+        jPanel5.add(txtbuscarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 117, 333, 30));
 
         btneliminarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btneliminarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -845,11 +991,12 @@ public class inicio extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtidcliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtape, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(txtnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -956,33 +1103,33 @@ public class inicio extends javax.swing.JFrame {
 
         pnelClientes.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 930, -1));
 
-        txtbuscar1.addActionListener(new java.awt.event.ActionListener() {
+        txtbuscarClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtbuscar1ActionPerformed(evt);
+                txtbuscarClientesActionPerformed(evt);
             }
         });
-        txtbuscar1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtbuscarClientes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtbuscar1KeyReleased(evt);
+                txtbuscarClientesKeyReleased(evt);
             }
         });
-        pnelClientes.add(txtbuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 360, -1));
+        pnelClientes.add(txtbuscarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 360, -1));
 
         jLabel16.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("BUSCAR:");
         pnelClientes.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
 
-        btnbuscar.setBackground(new java.awt.Color(51, 153, 255));
-        btnbuscar.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        btnbuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnbuscar.setText("Mostrar Todos");
-        btnbuscar.addActionListener(new java.awt.event.ActionListener() {
+        btnbuscarClientes.setBackground(new java.awt.Color(51, 153, 255));
+        btnbuscarClientes.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        btnbuscarClientes.setForeground(new java.awt.Color(255, 255, 255));
+        btnbuscarClientes.setText("Mostrar Todos");
+        btnbuscarClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnbuscarActionPerformed(evt);
+                btnbuscarClientesActionPerformed(evt);
             }
         });
-        pnelClientes.add(btnbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 300, -1, -1));
+        pnelClientes.add(btnbuscarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 300, -1, -1));
 
         rSPanelsSlider1.add(pnelClientes, "card2");
 
@@ -1043,71 +1190,72 @@ public class inicio extends javax.swing.JFrame {
 
         pnelMarca.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 670, 180));
 
+        btnnuevoMarca.setBackground(new java.awt.Color(255, 255, 255));
+        btnnuevoMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
+        btnnuevoMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N
+        btnnuevoMarca.setBorderPainted(false);
+        btnnuevoMarca.setContentAreaFilled(false);
+        btnnuevoMarca.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_press.png"))); // NOI18N
+        btnnuevoMarca.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_roll.png"))); // NOI18N
+        btnnuevoMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnuevoMarcaActionPerformed(evt);
+            }
+        });
+        pnelMarca.add(btnnuevoMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         jPanel10.setBackground(new java.awt.Color(0, 102, 204));
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ACCIONES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
-        btncancelar2.setBackground(new java.awt.Color(255, 255, 255));
-        btncancelar2.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
-        btncancelar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_norm.png"))); // NOI18N
-        btncancelar2.setBorderPainted(false);
-        btncancelar2.setContentAreaFilled(false);
-        btncancelar2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_press.png"))); // NOI18N
-        btncancelar2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_roll.png"))); // NOI18N
-        btncancelar2.addActionListener(new java.awt.event.ActionListener() {
+        btncancelarMarca.setBackground(new java.awt.Color(255, 255, 255));
+        btncancelarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
+        btncancelarMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_norm.png"))); // NOI18N
+        btncancelarMarca.setBorderPainted(false);
+        btncancelarMarca.setContentAreaFilled(false);
+        btncancelarMarca.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_press.png"))); // NOI18N
+        btncancelarMarca.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_roll.png"))); // NOI18N
+        btncancelarMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncancelar2ActionPerformed(evt);
+                btncancelarMarcaActionPerformed(evt);
             }
         });
 
-        btnnuevo2.setBackground(new java.awt.Color(255, 255, 255));
-        btnnuevo2.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
-        btnnuevo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N
-        btnnuevo2.setBorderPainted(false);
-        btnnuevo2.setContentAreaFilled(false);
-        btnnuevo2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_press.png"))); // NOI18N
-        btnnuevo2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_roll.png"))); // NOI18N
-        btnnuevo2.addActionListener(new java.awt.event.ActionListener() {
+        btnguardarMarca.setBackground(new java.awt.Color(255, 255, 255));
+        btnguardarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
+        btnguardarMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_norm.png"))); // NOI18N
+        btnguardarMarca.setBorderPainted(false);
+        btnguardarMarca.setContentAreaFilled(false);
+        btnguardarMarca.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_press.png"))); // NOI18N
+        btnguardarMarca.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_roll.png"))); // NOI18N
+        btnguardarMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnnuevo2ActionPerformed(evt);
+                btnguardarMarcaActionPerformed(evt);
             }
         });
 
-        btnguardar2.setBackground(new java.awt.Color(255, 255, 255));
-        btnguardar2.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
-        btnguardar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_norm.png"))); // NOI18N
-        btnguardar2.setBorderPainted(false);
-        btnguardar2.setContentAreaFilled(false);
-        btnguardar2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_press.png"))); // NOI18N
-        btnguardar2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_roll.png"))); // NOI18N
-        btnguardar2.addActionListener(new java.awt.event.ActionListener() {
+        btneliminarMarca.setBackground(new java.awt.Color(255, 255, 255));
+        btneliminarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
+        btneliminarMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
+        btneliminarMarca.setBorderPainted(false);
+        btneliminarMarca.setContentAreaFilled(false);
+        btneliminarMarca.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
+        btneliminarMarca.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
+        btneliminarMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnguardar2ActionPerformed(evt);
+                btneliminarMarcaActionPerformed(evt);
             }
         });
 
-        btneliminar1.setBackground(new java.awt.Color(255, 255, 255));
-        btneliminar1.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
-        btneliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
-        btneliminar1.setBorderPainted(false);
-        btneliminar1.setContentAreaFilled(false);
-        btneliminar1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
-        btneliminar1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
-        btneliminar1.addActionListener(new java.awt.event.ActionListener() {
+        btneditarMarca.setBackground(new java.awt.Color(255, 255, 255));
+        btneditarMarca.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
+        btneditarMarca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_norm.png"))); // NOI18N
+        btneditarMarca.setBorderPainted(false);
+        btneditarMarca.setContentAreaFilled(false);
+        btneditarMarca.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_press.png"))); // NOI18N
+        btneditarMarca.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_roll.png"))); // NOI18N
+        btneditarMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btneliminar1ActionPerformed(evt);
-            }
-        });
-
-        btneditar1.setBackground(new java.awt.Color(255, 255, 255));
-        btneditar1.setFont(new java.awt.Font("Rockwell Condensed", 1, 14)); // NOI18N
-        btneditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_norm.png"))); // NOI18N
-        btneditar1.setBorderPainted(false);
-        btneditar1.setContentAreaFilled(false);
-        btneditar1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_press.png"))); // NOI18N
-        btneditar1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_roll.png"))); // NOI18N
-        btneditar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btneditar1ActionPerformed(evt);
+                btneditarMarcaActionPerformed(evt);
             }
         });
 
@@ -1119,26 +1267,23 @@ public class inicio extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btneliminar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnguardar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnnuevo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btneditar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btncancelar2))
+                        .addComponent(btneliminarMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnguardarMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btneditarMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btncancelarMarca))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(btnnuevo2)
-                .addGap(31, 31, 31)
-                .addComponent(btnguardar2)
+                .addGap(131, 131, 131)
+                .addComponent(btnguardarMarca)
                 .addGap(18, 18, 18)
-                .addComponent(btneliminar1)
+                .addComponent(btneliminarMarca)
                 .addGap(28, 28, 28)
-                .addComponent(btneditar1)
+                .addComponent(btneditarMarca)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btncancelar2)
+                .addComponent(btncancelarMarca)
                 .addGap(29, 29, 29))
         );
 
@@ -1164,28 +1309,23 @@ public class inicio extends javax.swing.JFrame {
 
         pnelMarca.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 760, 392));
 
-        txtbuscar2.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtbuscarMarca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtbuscar2KeyReleased(evt);
+                txtbuscarMarcaKeyReleased(evt);
             }
         });
-        pnelMarca.add(txtbuscar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 496, -1));
+        pnelMarca.add(txtbuscarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 496, -1));
 
-        btnmostrar.setBackground(new java.awt.Color(0, 153, 255));
-        btnmostrar.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        btnmostrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnmostrar.setText("Mostrar todo");
-        btnmostrar.addActionListener(new java.awt.event.ActionListener() {
+        btnmostrarMarca.setBackground(new java.awt.Color(0, 153, 255));
+        btnmostrarMarca.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        btnmostrarMarca.setForeground(new java.awt.Color(255, 255, 255));
+        btnmostrarMarca.setText("Mostrar todo");
+        btnmostrarMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnmostrarActionPerformed(evt);
+                btnmostrarMarcaActionPerformed(evt);
             }
         });
-        pnelMarca.add(btnmostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 270, -1, -1));
-
-        lblhora.setFont(new java.awt.Font("Agency FB", 1, 36)); // NOI18N
-        lblhora.setForeground(new java.awt.Color(255, 255, 255));
-        lblhora.setText("Muestra hora");
-        pnelMarca.add(lblhora, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 670, 280, 90));
+        pnelMarca.add(btnmostrarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 270, -1, -1));
 
         rSPanelsSlider1.add(pnelMarca, "card4");
 
@@ -1302,60 +1442,60 @@ public class inicio extends javax.swing.JFrame {
         jPanel12.setBackground(new java.awt.Color(0, 102, 204));
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ACCIONES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
-        btnnuevo3.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        btnnuevo3.setForeground(new java.awt.Color(255, 255, 255));
-        btnnuevo3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N
-        btnnuevo3.setBorderPainted(false);
-        btnnuevo3.setContentAreaFilled(false);
-        btnnuevo3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_press.png"))); // NOI18N
-        btnnuevo3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_roll.png"))); // NOI18N
-        btnnuevo3.addActionListener(new java.awt.event.ActionListener() {
+        btnnuevoProducto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        btnnuevoProducto.setForeground(new java.awt.Color(255, 255, 255));
+        btnnuevoProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N
+        btnnuevoProducto.setBorderPainted(false);
+        btnnuevoProducto.setContentAreaFilled(false);
+        btnnuevoProducto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_press.png"))); // NOI18N
+        btnnuevoProducto.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_roll.png"))); // NOI18N
+        btnnuevoProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnnuevo3ActionPerformed(evt);
+                btnnuevoProductoActionPerformed(evt);
             }
         });
 
-        btnguardar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_norm.png"))); // NOI18N
-        btnguardar3.setBorderPainted(false);
-        btnguardar3.setContentAreaFilled(false);
-        btnguardar3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_press.png"))); // NOI18N
-        btnguardar3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_roll.png"))); // NOI18N
-        btnguardar3.addActionListener(new java.awt.event.ActionListener() {
+        btnguardarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_norm.png"))); // NOI18N
+        btnguardarProducto.setBorderPainted(false);
+        btnguardarProducto.setContentAreaFilled(false);
+        btnguardarProducto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_press.png"))); // NOI18N
+        btnguardarProducto.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_roll.png"))); // NOI18N
+        btnguardarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnguardar3ActionPerformed(evt);
+                btnguardarProductoActionPerformed(evt);
             }
         });
 
-        btneditar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_norm.png"))); // NOI18N
-        btneditar2.setBorderPainted(false);
-        btneditar2.setContentAreaFilled(false);
-        btneditar2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_press.png"))); // NOI18N
-        btneditar2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_roll.png"))); // NOI18N
-        btneditar2.addActionListener(new java.awt.event.ActionListener() {
+        btneditarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_norm.png"))); // NOI18N
+        btneditarProducto.setBorderPainted(false);
+        btneditarProducto.setContentAreaFilled(false);
+        btneditarProducto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_press.png"))); // NOI18N
+        btneditarProducto.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_roll.png"))); // NOI18N
+        btneditarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btneditar2ActionPerformed(evt);
+                btneditarProductoActionPerformed(evt);
             }
         });
 
-        btneliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
-        btneliminar2.setBorderPainted(false);
-        btneliminar2.setContentAreaFilled(false);
-        btneliminar2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
-        btneliminar2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
-        btneliminar2.addActionListener(new java.awt.event.ActionListener() {
+        btneliminarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
+        btneliminarProducto.setBorderPainted(false);
+        btneliminarProducto.setContentAreaFilled(false);
+        btneliminarProducto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
+        btneliminarProducto.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
+        btneliminarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btneliminar2ActionPerformed(evt);
+                btneliminarProductoActionPerformed(evt);
             }
         });
 
-        btncancelar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_norm.png"))); // NOI18N
-        btncancelar3.setBorderPainted(false);
-        btncancelar3.setContentAreaFilled(false);
-        btncancelar3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_press.png"))); // NOI18N
-        btncancelar3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_roll.png"))); // NOI18N
-        btncancelar3.addActionListener(new java.awt.event.ActionListener() {
+        btncancelarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_norm.png"))); // NOI18N
+        btncancelarProducto.setBorderPainted(false);
+        btncancelarProducto.setContentAreaFilled(false);
+        btncancelarProducto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_press.png"))); // NOI18N
+        btncancelarProducto.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_roll.png"))); // NOI18N
+        btncancelarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncancelar3ActionPerformed(evt);
+                btncancelarProductoActionPerformed(evt);
             }
         });
 
@@ -1366,26 +1506,26 @@ public class inicio extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnguardar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnuevo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btneditar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btneliminar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btncancelar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnguardarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnuevoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btneditarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btneliminarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btncancelarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(58, 58, 58))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(btnnuevo3)
+                .addComponent(btnnuevoProducto)
                 .addGap(32, 32, 32)
-                .addComponent(btnguardar3)
+                .addComponent(btnguardarProducto)
                 .addGap(34, 34, 34)
-                .addComponent(btneliminar2)
+                .addComponent(btneliminarProducto)
                 .addGap(38, 38, 38)
-                .addComponent(btneditar2)
+                .addComponent(btneditarProducto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(btncancelar3)
+                .addComponent(btncancelarProducto)
                 .addContainerGap())
         );
 
@@ -1416,28 +1556,28 @@ public class inicio extends javax.swing.JFrame {
 
         pnelProducto.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 560, 810, 160));
 
-        btnbuscar2.setBackground(new java.awt.Color(51, 153, 255));
-        btnbuscar2.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        btnbuscar2.setForeground(new java.awt.Color(255, 255, 255));
-        btnbuscar2.setText("Mostrar Todos");
-        btnbuscar2.addActionListener(new java.awt.event.ActionListener() {
+        btnbuscarProducto.setBackground(new java.awt.Color(51, 153, 255));
+        btnbuscarProducto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        btnbuscarProducto.setForeground(new java.awt.Color(255, 255, 255));
+        btnbuscarProducto.setText("Mostrar Todos");
+        btnbuscarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnbuscar2ActionPerformed(evt);
+                btnbuscarProductoActionPerformed(evt);
             }
         });
-        pnelProducto.add(btnbuscar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 510, -1, -1));
+        pnelProducto.add(btnbuscarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 510, -1, -1));
 
-        txtbuscar3.addActionListener(new java.awt.event.ActionListener() {
+        txtbuscarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtbuscar3ActionPerformed(evt);
+                txtbuscarProductoActionPerformed(evt);
             }
         });
-        txtbuscar3.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtbuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtbuscar3KeyReleased(evt);
+                txtbuscarProductoKeyReleased(evt);
             }
         });
-        pnelProducto.add(txtbuscar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 520, 300, -1));
+        pnelProducto.add(txtbuscarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 520, 300, -1));
 
         jLabel26.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
@@ -1510,16 +1650,16 @@ public class inicio extends javax.swing.JFrame {
         txtruc1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtruc1.setEnabled(false);
 
-        btnproductos.setFont(new java.awt.Font("Agency FB", 1, 13)); // NOI18N
-        btnproductos.setForeground(new java.awt.Color(255, 255, 255));
-        btnproductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar.jpg"))); // NOI18N
-        btnproductos.setText("Buscar");
-        btnproductos.setBorderPainted(false);
-        btnproductos.setContentAreaFilled(false);
-        btnproductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnproductos.addActionListener(new java.awt.event.ActionListener() {
+        btnproductosFactura.setFont(new java.awt.Font("Agency FB", 1, 13)); // NOI18N
+        btnproductosFactura.setForeground(new java.awt.Color(255, 255, 255));
+        btnproductosFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar.jpg"))); // NOI18N
+        btnproductosFactura.setText("Buscar");
+        btnproductosFactura.setBorderPainted(false);
+        btnproductosFactura.setContentAreaFilled(false);
+        btnproductosFactura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnproductosFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnproductosActionPerformed(evt);
+                btnproductosFacturaActionPerformed(evt);
             }
         });
 
@@ -1631,7 +1771,7 @@ public class inicio extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addComponent(jLabel39)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnproductos))
+                                .addComponent(btnproductosFactura))
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(txtnomape, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1674,7 +1814,7 @@ public class inicio extends javax.swing.JFrame {
                             .addComponent(jLabel35)
                             .addComponent(txtdir1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel39)
-                            .addComponent(btnproductos))))
+                            .addComponent(btnproductosFactura))))
                 .addContainerGap())
         );
 
@@ -1780,16 +1920,16 @@ public class inicio extends javax.swing.JFrame {
 
         jPanel17.setBackground(new java.awt.Color(51, 153, 255));
 
-        btnguardar4.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        btnguardar4.setForeground(new java.awt.Color(255, 255, 255));
-        btnguardar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pago.png"))); // NOI18N
-        btnguardar4.setText("Realizar Venta");
-        btnguardar4.setBorderPainted(false);
-        btnguardar4.setContentAreaFilled(false);
-        btnguardar4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnguardar4.addActionListener(new java.awt.event.ActionListener() {
+        btnguardarFactura.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        btnguardarFactura.setForeground(new java.awt.Color(255, 255, 255));
+        btnguardarFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pago.png"))); // NOI18N
+        btnguardarFactura.setText("Realizar Venta");
+        btnguardarFactura.setBorderPainted(false);
+        btnguardarFactura.setContentAreaFilled(false);
+        btnguardarFactura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnguardarFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnguardar4ActionPerformed(evt);
+                btnguardarFacturaActionPerformed(evt);
             }
         });
 
@@ -1804,28 +1944,28 @@ public class inicio extends javax.swing.JFrame {
             }
         });
 
-        btncalcular.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        btncalcular.setForeground(new java.awt.Color(255, 255, 255));
-        btncalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calcular1.JPG"))); // NOI18N
-        btncalcular.setText("Realizar Calculo");
-        btncalcular.setBorderPainted(false);
-        btncalcular.setContentAreaFilled(false);
-        btncalcular.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btncalcular.addActionListener(new java.awt.event.ActionListener() {
+        btncalcularFactura.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        btncalcularFactura.setForeground(new java.awt.Color(255, 255, 255));
+        btncalcularFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calcular1.JPG"))); // NOI18N
+        btncalcularFactura.setText("Realizar Calculo");
+        btncalcularFactura.setBorderPainted(false);
+        btncalcularFactura.setContentAreaFilled(false);
+        btncalcularFactura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btncalcularFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncalcularActionPerformed(evt);
+                btncalcularFacturaActionPerformed(evt);
             }
         });
 
-        btneliminar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
-        btneliminar3.setBorderPainted(false);
-        btneliminar3.setContentAreaFilled(false);
-        btneliminar3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btneliminar3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
-        btneliminar3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
-        btneliminar3.addActionListener(new java.awt.event.ActionListener() {
+        btneliminarFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
+        btneliminarFactura.setBorderPainted(false);
+        btneliminarFactura.setContentAreaFilled(false);
+        btneliminarFactura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btneliminarFactura.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
+        btneliminarFactura.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
+        btneliminarFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btneliminar3ActionPerformed(evt);
+                btneliminarFacturaActionPerformed(evt);
             }
         });
 
@@ -1840,20 +1980,20 @@ public class inicio extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(btnsalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnguardar4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btncalcular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btneliminar3, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addComponent(btnguardarFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btncalcularFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btneliminarFactura, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btncalcular)
+                .addComponent(btncalcularFactura)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnguardar4)
+                .addComponent(btnguardarFactura)
                 .addGap(18, 18, 18)
-                .addComponent(btneliminar3)
+                .addComponent(btneliminarFactura)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnsalir2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1996,10 +2136,10 @@ public class inicio extends javax.swing.JFrame {
         // dcfecha_ingreso.setDate(Date.valueOf(tablausuario.getValueAt(fila, 5).toString()));
     }//GEN-LAST:event_tablausuarioMouseClicked
 
-    private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
+    private void txtbuscarUsuariosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarUsuariosKeyReleased
         // TODO add your handling code here:
-        mostrarUsuarios(txtbuscar.getText());
-    }//GEN-LAST:event_txtbuscarKeyReleased
+        mostrarUsuarios(txtbuscarUsuarios.getText());
+    }//GEN-LAST:event_txtbuscarUsuariosKeyReleased
 
     private void btneliminarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarUsuariosActionPerformed
         // TODO add your handling code here:
@@ -2120,16 +2260,16 @@ public class inicio extends javax.swing.JFrame {
 
     private void txtrucKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrucKeyTyped
         // TODO add your handling code here:
-        /*char car = evt.getKeyChar();
+        char car = evt.getKeyChar();
         if(txtruc.getText().length()>=11) evt.consume();
         if((car<'0' || car>'9') && (car<'A' || car>'Z')) evt.consume();
-        */
+        
     }//GEN-LAST:event_txtrucKeyTyped
 
     private void btnnuevoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoClientesActionPerformed
         // TODO add your handling code here:
-        desbloquear();
-        limpiarUsuarios();
+        desbloquearClientes();
+        limpiarClientes();
         txtidcliente.requestFocus();
     }//GEN-LAST:event_btnnuevoClientesActionPerformed
 
@@ -2172,11 +2312,11 @@ public class inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "El cliente fue registrado satisfactoriamente");
             mostrarUsuarios("");
             limpiarUsuarios();
-            bloquear();
+            bloquearClientes();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
               System.out.println("error = " + e.getMessage());
-        }     
+         }     
     }//GEN-LAST:event_btnguardarClientesActionPerformed
 
     private void btnactualizarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarClientesActionPerformed
@@ -2218,7 +2358,7 @@ public class inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "El cliente fue registrado satisfactoriamente");
             mostrarUsuarios("");
             limpiarUsuarios();
-            bloquear();
+            bloquearClientes();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
               System.out.println("error = " + e.getMessage());
@@ -2227,8 +2367,8 @@ public class inicio extends javax.swing.JFrame {
 
     private void btncancelarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarClientesActionPerformed
         // TODO add your handling code here:
-        limpiarUsuarios();
-        bloquear();
+        limpiarClientes();
+        bloquearClientes();
     }//GEN-LAST:event_btncancelarClientesActionPerformed
 
     private void tbclientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbclientesMouseClicked
@@ -2253,24 +2393,24 @@ public class inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tbclientesMouseClicked
 
-    private void txtbuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscar1ActionPerformed
+    private void txtbuscarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarClientesActionPerformed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_txtbuscar1ActionPerformed
+    }//GEN-LAST:event_txtbuscarClientesActionPerformed
 
-    private void txtbuscar1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscar1KeyReleased
+    private void txtbuscarClientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarClientesKeyReleased
         // TODO add your handling code here:
-        mostrar(txtbuscar.getText());
-    }//GEN-LAST:event_txtbuscar1KeyReleased
+        mostrarClientes(txtbuscarUsuarios.getText());
+    }//GEN-LAST:event_txtbuscarClientesKeyReleased
 
-    private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
+    private void btnbuscarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarClientesActionPerformed
         // TODO add your handling code here:
-        mostrar("");
-    }//GEN-LAST:event_btnbuscarActionPerformed
+        mostrarClientes("");
+    }//GEN-LAST:event_btnbuscarClientesActionPerformed
 
     private void tbmarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbmarcaMouseClicked
         // TODO add your handling code here:
-        desbloquearcliked();
+        desbloquearClientes();
         int fila =tbmarca.rowAtPoint(evt.getPoint());
 
         txtidmarca.setText(tbmarca.getValueAt(fila, 0).toString());
@@ -2279,28 +2419,28 @@ public class inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tbmarcaMouseClicked
 
-    private void btnmostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmostrarActionPerformed
+    private void btnmostrarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmostrarMarcaActionPerformed
         // TODO add your handling code here:
-        mostrar("");
-    }//GEN-LAST:event_btnmostrarActionPerformed
+        mostrarMarcas("");
+    }//GEN-LAST:event_btnmostrarMarcaActionPerformed
 
-    private void txtbuscar2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscar2KeyReleased
+    private void txtbuscarMarcaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarMarcaKeyReleased
         // TODO add your handling code here:
-        mostrar(txtbuscar.getText());
-    }//GEN-LAST:event_txtbuscar2KeyReleased
+        mostrarMarcas(txtbuscarMarca.getText());
+    }//GEN-LAST:event_txtbuscarMarcaKeyReleased
 
-    private void btncancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelar2ActionPerformed
+    private void btncancelarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarMarcaActionPerformed
         // TODO add your handling code here:
-        bloquear();
+        bloquearMarca();
 
-    }//GEN-LAST:event_btncancelar2ActionPerformed
+    }//GEN-LAST:event_btncancelarMarcaActionPerformed
 
-    private void btnnuevo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevo2ActionPerformed
+    private void btnnuevoMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoMarcaActionPerformed
         // TODO add your handling code here:
-        desbloquear();
-    }//GEN-LAST:event_btnnuevo2ActionPerformed
+        desbloquearMarca();
+    }//GEN-LAST:event_btnnuevoMarcaActionPerformed
 
-    private void btnguardar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardar2ActionPerformed
+    private void btnguardarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarMarcaActionPerformed
 
         if(txtnombremarca.getText().length()==0){
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar una marca");
@@ -2327,9 +2467,9 @@ public class inicio extends javax.swing.JFrame {
             //                limpiar();
             //                bloquear();
             //            }
-    }//GEN-LAST:event_btnguardar2ActionPerformed
+    }//GEN-LAST:event_btnguardarMarcaActionPerformed
 
-    private void btneliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminar1ActionPerformed
+    private void btneliminarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarMarcaActionPerformed
         // TODO add your handling code here:
 
         if(!txtidmarca.getText().equals("")){
@@ -2346,9 +2486,9 @@ public class inicio extends javax.swing.JFrame {
                 //            }
             //
         }
-    }//GEN-LAST:event_btneliminar1ActionPerformed
+    }//GEN-LAST:event_btneliminarMarcaActionPerformed
 
-    private void btneditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditar1ActionPerformed
+    private void btneditarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarMarcaActionPerformed
         // TODO add your handling code here:
         if(txtnombremarca.getText().length()==0){
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar una marca");
@@ -2376,7 +2516,7 @@ public class inicio extends javax.swing.JFrame {
             //                limpiar();
             //                bloquear();
             //            }
-    }//GEN-LAST:event_btneditar1ActionPerformed
+    }//GEN-LAST:event_btneditarMarcaActionPerformed
 
     private void txtmodeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmodeloActionPerformed
         // TODO add your handling code here:
@@ -2413,26 +2553,26 @@ public class inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tbproductoKeyPressed
 
-    private void txtbuscar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscar3ActionPerformed
+    private void txtbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarProductoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtbuscar3ActionPerformed
+    }//GEN-LAST:event_txtbuscarProductoActionPerformed
 
-    private void txtbuscar3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscar3KeyReleased
+    private void txtbuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarProductoKeyReleased
         // TODO add your handling code here:
-        mostrar(txtbuscar.getText());
-    }//GEN-LAST:event_txtbuscar3KeyReleased
+        mostrarProductos(txtbuscarProducto.getText());
+    }//GEN-LAST:event_txtbuscarProductoKeyReleased
 
-    private void btnbuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscar2ActionPerformed
+    private void btnbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarProductoActionPerformed
         // TODO add your handling code here:
-        mostrar("");
-    }//GEN-LAST:event_btnbuscar2ActionPerformed
+        mostrarProductos("");
+    }//GEN-LAST:event_btnbuscarProductoActionPerformed
 
-    private void btnnuevo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevo3ActionPerformed
+    private void btnnuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoProductoActionPerformed
         // TODO add your handling code here:
-        desbloquear();
-    }//GEN-LAST:event_btnnuevo3ActionPerformed
+        desbloquearProducto();
+    }//GEN-LAST:event_btnnuevoProductoActionPerformed
 
-    private void btnguardar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardar3ActionPerformed
+    private void btnguardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarProductoActionPerformed
         // TODO add your handling code here:
         if(txtproducto.getText().length()==0){
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el producto");
@@ -2482,9 +2622,9 @@ public class inicio extends javax.swing.JFrame {
             //                bloquear();
             //            }
 
-    }//GEN-LAST:event_btnguardar3ActionPerformed
+    }//GEN-LAST:event_btnguardarProductoActionPerformed
 
-    private void btneditar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditar2ActionPerformed
+    private void btneditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarProductoActionPerformed
         // TODO add your handling code here:
 
         if(txtproducto.getText().length()==0){
@@ -2534,9 +2674,9 @@ public class inicio extends javax.swing.JFrame {
             //                limpiar();
             //                bloquear();
             //            }
-    }//GEN-LAST:event_btneditar2ActionPerformed
+    }//GEN-LAST:event_btneditarProductoActionPerformed
 
-    private void btneliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminar2ActionPerformed
+    private void btneliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarProductoActionPerformed
         // TODO add your handling code here:
         if(!Idproducto.getText().equals("")){
             int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar el producto","Confirmar",2);
@@ -2551,12 +2691,12 @@ public class inicio extends javax.swing.JFrame {
                 //                //inhabilitar();
             }
         }
-    }//GEN-LAST:event_btneliminar2ActionPerformed
+    }//GEN-LAST:event_btneliminarProductoActionPerformed
 
-    private void btncancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelar3ActionPerformed
+    private void btncancelarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarProductoActionPerformed
         // TODO add your handling code here:
-        bloquear();
-    }//GEN-LAST:event_btncancelar3ActionPerformed
+        bloquearProducto();
+    }//GEN-LAST:event_btncancelarProductoActionPerformed
 
     private void txtnomapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnomapeActionPerformed
         // TODO add your handling code here:
@@ -2571,7 +2711,7 @@ public class inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnclientesActionPerformed
 
-    private void btnproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductosActionPerformed
+    private void btnproductosFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductosFacturaActionPerformed
         // TODO add your handling code here:
         try {
             tabla_productos pro= new tabla_productos();
@@ -2582,9 +2722,9 @@ public class inicio extends javax.swing.JFrame {
         } catch (Exception e) {
         }
 
-    }//GEN-LAST:event_btnproductosActionPerformed
+    }//GEN-LAST:event_btnproductosFacturaActionPerformed
 
-    private void btnguardar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardar4ActionPerformed
+    private void btnguardarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarFacturaActionPerformed
         // TODO add your handling code here:
         if((txtidcliente.getText().equals("")) || (txtsubtotal.getText().equals("")))
         {
@@ -2624,14 +2764,14 @@ public class inicio extends javax.swing.JFrame {
 //            numeros();
         }
 
-    }//GEN-LAST:event_btnguardar4ActionPerformed
+    }//GEN-LAST:event_btnguardarFacturaActionPerformed
 
     private void btnsalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalir2ActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnsalir2ActionPerformed
 
-    private void btncalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncalcularActionPerformed
+    private void btncalcularFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncalcularFacturaActionPerformed
         // TODO add your handling code here:
         if(tbdet.getRowCount()<1)
         {
@@ -2642,9 +2782,9 @@ public class inicio extends javax.swing.JFrame {
         }                                    
 
 
-    }//GEN-LAST:event_btncalcularActionPerformed
+    }//GEN-LAST:event_btncalcularFacturaActionPerformed
 
-    private void btneliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminar3ActionPerformed
+    private void btneliminarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarFacturaActionPerformed
         // TODO add your handling code here:
         DefaultTableModel modelo = (DefaultTableModel) tbdet.getModel();
         int fila = tbdet.getSelectedRow();
@@ -2656,17 +2796,17 @@ public class inicio extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "No Selecciono ninguna fila");
         }
-    }//GEN-LAST:event_btneliminar3ActionPerformed
+    }//GEN-LAST:event_btneliminarFacturaActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         // TODO add your handling code here:
-        if(!this.btnProductos.isSelected()){
-            this.btnClientes.setSelected(false);
-            this.btnUsers.setSelected(false);
-            this.btnProve.setSelected(false);
-            this.btnProductos.setSelected(true);
-            this.btnVenta.setSelected(false);
-            this.btnRepor.setSelected(false);
+        if(!inicio.btnProductos.isSelected()){
+            inicio.btnClientes.setSelected(false);
+            inicio.btnUsers.setSelected(false);
+            inicio.btnProve.setSelected(false);
+            inicio.btnProductos.setSelected(true);
+            inicio.btnVenta.setSelected(false);
+            inicio.btnRepor.setSelected(false);
             
             rSPanelsSlider1.setPanelSlider(pnelProducto, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2674,13 +2814,13 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnProveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveActionPerformed
         // TODO add your handling code here:
-        if(!this.btnProve.isSelected()){
-            this.btnClientes.setSelected(false);
-            this.btnUsers.setSelected(false);
-            this.btnProve.setSelected(true);
-            this.btnProductos.setSelected(false);
-            this.btnVenta.setSelected(false);
-            this.btnRepor.setSelected(false);
+        if(!inicio.btnProve.isSelected()){
+            inicio.btnClientes.setSelected(false);
+            inicio.btnUsers.setSelected(false);
+            inicio.btnProve.setSelected(true);
+            inicio.btnProductos.setSelected(false);
+            inicio.btnVenta.setSelected(false);
+            inicio.btnRepor.setSelected(false);
             
             rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2688,13 +2828,13 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnReporActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporActionPerformed
         // TODO add your handling code here:
-        if(!this.btnRepor.isSelected()){
-            this.btnClientes.setSelected(false);
-            this.btnUsers.setSelected(false);
-            this.btnProve.setSelected(false);
-            this.btnProductos.setSelected(false);
-            this.btnVenta.setSelected(false);
-            this.btnRepor.setSelected(true);
+        if(!inicio.btnRepor.isSelected()){
+            inicio.btnClientes.setSelected(false);
+            inicio.btnUsers.setSelected(false);
+            inicio.btnProve.setSelected(false);
+            inicio.btnProductos.setSelected(false);
+            inicio.btnVenta.setSelected(false);
+            inicio.btnRepor.setSelected(true);
             
             rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2702,13 +2842,13 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
         // TODO add your handling code here:
-        if(!this.btnVenta.isSelected()){
-            this.btnClientes.setSelected(false);
-            this.btnUsers.setSelected(false);
-            this.btnProve.setSelected(false);
-            this.btnProductos.setSelected(false);
-            this.btnVenta.setSelected(true);
-            this.btnRepor.setSelected(false);
+        if(!inicio.btnVenta.isSelected()){
+            inicio.btnClientes.setSelected(false);
+            inicio.btnUsers.setSelected(false);
+            inicio.btnProve.setSelected(false);
+            inicio.btnProductos.setSelected(false);
+            inicio.btnVenta.setSelected(true);
+            inicio.btnRepor.setSelected(false);
 
             rSPanelsSlider1.setPanelSlider(pnelVenta, RSPanelsSlider.DIRECT.RIGHT);
         }
@@ -2758,33 +2898,33 @@ public class inicio extends javax.swing.JFrame {
     public static rojeru_san.RSButton btnUsers;
     public static rojeru_san.RSButton btnVenta;
     private javax.swing.JButton btnactualizarClientes;
-    private javax.swing.JButton btnbuscar;
     private javax.swing.JButton btnbuscar1Usuarios;
-    private javax.swing.JButton btnbuscar2;
-    private javax.swing.JButton btncalcular;
-    private javax.swing.JButton btncancelar2;
-    private javax.swing.JButton btncancelar3;
+    private javax.swing.JButton btnbuscarClientes;
+    private javax.swing.JButton btnbuscarProducto;
+    private javax.swing.JButton btncalcularFactura;
     private javax.swing.JButton btncancelarClientes;
+    private javax.swing.JButton btncancelarMarca;
+    private javax.swing.JButton btncancelarProducto;
     private javax.swing.JButton btncancelarUsuarios;
     private javax.swing.JButton btnclientes;
-    private javax.swing.JButton btneditar1;
-    private javax.swing.JButton btneditar2;
+    private javax.swing.JButton btneditarMarca;
+    private javax.swing.JButton btneditarProducto;
     private javax.swing.JButton btneditarUsuarios;
-    private javax.swing.JButton btneliminar1;
-    private javax.swing.JButton btneliminar2;
-    private javax.swing.JButton btneliminar3;
+    private javax.swing.JButton btneliminarFactura;
+    private javax.swing.JButton btneliminarMarca;
+    private javax.swing.JButton btneliminarProducto;
     private javax.swing.JButton btneliminarUsuarios;
-    private javax.swing.JButton btnguardar2;
-    private javax.swing.JButton btnguardar3;
-    private javax.swing.JButton btnguardar4;
     private javax.swing.JButton btnguardarClientes;
+    private javax.swing.JButton btnguardarFactura;
+    private javax.swing.JButton btnguardarMarca;
+    private javax.swing.JButton btnguardarProducto;
     private javax.swing.JButton btnguardarUsuarios;
-    private javax.swing.JButton btnmostrar;
-    private javax.swing.JButton btnnuevo2;
-    private javax.swing.JButton btnnuevo3;
+    private javax.swing.JButton btnmostrarMarca;
     private javax.swing.JButton btnnuevoClientes;
+    private javax.swing.JButton btnnuevoMarca;
+    private javax.swing.JButton btnnuevoProducto;
     private javax.swing.JButton btnnuevoUsuarios;
-    private javax.swing.JButton btnproductos;
+    private javax.swing.JButton btnproductosFactura;
     private javax.swing.JButton btnsalir2;
     private javax.swing.JComboBox cboacceso1;
     private javax.swing.JComboBox cboestado;
@@ -2858,7 +2998,6 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JLabel labelhora;
     public static javax.swing.JLabel lblacceso;
     private javax.swing.JLabel lblhora;
     public static javax.swing.JLabel lblnombre;
@@ -2877,10 +3016,10 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JTable tbmarca;
     private javax.swing.JTable tbproducto;
     private javax.swing.JTextField txtape;
-    private javax.swing.JTextField txtbuscar;
-    private javax.swing.JTextField txtbuscar1;
-    private javax.swing.JTextField txtbuscar2;
-    private javax.swing.JTextField txtbuscar3;
+    private javax.swing.JTextField txtbuscarClientes;
+    private javax.swing.JTextField txtbuscarMarca;
+    private javax.swing.JTextField txtbuscarProducto;
+    private javax.swing.JTextField txtbuscarUsuarios;
     private javax.swing.JTextField txtcantidad;
     public static javax.swing.JTextField txtcod1;
     private javax.swing.JTextField txtdescripcionmarca;
