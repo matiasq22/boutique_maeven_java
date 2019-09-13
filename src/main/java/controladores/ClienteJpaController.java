@@ -7,6 +7,7 @@ package controladores;
 
 import com.mycompany.boutique.exceptions.IllegalOrphanException;
 import com.mycompany.boutique.exceptions.NonexistentEntityException;
+import configs.configs;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -26,8 +27,8 @@ import modelo.Cliente;
  */
 public class ClienteJpaController implements Serializable {
 
-    public ClienteJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ClienteJpaController() {
+        this.emf = configs.conexion();
     }
     private EntityManagerFactory emf = null;
 

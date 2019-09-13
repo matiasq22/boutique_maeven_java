@@ -45,7 +45,7 @@ public class main {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new inicio().setVisible(true);
+            new IniciarSesion().setVisible(true);
         });
         
     }

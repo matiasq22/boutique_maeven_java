@@ -6,7 +6,7 @@
 package vistas;
 
 import controladores.UsuarioJpaController;
-//import com.sun.awt.AWTUtilities;
+import com.sun.awt.AWTUtilities;
 import java.awt.event.KeyEvent;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
@@ -30,7 +30,7 @@ public class IniciarSesion extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); //Centra la vantana en la pantalla
         Shape forma = new RoundRectangle2D.Double(0, 0, getBounds().width, getBounds().height, 20, 20);
-//        AWTUtilities.setWindowShape(this, forma);
+        AWTUtilities.setWindowShape(this, forma);
         controller = new UsuarioJpaController();
     }
   
@@ -208,17 +208,17 @@ public class IniciarSesion extends javax.swing.JFrame {
                  JOptionPane.showMessageDialog(rootPane, "Acceso concedido","Acceso al Sistema",JOptionPane.INFORMATION_MESSAGE);
 
                 this.dispose();
-                frminicio form= new frminicio();
+                inicio form= new inicio();
                 form.toFront();
                 form.setVisible(true);
-                frminicio.lblidusuario.setText(login.getId().toString());
-                frminicio.lblnombre.setText(login.getNombre());
-                frminicio.lblacceso.setText(login.getAcceso());
+//                inicio.lblidusuario.setText(login.getId().toString());
+                inicio.lblnombre.setText(login.getNombre());
+                inicio.lblacceso.setText(login.getAcceso());
 
                 if(!login.getAcceso().equals("Administrador")){
-                      frminicio.menuaccesos.setEnabled(false);
-                     frminicio.menupersona.setEnabled(false);
-                     frminicio.menuinventario.setEnabled(false);
+                      inicio.btnUsers.setEnabled(false);
+                     inicio.btnClientes.setEnabled(false);
+//                     inicio.menuinventario.setEnabled(false);
                 }
             }
         } catch (Exception e) {

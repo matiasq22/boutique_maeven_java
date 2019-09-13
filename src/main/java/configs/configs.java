@@ -16,6 +16,6 @@ public class configs {
    public static EntityManagerFactory emf;
     public static EntityManagerFactory conexion(){
         return configs.emf = Persistence.createEntityManagerFactory("conexion");
-    }
+        }
     
 }
