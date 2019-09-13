@@ -6,9 +6,9 @@
  */
 package vistas;
 
-import Modelo.vclientes;
-import Servicios.conexion;
-import Servicios.ftclientes;
+//import Modelo.vclientes;
+//import Servicios.conexion;
+//import Servicios.ftclientes;
 import java.awt.Color;
 import java.sql.*;
 import java.util.logging.Level;
@@ -30,18 +30,18 @@ public class tabla_clientes extends javax.swing.JInternalFrame {
     }
    
      void mostrar(String buscar){
-         try {
-         DefaultTableModel modelo;
-             ftclientes func= new ftclientes();
-             modelo=func.mostrar(buscar);
-             
-             tbclientes.setModel(modelo);
-             //ocultar_columnas();
-             lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
-                
-         } catch (Exception e) {
-              JOptionPane.showConfirmDialog(rootPane, e);
-         }
+//         try {
+//         DefaultTableModel modelo;
+//             ftclientes func= new ftclientes();
+//             modelo=func.mostrar(buscar);
+//             
+//             tbclientes.setModel(modelo);
+//             //ocultar_columnas();
+//             lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
+//                
+//         } catch (Exception e) {
+//              JOptionPane.showConfirmDialog(rootPane, e);
+//         }
     }
     /** This method is called from within the constructor to
      * initialize the form.

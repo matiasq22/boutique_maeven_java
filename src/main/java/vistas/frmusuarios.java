@@ -94,7 +94,6 @@ private DefaultComboBoxModel comboModelo;
              System.out.println("buscar = " + buscar);
          String[] titulos = {"Codigo","Nombre", "Usuario", "Acceso", "Estado", "Fecha_Ingreso"};
          DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-//         buscar = (buscar != null || !buscar.equals("")) ? buscar : ""; 
             List<Usuario> users = controller.search(buscar);
              System.out.println("users = " + users);
              String[] usuarios = new String[6];
@@ -253,7 +252,7 @@ private DefaultComboBoxModel comboModelo;
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_norm.png"))); // NOI18N
         btnguardar.setBorderPainted(false);
         btnguardar.setContentAreaFilled(false);
-        btnguardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnguardar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnguardar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_press.png"))); // NOI18N
         btnguardar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_roll.png"))); // NOI18N
         btnguardar.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +289,7 @@ private DefaultComboBoxModel comboModelo;
             }
         });
         jPanel2.add(btnnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 453, 129, -1));
-        jPanel2.add(dcfecha_ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 345, -1, -1));
+        jPanel2.add(dcfecha_ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(51, 102, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "LISTA DE USUARIOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("MS PGothic", 1, 14), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -333,7 +332,7 @@ private DefaultComboBoxModel comboModelo;
         btneliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
         btneliminar.setBorderPainted(false);
         btneliminar.setContentAreaFilled(false);
-        btneliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btneliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btneliminar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
         btneliminar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
         btneliminar.addActionListener(new java.awt.event.ActionListener() {

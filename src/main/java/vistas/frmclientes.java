@@ -5,9 +5,9 @@
  */
 package vistas;
 
-import Modelo.vclientes;
-import Servicios.conexion;
-import Servicios.ftclientes;
+//import Modelo.vclientes;
+//import Servicios.conexion;
+//import Servicios.ftclientes;
 
 import java.awt.event.KeyEvent;
 import java.sql.*;
@@ -74,12 +74,12 @@ public class frmclientes extends javax.swing.JInternalFrame {
     void mostrar(String buscar){
          try {
          DefaultTableModel modelo;
-             ftclientes func= new ftclientes();
-             modelo=func.mostrar(buscar);
-             
-             tbclientes.setModel(modelo);
-             //ocultar_columnas();
-//             lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
+//             ftclientes func= new ftclientes();
+//             modelo=func.mostrar(buscar);
+//             
+//             tbclientes.setModel(modelo);
+//             //ocultar_columnas();
+////             lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
                 
          } catch (Exception e) {
               JOptionPane.showConfirmDialog(rootPane, e);
@@ -551,15 +551,15 @@ private void mneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         if(!cod.equals("")){
             int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar el Usuario","Confirmar",2);
             
-            if(confirmacion==0){
-                ftclientes func=new ftclientes();
-                vclientes dts=new vclientes();
-                
-                dts.setIdcliente(Integer.parseInt(cod));
-                func.eliminar(dts);
-                mostrar("");
-                //inhabilitar();
-            }
+//            if(confirmacion==0){
+//                ftclientes func=new ftclientes();
+//                vclientes dts=new vclientes();
+//                
+//                dts.setIdcliente(Integer.parseInt(cod));
+//                func.eliminar(dts);
+//                mostrar("");
+//                //inhabilitar();
+//            }
         }
     }
     else
@@ -655,34 +655,34 @@ private void mnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             return;
         }
 
-        vclientes dts =new vclientes();
-        ftclientes func=new ftclientes();
-
-        int fila= tbclientes.getSelectedRow();
-        String idcliente = "";
-        idcliente=tbclientes.getValueAt(fila, 0).toString();
-
-        dts.setNombre(txtnom.getText());
-        dts.setApellido(txtape.getText());
-        dts.setDocumento(txtdni.getText());
-        dts.setCelular(txttel.getText());
-        dts.setEmail(txtemail.getText());
-        dts.setRuc(txtruc.getText());
-        dts.setIdcliente(Integer.parseInt(idcliente));
-        /*Calendar cal;
-        int d,m,a;
-        cal=dcfecha_ingreso.getCalendar();
-        d=cal.get(Calendar.DAY_OF_MONTH);
-        m=cal.get(Calendar.MONTH);
-        a=cal.get(Calendar.YEAR)-1900;
-        dts.setFecha_ingreso(new Date(a,m,d));*/
-
-        if(func.editar(dts)){
-            JOptionPane.showConfirmDialog(rootPane, "El trabajador fue editado satisfactoriamente");
-            mostrar("");
-            limpiar();
-            bloquear();
-        }
+//        vclientes dts =new vclientes();
+//        ftclientes func=new ftclientes();
+//
+//        int fila= tbclientes.getSelectedRow();
+//        String idcliente = "";
+//        idcliente=tbclientes.getValueAt(fila, 0).toString();
+//
+//        dts.setNombre(txtnom.getText());
+//        dts.setApellido(txtape.getText());
+//        dts.setDocumento(txtdni.getText());
+//        dts.setCelular(txttel.getText());
+//        dts.setEmail(txtemail.getText());
+//        dts.setRuc(txtruc.getText());
+//        dts.setIdcliente(Integer.parseInt(idcliente));
+//        /*Calendar cal;
+//        int d,m,a;
+//        cal=dcfecha_ingreso.getCalendar();
+//        d=cal.get(Calendar.DAY_OF_MONTH);
+//        m=cal.get(Calendar.MONTH);
+//        a=cal.get(Calendar.YEAR)-1900;
+//        dts.setFecha_ingreso(new Date(a,m,d));*/
+//
+//        if(func.editar(dts)){
+//            JOptionPane.showConfirmDialog(rootPane, "El trabajador fue editado satisfactoriamente");
+//            mostrar("");
+//            limpiar();
+//            bloquear();
+//        }
 
     }//GEN-LAST:event_btnactualizarActionPerformed
 
@@ -723,29 +723,29 @@ private void mnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             return;
         }
 
-        vclientes dts =new vclientes();
-        ftclientes func=new ftclientes();
-
-        dts.setNombre(txtnom.getText());
-        dts.setApellido(txtape.getText());
-        dts.setDocumento(txtdni.getText());
-        dts.setCelular(txttel.getText());
-        dts.setEmail(txtemail.getText());
-        dts.setRuc(txtruc.getText());
-        /*Calendar cal;
-        int d,m,a;
-        cal=dcfecha_ingreso.getCalendar();
-        d=cal.get(Calendar.DAY_OF_MONTH);
-        m=cal.get(Calendar.MONTH);
-        a=cal.get(Calendar.YEAR)-1900;
-        dts.setFecha_ingreso(new Date(a,m,d));*/
-
-        if(func.insertar(dts)){
-            JOptionPane.showConfirmDialog(rootPane, "El trabajador fue registrado satisfactoriamente");
-            mostrar("");
-            limpiar();
-            bloquear();
-        }
+//        vclientes dts =new vclientes();
+//        ftclientes func=new ftclientes();
+//
+//        dts.setNombre(txtnom.getText());
+//        dts.setApellido(txtape.getText());
+//        dts.setDocumento(txtdni.getText());
+//        dts.setCelular(txttel.getText());
+//        dts.setEmail(txtemail.getText());
+//        dts.setRuc(txtruc.getText());
+//        /*Calendar cal;
+//        int d,m,a;
+//        cal=dcfecha_ingreso.getCalendar();
+//        d=cal.get(Calendar.DAY_OF_MONTH);
+//        m=cal.get(Calendar.MONTH);
+//        a=cal.get(Calendar.YEAR)-1900;
+//        dts.setFecha_ingreso(new Date(a,m,d));*/
+//
+//        if(func.insertar(dts)){
+//            JOptionPane.showConfirmDialog(rootPane, "El trabajador fue registrado satisfactoriamente");
+//            mostrar("");
+//            limpiar();
+//            bloquear();
+//        }
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed

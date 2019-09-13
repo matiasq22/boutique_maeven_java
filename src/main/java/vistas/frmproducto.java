@@ -5,12 +5,6 @@
  */
 package vistas;
 
-import Modelo.vmarca;
-import Modelo.vpersona;
-import Modelo.vproducto;
-import Modelo.vusuario;
-import Servicios.ftproductos;
-import Servicios.ftusuario;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,29 +31,29 @@ private DefaultComboBoxModel comboModelo;
     
     
      void llenacombo() {  //declara function que se llama en el initcomponents
-        ftproductos func = new ftproductos(); //instanciar o llamar a la clase de funciones producto
-        
-        ArrayList<vmarca> marcas = func.getmarca();  //declarar una variable personas de tipo array de strings y asigna resultado de la funcion getmarca
-        if (marcas.isEmpty()) { //validar si no esta vacia
-            System.out.println("Error on llenacombo return personas null");
-        }
-        Vector<vmarca> items =new Vector<>();
-        for (vmarca marca : marcas) {
-            items.add(marca);
-        }
-          comboModelo =  new DefaultComboBoxModel(items);
-          cbomarca.setModel(comboModelo);
+//        ftproductos func = new ftproductos(); //instanciar o llamar a la clase de funciones producto
+//        
+//        ArrayList<vmarca> marcas = func.getmarca();  //declarar una variable personas de tipo array de strings y asigna resultado de la funcion getmarca
+//        if (marcas.isEmpty()) { //validar si no esta vacia
+//            System.out.println("Error on llenacombo return personas null");
+//        }
+//        Vector<vmarca> items =new Vector<>();
+//        for (vmarca marca : marcas) {
+//            items.add(marca);
+//        }
+//          comboModelo =  new DefaultComboBoxModel(items);
+//          cbomarca.setModel(comboModelo);
     }
 
      void mostrar(String buscar){
          try {
          DefaultTableModel modelo;
-             ftproductos func= new ftproductos();
-             modelo=func.mostrar(buscar);
+//             ftproductos func= new ftproductos();
+//             modelo=func.mostrar(buscar);
             
              //func.cbopersona();
              
-             tbproducto.setModel(modelo);
+//             tbproducto.setModel(modelo);
              //ocultar_columnas();
              //lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
                 
@@ -484,30 +478,30 @@ private DefaultComboBoxModel comboModelo;
             txtprecio.requestFocus();
             return;
         }
-
-        vproducto dts =new vproducto();
-        ftproductos func=new ftproductos();
-        
-        dts.setNombre(txtproducto.getText());
-        String modelo = txtmodelo.getText();
-        String cantidad = txtcantidad.getText();
-        String precio = txtprecio.getText();
-        int seleccionado=cbomarca.getSelectedIndex();
-        vmarca marca = (vmarca) cbomarca.getSelectedItem();
-        dts.setidmarca(marca.getidmarca());
-        dts.setcantidad(cantidad);
-        dts.setprecio(precio);
-        dts.setmodelo(modelo);
-
-        
-
-        
-            if(func.insertar(dts)){
-                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
-                mostrar("");
-                limpiar();
-                bloquear();
-            }
+//
+////        vproducto dts =new vproducto();
+////        ftproductos func=new ftproductos();
+//        
+//        dts.setNombre(txtproducto.getText());
+//        String modelo = txtmodelo.getText();
+//        String cantidad = txtcantidad.getText();
+//        String precio = txtprecio.getText();
+//        int seleccionado=cbomarca.getSelectedIndex();
+////        vmarca marca = (vmarca) cbomarca.getSelectedItem();
+////        dts.setidmarca(marca.getidmarca());
+//        dts.setcantidad(cantidad);
+//        dts.setprecio(precio);
+//        dts.setmodelo(modelo);
+//
+//        
+//
+//        
+//            if(func.insertar(dts)){
+//                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
+//                mostrar("");
+//                limpiar();
+//                bloquear();
+//            }
         
     }//GEN-LAST:event_btnguardarActionPerformed
 
@@ -521,13 +515,13 @@ private DefaultComboBoxModel comboModelo;
             int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar el producto","Confirmar",2);
         
             if(confirmacion==0){
-                ftproductos func=new ftproductos();
-                vproducto dts=new vproducto();
+//                ftproductos func=new ftproductos();
+//                vproducto dts=new vproducto();
                 
-             dts.setidproducto(Integer.parseInt(Idproducto.getText()));
-                func.eliminar(dts);
-                mostrar("");
-                //inhabilitar();       
+//             dts.setidproducto(Integer.parseInt(Idproducto.getText()));
+//                func.eliminar(dts);
+//                mostrar("");
+//                //inhabilitar();       
             }
             }
     }//GEN-LAST:event_btneliminarActionPerformed
@@ -611,29 +605,29 @@ private DefaultComboBoxModel comboModelo;
             return;
         }
 
-        vproducto dts =new vproducto();
-        ftproductos func=new ftproductos();
-        
-        dts.setNombre(txtproducto.getText());
-        String modelo = txtmodelo.getText();
-        String cantidad = txtcantidad.getText();
-        String precio = txtprecio.getText();
-        int seleccionado=cbomarca.getSelectedIndex();
-        vmarca marca = (vmarca) cbomarca.getSelectedItem();
-        dts.setidmarca(marca.getidmarca());
-        dts.setcantidad(cantidad);
-        dts.setprecio(precio);
-        dts.setmodelo(modelo);
-        int fila = tbproducto.getSelectedRow();
-        int idproducto=Integer.parseInt(tbproducto.getValueAt(fila, 0).toString());
-        dts.setidproducto(idproducto);
-        
-            if(func.editar(dts)){
-                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
-                mostrar("");
-                limpiar();
-                bloquear();
-            }
+//        vproducto dts =new vproducto();
+//        ftproductos func=new ftproductos();
+//        
+//        dts.setNombre(txtproducto.getText());
+//        String modelo = txtmodelo.getText();
+//        String cantidad = txtcantidad.getText();
+//        String precio = txtprecio.getText();
+//        int seleccionado=cbomarca.getSelectedIndex();
+////        vmarca marca = (vmarca) cbomarca.getSelectedItem();
+//        dts.setidmarca(marca.getidmarca());
+//        dts.setcantidad(cantidad);
+//        dts.setprecio(precio);
+//        dts.setmodelo(modelo);
+//        int fila = tbproducto.getSelectedRow();
+//        int idproducto=Integer.parseInt(tbproducto.getValueAt(fila, 0).toString());
+//        dts.setidproducto(idproducto);
+//        
+//            if(func.editar(dts)){
+//                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
+//                mostrar("");
+//                limpiar();
+//                bloquear();
+//            }
     }//GEN-LAST:event_btneditarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

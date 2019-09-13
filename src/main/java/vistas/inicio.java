@@ -5,6 +5,8 @@
  */
 package vistas;
 
+import rojeru_san.RSPanelsSlider;
+
 /**
  *
  * @author matias
@@ -16,6 +18,8 @@ public class inicio extends javax.swing.JFrame {
      */
     public inicio() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**
@@ -32,8 +36,18 @@ public class inicio extends javax.swing.JFrame {
         lblacceso = new javax.swing.JLabel();
         lblnombre = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnUsers = new rojeru_san.RSButton();
+        btnClientes = new rojeru_san.RSButton();
+        rSButton3 = new rojeru_san.RSButton();
+        rSButton4 = new rojeru_san.RSButton();
+        rSButton5 = new rojeru_san.RSButton();
         jPanel2 = new javax.swing.JPanel();
         lblhora = new javax.swing.JLabel();
+        rSPanelsSlider1 = new rojeru_san.RSPanelsSlider();
+        pnelClientes = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        pnelUsuario = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,6 +68,26 @@ public class inicio extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario (2).png"))); // NOI18N
 
+        btnUsers.setText("Usuarios");
+        btnUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsersActionPerformed(evt);
+            }
+        });
+
+        btnClientes.setText("Clientes");
+        btnClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientesActionPerformed(evt);
+            }
+        });
+
+        rSButton3.setText("Productos");
+
+        rSButton4.setText("Proveedores");
+
+        rSButton5.setText("Reportes");
+
         javax.swing.GroupLayout sidebarLayout = new javax.swing.GroupLayout(sidebar);
         sidebar.setLayout(sidebarLayout);
         sidebarLayout.setHorizontalGroup(
@@ -66,11 +100,30 @@ public class inicio extends javax.swing.JFrame {
                     .addComponent(lblnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblacceso, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
+            .addGroup(sidebarLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rSButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rSButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rSButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidebarLayout.setVerticalGroup(
             sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarLayout.createSequentialGroup()
-                .addContainerGap(669, Short.MAX_VALUE)
+                .addGap(184, 184, 184)
+                .addComponent(btnUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(rSButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(rSButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(rSButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
                 .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(sidebarLayout.createSequentialGroup()
@@ -92,6 +145,33 @@ public class inicio extends javax.swing.JFrame {
         lblhora.setText("Muestra hora");
         jPanel2.add(lblhora, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 670, 300, 90));
 
+        rSPanelsSlider1.setBackground(new java.awt.Color(33, 45, 62));
+
+        pnelClientes.setBackground(new java.awt.Color(51, 204, 0));
+        pnelClientes.setName("pnelClientes"); // NOI18N
+        pnelClientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("PANEL CLIENTE");
+        jLabel4.setToolTipText("");
+        pnelClientes.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 275, 610, 320));
+
+        rSPanelsSlider1.add(pnelClientes, "card2");
+
+        pnelUsuario.setBackground(new java.awt.Color(33, 45, 62));
+        pnelUsuario.setName("pnelUsuario"); // NOI18N
+        pnelUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("PANEL USUARIO");
+        pnelUsuario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 296, 620, 240));
+
+        rSPanelsSlider1.add(pnelUsuario, "card3");
+
+        jPanel2.add(rSPanelsSlider1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 760));
+
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 1070, 760));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -107,6 +187,27 @@ public class inicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+        // TODO add your handling code here:
+        if(!this.btnUsers.isSelected()){
+            this.btnUsers.setSelected(true);
+            this.btnClientes.setSelected(false);
+            
+            rSPanelsSlider1.setPanelSlider(pnelUsuario, RSPanelsSlider.DIRECT.RIGHT);
+        }
+        
+    }//GEN-LAST:event_btnUsersActionPerformed
+
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        // TODO add your handling code here:
+         if(!this.btnClientes.isSelected()){
+            this.btnUsers.setSelected(false);
+            this.btnClientes.setSelected(true);
+            
+            rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
+        }
+    }//GEN-LAST:event_btnClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,12 +245,22 @@ public class inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojeru_san.RSButton btnClientes;
+    private rojeru_san.RSButton btnUsers;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JLabel lblacceso;
     private javax.swing.JLabel lblhora;
     public static javax.swing.JLabel lblnombre;
+    private javax.swing.JPanel pnelClientes;
+    private javax.swing.JPanel pnelUsuario;
+    private rojeru_san.RSButton rSButton3;
+    private rojeru_san.RSButton rSButton4;
+    private rojeru_san.RSButton rSButton5;
+    private rojeru_san.RSPanelsSlider rSPanelsSlider1;
     private javax.swing.JPanel sidebar;
     // End of variables declaration//GEN-END:variables
 }

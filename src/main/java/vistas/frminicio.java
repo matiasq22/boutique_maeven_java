@@ -306,10 +306,10 @@ public class frminicio extends javax.swing.JFrame implements Runnable{
 
     private void menupersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menupersonaActionPerformed
         // TODO add your handling code here:
-        frmpersona form=new frmpersona();
-        Escritorio.add(form);
-        form.toFront();
-        form.setVisible(true);
+////        frmpersona form=new frmpersona();
+//        Escritorio.add(form);
+//        form.toFront();
+//        form.setVisible(true);
 
     }//GEN-LAST:event_menupersonaActionPerformed
 

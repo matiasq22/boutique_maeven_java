@@ -5,8 +5,8 @@
  */
 package vistas;
 
-import Servicios.conexion;
-import Servicios.ftproductos;
+//import Servicios.conexion;
+//import Servicios.ftproductos;
 import java.awt.JobAttributes;
 import java.sql.*;
 import java.util.logging.Level;
@@ -34,17 +34,13 @@ public class tabla_productos extends javax.swing.JInternalFrame {
      String comparar(String cod)
     {
         String cant="";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT cantidad FROM producto WHERE idproducto='"+cod+"'");
-            while(rs.next())
-            {
-                cant=rs.getString(1);
-            }
-            System.out.println("cant = " + cant);       
-        } catch (SQLException ex) {
-            Logger.getLogger(tabla_productos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//            Statement st = cn.createStatement();
+//            ResultSet rs = st.executeQuery("SELECT cantidad FROM producto WHERE idproducto='"+cod+"'");
+//            while(rs.next())
+//            {
+//                cant=rs.getString(1);
+//            }
+//            System.out.println("cant = " + cant);
         return cant;
         
     }
@@ -53,11 +49,11 @@ public class tabla_productos extends javax.swing.JInternalFrame {
         void mostrar(String buscar){
          try {
          DefaultTableModel modelo;
-             ftproductos func= new ftproductos();
-             modelo=func.mostrar(buscar);
-             
-             tbprod.setModel(modelo);
-             //ocultar_columnas();
+//             ftproductos func= new ftproductos();
+//             modelo=func.mostrar(buscar);
+//             
+//             tbprod.setModel(modelo);
+//             //ocultar_columnas();
 //             lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
                 
          } catch (Exception e) {
@@ -293,7 +289,7 @@ private void mnenviarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JTable tbprod;
     private javax.swing.JTextField txtprod;
     // End of variables declaration//GEN-END:variables
-conexion cc= new conexion();
-Connection cn = cc.conectar();
+//conexion cc= new conexion();
+//Connection cn = cc.conectar();
 
 }

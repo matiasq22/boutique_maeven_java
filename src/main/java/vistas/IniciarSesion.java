@@ -6,7 +6,7 @@
 package vistas;
 
 import controladores.UsuarioJpaController;
-import com.sun.awt.AWTUtilities;
+//import com.sun.awt.AWTUtilities;
 import java.awt.event.KeyEvent;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
@@ -30,7 +30,7 @@ public class IniciarSesion extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); //Centra la vantana en la pantalla
         Shape forma = new RoundRectangle2D.Double(0, 0, getBounds().width, getBounds().height, 20, 20);
-        AWTUtilities.setWindowShape(this, forma);
+//        AWTUtilities.setWindowShape(this, forma);
         controller = new UsuarioJpaController();
     }
   
@@ -116,7 +116,7 @@ public class IniciarSesion extends javax.swing.JFrame {
         btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagees/INICIAR.png"))); // NOI18N
         btnIngresar.setBorderPainted(false);
         btnIngresar.setContentAreaFilled(false);
-        btnIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnIngresar.setFocusPainted(false);
         btnIngresar.setFocusable(false);
         btnIngresar.setRequestFocusEnabled(false);
@@ -173,14 +173,14 @@ public class IniciarSesion extends javax.swing.JFrame {
         jCheckBox1.setFont(new java.awt.Font("Gotham Thin", 0, 14)); // NOI18N
         jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox1.setText("Recuérdame");
-        jCheckBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jCheckBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel2.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 160, -1));
 
         jLabel9.setFont(new java.awt.Font("Gotham Thin", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(73, 181, 172));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("x");
-        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel9MouseClicked(evt);

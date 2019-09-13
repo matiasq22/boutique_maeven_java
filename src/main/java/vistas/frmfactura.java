@@ -6,10 +6,10 @@
  */
 package vistas;
 
-import Modelo.lista_factura;
-import Servicios.GenerarNumero;
-import Servicios.conexion;
-import Servicios.ftfactura;
+//import Modelo.lista_factura;
+//import Servicios.GenerarNumero;
+//import Servicios.conexion;
+//import Servicios.ftfactura;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
@@ -60,24 +60,24 @@ public class frmfactura extends javax.swing.JInternalFrame {
        String cap="";
        int desfinal;
        String consul="SELECT cantidad FROM producto WHERE  idproducto='"+codi+"'";
-        try {
-            Statement st= cn.createStatement();
-            ResultSet rs= st.executeQuery(consul);
-            while(rs.next())
-            {
-                cap= rs.getString(1);
-            }
-            
-            
-        } catch (Exception e) {
-        }
+//        try {
+//            Statement st= cn.createStatement();
+//            ResultSet rs= st.executeQuery(consul);
+//            while(rs.next())
+//            {
+//                cap= rs.getString(1);
+//            }
+//            
+//            
+//        } catch (Exception e) {
+//        }
         desfinal=Integer.parseInt(cap)-des;
         String modi="UPDATE producto SET cantidad='"+desfinal+"' WHERE idproducto = '"+codi+"'";
-        try {
-            PreparedStatement pst = cn.prepareStatement(modi);
-            pst.executeUpdate();
-        } catch (Exception e) {
-        }
+//        try {
+//            PreparedStatement pst = cn.prepareStatement(modi);
+//            pst.executeUpdate();
+//        } catch (Exception e) {
+//        }
         
        
          
@@ -92,31 +92,31 @@ public class frmfactura extends javax.swing.JInternalFrame {
        // String SQL="select count(*) from factura";
         //String SQL="SELECT MAX(cod_emp) AS cod_emp FROM empleado";
         //String SQL="SELECT @@identity AS ID";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs=st.executeQuery(SQL);
-            if(rs.next())
-            {              
-                 c=rs.getString(1);
-            }
-            
-           
-            if(c==null){
-                txtfac.setText("00000001");
-            }
-            else{
-                 j=Integer.parseInt(c);
-                 GenerarNumero gen= new GenerarNumero();
-                 gen.generar(j);
-                 txtfac.setText(gen.serie());
-                
-            
-            }
- 
-         
-        } catch (SQLException ex) {
-           Logger.getLogger(frmfactura.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            Statement st = cn.createStatement();
+//            ResultSet rs=st.executeQuery(SQL);
+//            if(rs.next())
+//            {              
+//                 c=rs.getString(1);
+//            }
+//            
+//           
+//            if(c==null){
+//                txtfac.setText("00000001");
+//            }
+//            else{
+//                 j=Integer.parseInt(c);
+//                 GenerarNumero gen= new GenerarNumero();
+//                 gen.generar(j);
+//                 txtfac.setText(gen.serie());
+//                
+//            
+//            }
+// 
+//         
+//        } catch (SQLException ex) {
+//           Logger.getLogger(frmfactura.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
     void calcular()
@@ -157,69 +157,69 @@ public class frmfactura extends javax.swing.JInternalFrame {
 
     
     void factura(){
-       String InsertarSQL="INSERT INTO factura (numero_fac,cliente_idcliente,usuario_idusuario,fecha,estado,subtotal,iva,totalfactura) VALUES (?,?,?,CURRENT_DATE,?,?,?,?)";
-    String numfac=txtfac.getText();
-    String codcli=txtcod.getText();
-    String subtotal=txtsubtotal.getText();
-    String igv=txtigv.getText();
-    String total=txttotal.getText();
-    
-        System.out.println("igv = " + igv);
-        System.out.println("total = " + total);
-    
-    try {
-            PreparedStatement pst = cn.prepareStatement(InsertarSQL);
-            pst.setString(1,numfac);
-            pst.setString(2,codcli);
-            pst.setInt(3, 1);
-            pst.setString(4,"Pendiente");
-            pst.setString(5,subtotal);
-            pst.setString(6,igv);
-            pst.setString(7,total);
-            int n= pst.executeUpdate();
-            if(n>0)
-            {
-                JOptionPane.showMessageDialog(null,"Los datos se guardaron correctamente");
-            }
-            System.out.println("n = " + n);
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(frmfactura.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("ex = " + ex.getMessage());
-        }
+//       String InsertarSQL="INSERT INTO factura (numero_fac,cliente_idcliente,usuario_idusuario,fecha,estado,subtotal,iva,totalfactura) VALUES (?,?,?,CURRENT_DATE,?,?,?,?)";
+//    String numfac=txtfac.getText();
+//    String codcli=txtcod.getText();
+//    String subtotal=txtsubtotal.getText();
+//    String igv=txtigv.getText();
+//    String total=txttotal.getText();
+//    
+//        System.out.println("igv = " + igv);
+//        System.out.println("total = " + total);
+//    
+//    try {
+//            PreparedStatement pst = cn.prepareStatement(InsertarSQL);
+//            pst.setString(1,numfac);
+//            pst.setString(2,codcli);
+//            pst.setInt(3, 1);
+//            pst.setString(4,"Pendiente");
+//            pst.setString(5,subtotal);
+//            pst.setString(6,igv);
+//            pst.setString(7,total);
+//            int n= pst.executeUpdate();
+//            if(n>0)
+//            {
+//                JOptionPane.showMessageDialog(null,"Los datos se guardaron correctamente");
+//            }
+//            System.out.println("n = " + n);
+//           
+//        } catch (SQLException ex) {
+//            Logger.getLogger(frmfactura.class.getName()).log(Level.SEVERE, null, ex);
+//            System.out.println("ex = " + ex.getMessage());
+//        }
     }
-    void detallefactura(){
-        ftfactura func = new ftfactura();
-        String id = func.getLastFactura();
-        if (id != null) {
-            System.out.println("count:" + tbdet.getRowCount());
-            for (int i = 0; i < tbdet.getRowCount(); i++) {
-                String InsertarSQL = "INSERT INTO detalle (factura_idfactura,producto_idproducto,cantidad,descuento,totalventa) VALUES (?,?,?,?,?)";
-                String codpro = tbdet.getValueAt(i, 0).toString();
-                String despro = tbdet.getValueAt(i, 1).toString();
-                String importe = tbdet.getValueAt(i, 4).toString();
-                String cantidad = tbdet.getValueAt(i,3).toString();
-                System.out.println("codpro = " + codpro);
-                System.out.println("despro = " + despro);
-                System.out.println("importe = " + importe);
-
-        try {
-            PreparedStatement pst = cn.prepareStatement(InsertarSQL);
-                    pst.setInt(1, Integer.parseInt(id));
-                    pst.setString(2, codpro);
-                    pst.setString(3,cantidad);
-                    pst.setString(4, "0");
-                    pst.setString(5, importe);
-            pst.executeUpdate();
-          
-        } catch (SQLException ex) {
-            Logger.getLogger(frmfactura.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            }
-        }else{
-             JOptionPane.showMessageDialog(null,"Error al recuperar el id de la factura para el detalle");
-        }
-    }
+//    void detallefactura(){
+//        ftfactura func = new ftfactura();
+//        String id = func.getLastFactura();
+//        if (id != null) {
+//            System.out.println("count:" + tbdet.getRowCount());
+//            for (int i = 0; i < tbdet.getRowCount(); i++) {
+//                String InsertarSQL = "INSERT INTO detalle (factura_idfactura,producto_idproducto,cantidad,descuento,totalventa) VALUES (?,?,?,?,?)";
+//                String codpro = tbdet.getValueAt(i, 0).toString();
+//                String despro = tbdet.getValueAt(i, 1).toString();
+//                String importe = tbdet.getValueAt(i, 4).toString();
+//                String cantidad = tbdet.getValueAt(i,3).toString();
+//                System.out.println("codpro = " + codpro);
+//                System.out.println("despro = " + despro);
+//                System.out.println("importe = " + importe);
+//
+//        try {
+//            PreparedStatement pst = cn.prepareStatement(InsertarSQL);
+//                    pst.setInt(1, Integer.parseInt(id));
+//                    pst.setString(2, codpro);
+//                    pst.setString(3,cantidad);
+//                    pst.setString(4, "0");
+//                    pst.setString(5, importe);
+//            pst.executeUpdate();
+//          
+//        } catch (SQLException ex) {
+//            Logger.getLogger(frmfactura.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//            }
+//        }else{
+//             JOptionPane.showMessageDialog(null,"Error al recuperar el id de la factura para el detalle");
+//        }
+//    }
     
     void mostrarFactura(){
          JasperReport reporte = null;
@@ -228,21 +228,21 @@ public class frmfactura extends javax.swing.JInternalFrame {
 
         JTable tabla = tbdet;
 
-        lista_factura factura = new lista_factura(
-                txtnomape.getText(),
-                txtfec.getText(),
-                txtruc.getText(),
-                txtfac.getText(),
-                tabla.getValueAt(i, 1).toString(),
-                Integer.parseInt(tabla.getValueAt(i, 3).toString()),
-                Integer.parseInt(tabla.getValueAt(i, 2).toString()),
-                txtsubtotal.getText(),
-                txttotal.getText()
-        );
-        System.out.println("tabla = " + tabla.getValueAt(i, 1).toString());
-        System.out.println("tabla = " + tabla.getValueAt(i, 3).toString());
-        System.out.println("tabla = " + tabla.getValueAt(i, 2).toString());
-        lista.add(factura);
+//        lista_factura factura = new lista_factura(
+//                txtnomape.getText(),
+//                txtfec.getText(),
+//                txtruc.getText(),
+//                txtfac.getText(),
+//                tabla.getValueAt(i, 1).toString(),
+//                Integer.parseInt(tabla.getValueAt(i, 3).toString()),
+//                Integer.parseInt(tabla.getValueAt(i, 2).toString()),
+//                txtsubtotal.getText(),
+//                txttotal.getText()
+//        );
+//        System.out.println("tabla = " + tabla.getValueAt(i, 1).toString());
+//        System.out.println("tabla = " + tabla.getValueAt(i, 3).toString());
+//        System.out.println("tabla = " + tabla.getValueAt(i, 2).toString());
+//        lista.add(factura);
 
         try {
             String path = "src\\reportes\\factura.jasper";
@@ -897,7 +897,7 @@ private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         
     }
     factura();
-    detallefactura();
+//    detallefactura();
     mostrarFactura();
     
         txtcod.setText("");
@@ -988,8 +988,8 @@ private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     // End of variables declaration//GEN-END:variables
 
 
-    private conexion mysql=new conexion();
-    private Connection cn=mysql.conectar();
+//    private conexion mysql=new conexion();
+//    private Connection cn=mysql.conectar();
 
     private void setIconImage(Image image) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

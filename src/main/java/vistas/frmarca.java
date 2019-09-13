@@ -23,12 +23,12 @@ public class frmarca extends javax.swing.JInternalFrame {
     void mostrar(String buscar){
          try {
          DefaultTableModel modelo;
-             ftmarca func= new ftmarca();
-             modelo=func.mostrar(buscar);
-             
-             tbmarca.setModel(modelo);
-             //ocultar_columnas();
-           //  lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
+//             ftmarca func= new ftmarca();
+//             modelo=func.mostrar(buscar);
+//             
+//             tbmarca.setModel(modelo);
+//             //ocultar_columnas();
+//           //  lbltotalregistros.setText("Total Registros: "+Integer.toString(func.totalregistros));
                 
          } catch (Exception e) {
               JOptionPane.showConfirmDialog(rootPane, e);
@@ -358,20 +358,20 @@ public class frmarca extends javax.swing.JInternalFrame {
             txtdescripcionmarca.requestFocus();
             return;
         }
-
-        vmarca dts =new vmarca();
-        ftmarca func=new ftmarca();
-
-        dts.setmarca(txtnombremarca.getText());
-        dts.setdescripcion(txtdescripcionmarca.getText());
- 
-        
-            if(func.insertar(dts)){
-                JOptionPane.showConfirmDialog(rootPane, "la marca fue registrada exitosamente");
-                mostrar("");
-                limpiar();
-                bloquear();
-            }
+//
+//        vmarca dts =new vmarca();
+//        ftmarca func=new ftmarca();
+//
+//        dts.setmarca(txtnombremarca.getText());
+//        dts.setdescripcion(txtdescripcionmarca.getText());
+// 
+//        
+//            if(func.insertar(dts)){
+//                JOptionPane.showConfirmDialog(rootPane, "la marca fue registrada exitosamente");
+//                mostrar("");
+//                limpiar();
+//                bloquear();
+//            }
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
@@ -379,17 +379,17 @@ public class frmarca extends javax.swing.JInternalFrame {
         
         if(!txtidmarca.getText().equals("")){
             int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar la marca","Confirmar",2);
-            
-            if(confirmacion==0){
-                ftmarca func=new ftmarca();
-                vmarca dts=new vmarca();
-                
-                dts.setidmarca(Integer.parseInt(txtidmarca.getText()));
-                func.eliminar(dts);
-                mostrar("");
-                bloquear();
-            }
-            
+//            
+//            if(confirmacion==0){
+//                ftmarca func=new ftmarca();
+//                vmarca dts=new vmarca();
+//                
+//                dts.setidmarca(Integer.parseInt(txtidmarca.getText()));
+//                func.eliminar(dts);
+//                mostrar("");
+//                bloquear();
+//            }
+//            
         }
     }//GEN-LAST:event_btneliminarActionPerformed
 
@@ -424,20 +424,20 @@ public class frmarca extends javax.swing.JInternalFrame {
             return;
         }
 
-        vmarca dts =new vmarca();
-        ftmarca func=new ftmarca();
-
-        dts.setmarca(txtnombremarca.getText());
-        dts.setdescripcion(txtdescripcionmarca.getText());
-        dts.setidmarca(Integer.parseInt(txtidmarca.getText()));
- 
-        
-            if(func.editar(dts)){
-                JOptionPane.showConfirmDialog(rootPane, "la marca fue registrada exitosamente");
-                mostrar("");
-                limpiar();
-                bloquear();
-            }
+//        vmarca dts =new vmarca();
+//        ftmarca func=new ftmarca();
+//
+//        dts.setmarca(txtnombremarca.getText());
+//        dts.setdescripcion(txtdescripcionmarca.getText());
+//        dts.setidmarca(Integer.parseInt(txtidmarca.getText()));
+// 
+//        
+//            if(func.editar(dts)){
+//                JOptionPane.showConfirmDialog(rootPane, "la marca fue registrada exitosamente");
+//                mostrar("");
+//                limpiar();
+//                bloquear();
+//            }
     }//GEN-LAST:event_btneditarActionPerformed
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed

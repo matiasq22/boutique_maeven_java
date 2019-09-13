@@ -164,12 +164,8 @@ public class UsuarioJpaController implements Serializable {
     public List<Usuario> search(String nombre) {
         EntityManager em = getEntityManager();
         List<Usuario> users;
-//        String queryname = (!nombre.equals("")) ? "Usuario.findByNombre" : "Usuario.findAll";
-//        System.out.println("queryname = " + queryname);
         Query query = em.createNamedQuery("Usuario.findByNombre");
-//        if(!nombre.equals("")){
             query.setParameter("nombre", "%"+ nombre + "%");
-//        }
         try {
             users =  query.getResultList();
         } catch (Exception e) {

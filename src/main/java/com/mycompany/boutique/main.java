@@ -6,6 +6,7 @@
 package com.mycompany.boutique;
 
 import vistas.IniciarSesion;
+import vistas.inicio;
 
 /**
  *
@@ -44,7 +45,7 @@ public class main {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new IniciarSesion().setVisible(true);
+            new inicio().setVisible(true);
         });
         
     }
