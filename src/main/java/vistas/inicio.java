@@ -19,7 +19,7 @@ public class inicio extends javax.swing.JFrame {
     public inicio() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
+//        this.setResizable(false);
     }
 
     /**
