@@ -36,6 +36,7 @@ public class inicio extends javax.swing.JFrame {
     Calendar calendario;
     Thread h1;
     private DefaultComboBoxModel comboModelo;
+    private DefaultComboBoxModel comboModeloMarca;
        UsuarioJpaController Usercontroller;
        ClienteJpaController clienteController;
        MarcaJpaController marcasController;
@@ -58,6 +59,8 @@ public class inicio extends javax.swing.JFrame {
      
      mostrarUsuarios("");
      mostrarClientes("");
+//     llenacombo();
+     llenacomboProd();
     }
     private final String accion="guardar";
 
@@ -290,7 +293,23 @@ public class inicio extends javax.swing.JFrame {
          }
     }
 
-    
+     private void llenacomboProd() throws NullPointerException { 
+        try{
+        List<Marca> marcas = marcaController.findMarcaEntities(); 
+//        System.out.println("users = " + users);
+        if (marcas.isEmpty()) {
+            System.out.println("Error on llenacombo return products null");
+        }   
+        marcas.forEach((marca) -> {
+          comboModeloMarca.addElement(marca);
+        });
+//        productoController.clsose();
+        cbomarca.setModel(comboModeloMarca);
+        }catch(NullPointerException e){
+            System.out.println("error = " + e.getMessage());
+//            JOptionPane.showMessageDialog(this,"Error al cargar el lista de productos");
+        }
+    }
     //productos
     void bloquearProducto(){
     
@@ -419,6 +438,7 @@ public class inicio extends javax.swing.JFrame {
         btneditarUsuarios = new javax.swing.JButton();
         btnbuscar1Usuarios = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         pnelClientes = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -463,13 +483,11 @@ public class inicio extends javax.swing.JFrame {
         btnmostrarMarca = new javax.swing.JButton();
         pnelProducto = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        Idproducto = new javax.swing.JTextField();
         txtproducto = new javax.swing.JTextField();
         txtmodelo = new javax.swing.JTextField();
         txtprecio = new javax.swing.JTextField();
@@ -859,6 +877,14 @@ public class inicio extends javax.swing.JFrame {
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 680, 537));
 
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salir1.JPG"))); // NOI18N
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 0, 30, 30));
+
         pnelUsuario.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 760));
 
         rSPanelsSlider1.add(pnelUsuario, "card3");
@@ -1106,7 +1132,7 @@ public class inicio extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(txtdescripcionmarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnelMarca.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 670, 180));
@@ -1234,106 +1260,58 @@ public class inicio extends javax.swing.JFrame {
 
         jPanel11.setBackground(new java.awt.Color(0, 102, 204));
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATOS DEL PRODUCTO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
-
-        jLabel20.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setText("ID:");
+        jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel21.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("Producto:");
+        jPanel11.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
 
         jLabel22.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("Modelo:");
+        jPanel11.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
 
         jLabel23.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setText("Cantidad:");
+        jPanel11.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, -1, -1));
 
         jLabel24.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setText("Precio:");
+        jPanel11.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
 
         jLabel25.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setText("Marca:");
+        jPanel11.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
         txtproducto.setFont(new java.awt.Font("Rockwell Condensed", 0, 14)); // NOI18N
+        jPanel11.add(txtproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 191, -1));
 
         txtmodelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtmodeloActionPerformed(evt);
             }
         });
+        jPanel11.add(txtmodelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 190, -1));
 
-        cbomarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtprecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtprecioActionPerformed(evt);
+            }
+        });
+        jPanel11.add(txtprecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 190, -1));
+        jPanel11.add(txtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 190, -1));
+
+        cbomarca.setForeground(new java.awt.Color(255, 255, 255));
         cbomarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbomarcaActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel20)
-                        .addGap(82, 82, 82)
-                        .addComponent(Idproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel23)
-                                    .addComponent(jLabel22)
-                                    .addComponent(jLabel21))
-                                .addGap(44, 44, 44))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel24)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtproducto)
-                            .addComponent(txtmodelo)
-                            .addComponent(txtcantidad)
-                            .addComponent(txtprecio)
-                            .addComponent(cbomarca, 0, 191, Short.MAX_VALUE)))
-                    .addComponent(jLabel25))
-                .addContainerGap(230, Short.MAX_VALUE))
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(Idproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(txtproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(txtmodelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel24))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel25)
-                    .addComponent(cbomarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(143, 143, 143))
-        );
+        jPanel11.add(cbomarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 190, -1));
 
         pnelProducto.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 580, 460));
 
@@ -2356,7 +2334,7 @@ public class inicio extends javax.swing.JFrame {
             System.out.println("fila = " + fila);
             if(fila>=0)
             {
-                Idproducto.setText(tbproducto.getValueAt(fila, 0).toString());
+//                Idproducto.setText(tbproducto.getValueAt(fila, 0).toString());
                 txtproducto.setText(tbproducto.getValueAt(fila, 1).toString());
                 txtmodelo.setText(tbproducto.getValueAt(fila, 2).toString());
                 txtcantidad.setText(tbproducto.getValueAt(fila, 3).toString());
@@ -2501,19 +2479,19 @@ public class inicio extends javax.swing.JFrame {
 
     private void btneliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarProductoActionPerformed
         // TODO add your handling code here:
-        if(!Idproducto.getText().equals("")){
-            int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar el producto","Confirmar",2);
-
-            if(confirmacion==0){
-                //                ftproductos func=new ftproductos();
-                //                vproducto dts=new vproducto();
-
-                //             dts.setidproducto(Integer.parseInt(Idproducto.getText()));
-                //                func.eliminar(dts);
-                //                mostrar("");
-                //                //inhabilitar();
-            }
-        }
+//        if(!Idproducto.getText().equals("")){
+//            int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar el producto","Confirmar",2);
+//
+//            if(confirmacion==0){
+//                //                ftproductos func=new ftproductos();
+//                //                vproducto dts=new vproducto();
+//
+//                //             dts.setidproducto(Integer.parseInt(Idproducto.getText()));
+//                //                func.eliminar(dts);
+//                //                mostrar("");
+//                //                //inhabilitar();
+//            }
+//        }
     }//GEN-LAST:event_btneliminarProductoActionPerformed
 
     private void btncancelarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarProductoActionPerformed
@@ -2527,9 +2505,7 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclientesActionPerformed
         // TODO add your handling code here:
-        tabla_clientes cli = new tabla_clientes();
-        frminicio.Escritorio.add(cli);
-        cli.toFront();
+        clients_table cli = new clients_table();
         cli.setVisible(true);
 
     }//GEN-LAST:event_btnclientesActionPerformed
@@ -2537,9 +2513,9 @@ public class inicio extends javax.swing.JFrame {
     private void btnproductosFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductosFacturaActionPerformed
         // TODO add your handling code here:
         try {
-            tabla_productos pro= new tabla_productos();
-            frminicio.Escritorio.add(pro);
-            pro.toFront();
+            products_table pro= new products_table();
+//            frminicio.Escritorio.add(pro);
+//            pro.toFront();
             pro.setVisible(true);
 
         } catch (Exception e) {
@@ -2742,6 +2718,19 @@ public class inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMarcaActionPerformed
 
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        int input = JOptionPane.showConfirmDialog(null, "Deseas Salir de la aplicacion? ");
+        if (input == 0) 
+             System.exit(0);   
+        
+        
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtprecioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2778,7 +2767,6 @@ public class inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Idproducto;
     public static rojeru_san.RSButton btnClientes;
     public static rojeru_san.RSButton btnMarca;
     public static rojeru_san.RSButton btnProductos;
@@ -2832,7 +2820,6 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -2862,6 +2849,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
