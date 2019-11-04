@@ -6,13 +6,17 @@
 package vistas;
 
 import controladores.ClienteJpaController;
+import controladores.FacturaJpaController;
+import controladores.DetalleFacturaJpaController;
 import controladores.MarcaJpaController;
 import controladores.ProductoJpaController;
 import controladores.UsuarioJpaController;
 import controladores.exceptions.NonexistentEntityException;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -24,24 +28,32 @@ import modelo.Usuario;
 import rojeru_san.RSPanelsSlider;
 import java.util.logging.Logger;
 import modelo.Cliente;
+import modelo.DetalleFactura;
+import modelo.Factura;
 import modelo.Marca;
 import modelo.Producto;
+import utils.helpers;
 
 /**
  *
  * @author matias
  */
 public class inicio extends javax.swing.JFrame {
+
     String hora, minutos, segundos, ampm;
     Calendar calendario;
     Thread h1;
     private DefaultComboBoxModel comboModelo;
     private DefaultComboBoxModel comboModeloMarca;
-       UsuarioJpaController Usercontroller;
-       ClienteJpaController clienteController;
-       MarcaJpaController marcasController;
-       ProductoJpaController productoController;
-       MarcaJpaController marcaController;
+    UsuarioJpaController Usercontroller;
+    ClienteJpaController clienteController;
+    MarcaJpaController marcasController;
+    ProductoJpaController productoController;
+    MarcaJpaController marcaController;
+    helpers helper;
+    FacturaJpaController facturaController;
+    DetalleFacturaJpaController detalleFacController;
+
     /**
      * Creates new form inicio
      */
@@ -51,21 +63,37 @@ public class inicio extends javax.swing.JFrame {
         this.setResizable(false);
 //        this.setExtendedState(frminicio.MAXIMIZED_BOTH);
         this.setTitle("MENU DEL SISTEMA");
-     Usercontroller = new UsuarioJpaController();
-     clienteController = new ClienteJpaController();
-     marcasController = new MarcaJpaController();
-     productoController =new ProductoJpaController();
-     marcaController = new MarcaJpaController();
-     
-     mostrarUsuarios("");
-     mostrarClientes("");
+        Usercontroller = new UsuarioJpaController();
+        clienteController = new ClienteJpaController();
+        marcasController = new MarcaJpaController();
+        productoController = new ProductoJpaController();
+        marcaController = new MarcaJpaController();
+        helper = new helpers();
+        facturaController = new FacturaJpaController();
+        detalleFacController = new DetalleFacturaJpaController();
+        mostrarUsuarios("");
+        mostrarClientes("");
 //     llenacombo();
-     llenacomboProd();
+        llenacomboProd();
+        generateInvoiceNumber();
     }
-    private final String accion="guardar";
 
-        //usuarios
-    private void inhabilitarUsuarios(){
+    private void generateInvoiceNumber() {
+        try {
+            String number = helper.GenerateNumber();
+            if (!number.equals("")) {
+                this.txtfac.setText(number);
+            }
+
+        } catch (Exception e) {
+            System.out.println("error al generar numero factura = " + e.getMessage());
+        }
+    }
+
+    private final String accion = "guardar";
+
+    //usuarios
+    private void inhabilitarUsuarios() {
         txtidusuario.setVisible(false);
         txtlogin.setEnabled(false);
         txtpassword.setEnabled(false);
@@ -73,320 +101,317 @@ public class inicio extends javax.swing.JFrame {
         cboacceso1.setEnabled(false);
         cboestado.setEnabled(false);
 
-        
         btnnuevoUsuarios.setEnabled(true);
         btnguardarUsuarios.setEnabled(false);
         btncancelarUsuarios.setEnabled(false);
         btneliminarUsuarios.setEnabled(false);
         btneditarUsuarios.setEnabled(false);
-        
+
     }
-    
-    void habilitar(){
-       txtidusuario.setVisible(true);
+
+    void habilitar() {
+        txtidusuario.setVisible(true);
         txtlogin.setEnabled(true);
         txtpassword.setEnabled(true);
         dcfecha_ingreso.setEnabled(true);
         cboacceso1.setEnabled(true);
         cboestado.setEnabled(true);
 
-        
         btnnuevoUsuarios.setEnabled(false);
         btnguardarUsuarios.setEnabled(true);
         btncancelarUsuarios.setEnabled(true);
         btneliminarUsuarios.setEnabled(true);
         btneditarUsuarios.setEnabled(true);
-        
+
         txtidusuario.setText("");
         txtlogin.setText("");
         txtpassword.setText("");
-         
-         
-      cboestado.setSelectedItem("<Seleccionar>");
-       cboacceso1.setSelectedItem("<Seleccionar>");
+
+        cboestado.setSelectedItem("<Seleccionar>");
+        cboacceso1.setSelectedItem("<Seleccionar>");
         txtlogin.requestFocus();
     }
-    
-    void limpiarUsuarios(){
-        
+
+    void limpiarUsuarios() {
+
         txtidusuario.setText("");
         txtlogin.setText("");
         txtpassword.setText("");
         cboestado.setSelectedItem("<Seleccionar>");
         cboacceso1.setSelectedItem("<Seleccionar>");
         txtlogin.requestFocus();
-    
+
     }
-   
-    private void mostrarUsuarios(String buscar)  {
-         try {
-             System.out.println("buscar = " + buscar);
-         String[] titulos = {"Codigo","Nombre", "Usuario", "Acceso", "Estado", "Fecha_Ingreso"};
-         DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+
+    private void mostrarUsuarios(String buscar) {
+        try {
+            System.out.println("buscar = " + buscar);
+            String[] titulos = {"Codigo", "Nombre", "Usuario", "Acceso", "Estado", "Fecha_Ingreso"};
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
             List<Usuario> users = Usercontroller.search(buscar);
-             System.out.println("users = " + users);
-             String[] usuarios = new String[6];
-             users.forEach((user) -> {
-                 System.out.println("user = " + user);
-                 usuarios[0] = user.getId().toString();
-                 usuarios[1] = user.getNombre();
-                 usuarios[2] = user.getUsername();
-                 usuarios[3] = user.getAcceso();
-                 usuarios[4] = user.getEstado();
-                 usuarios[5] = user.getFechaIngreso().toString();
-                
-                 modelo.addRow(usuarios);
-             });
-             
-             tablausuario.setModel(modelo);
-             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
-         } catch (Exception e) {
-              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
-              System.out.println("error = " + e.getMessage());
-         }
-    }
-    
-    private void llenacombo() throws NullPointerException { 
-        try{
-        List<Usuario> users = Usercontroller.findUsuarioEntities(); 
-        System.out.println("users = " + users);
-        if (users.isEmpty()) {
-            System.out.println("Error on llenacombo return users null");
-        }   
-        users.forEach((user) -> {
-          comboModelo.addElement(user);
-        });
-        Usercontroller.close();
-        }catch(NullPointerException e){
+            System.out.println("users = " + users);
+            String[] usuarios = new String[6];
+            users.forEach((user) -> {
+                System.out.println("user = " + user);
+                usuarios[0] = user.getId().toString();
+                usuarios[1] = user.getNombre();
+                usuarios[2] = user.getUsername();
+                usuarios[3] = user.getAcceso();
+                usuarios[4] = user.getEstado();
+                usuarios[5] = user.getFechaIngreso().toString();
+
+                modelo.addRow(usuarios);
+            });
+
+            tablausuario.setModel(modelo);
+            lbltotalregistros.setText("Total Registros: " + Integer.toString(Usercontroller.getUsuarioCount()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
             System.out.println("error = " + e.getMessage());
-            JOptionPane.showMessageDialog(this,"Error al cargar el lista de usuarios");
         }
     }
-    
+
+    private void llenacombo() throws NullPointerException {
+        try {
+            List<Usuario> users = Usercontroller.findUsuarioEntities();
+            System.out.println("users = " + users);
+            if (users.isEmpty()) {
+                System.out.println("Error on llenacombo return users null");
+            }
+            users.forEach((user) -> {
+                comboModelo.addElement(user);
+            });
+            Usercontroller.close();
+        } catch (NullPointerException e) {
+            System.out.println("error = " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al cargar el lista de usuarios");
+        }
+    }
+
     //clientes
-    private void mostrarClientes(String buscar)  {
-         try {
-         String[] titulos = {"Codigo","Nombre", "Email", "Ruc", "Cedula", "Estado"};
-         DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+    private void mostrarClientes(String buscar) {
+        try {
+            String[] titulos = {"Codigo", "Nombre", "Email", "Ruc", "Cedula", "Estado"};
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
             List<Cliente> clients = clienteController.search(buscar);
-             String[] clientes = new String[6];
-             clients.forEach((cliente) -> {
-                 clientes[0] = cliente.getId().toString();
-                 clientes[1] = cliente.getNombre();
-                 clientes[2] = cliente.getEmail();
-                 clientes[3] = cliente.getRuc();
-                 clientes[4] = cliente.getCedula().toString();
-                 clientes[5] = cliente.getEstado();
-                
-                 modelo.addRow(clientes);
-             });
-             System.out.println("clientes = " + Arrays.toString(clientes));
-             System.out.println("modelo = " + modelo);
-             
-             tbclientes.setModel(modelo);
+            String[] clientes = new String[6];
+            clients.forEach((cliente) -> {
+                clientes[0] = cliente.getId().toString();
+                clientes[1] = cliente.getNombre();
+                clientes[2] = cliente.getEmail();
+                clientes[3] = cliente.getRuc();
+                clientes[4] = cliente.getCedula().toString();
+                clientes[5] = cliente.getEstado();
+
+                modelo.addRow(clientes);
+            });
+            System.out.println("clientes = " + Arrays.toString(clientes));
+            System.out.println("modelo = " + modelo);
+
+            tbclientes.setModel(modelo);
 //             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
-         } catch (Exception e) {
-              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de clientes");
-              System.out.println("error = " + e.getMessage());
-         }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de clientes");
+            System.out.println("error = " + e.getMessage());
+        }
     }
-      
-    void bloquearClientes(){
-    txtidcliente.setEnabled(false);
-    txtnom.setEnabled(false);
-    txtdir.setEnabled(false);
-    txtemail.setEnabled(false);
-    txtruc.setEnabled(false);
-    txtdni.setEnabled(false);
-    btnguardarClientes.setEnabled(false);
-    btnnuevoClientes.setEnabled(true);
-    btncancelarClientes.setEnabled(false);
-    btnactualizarClientes.setEnabled(false);
+
+    void bloquearClientes() {
+        txtidcliente.setEnabled(false);
+        txtnom.setEnabled(false);
+        txtdir.setEnabled(false);
+        txtemail.setEnabled(false);
+        txtruc.setEnabled(false);
+        txtdni.setEnabled(false);
+        btnguardarClientes.setEnabled(false);
+        btnnuevoClientes.setEnabled(true);
+        btncancelarClientes.setEnabled(false);
+        btnactualizarClientes.setEnabled(false);
     }
-     
-    void desbloquearClientes(){
-    txtidcliente.setEnabled(true);
-    txtnom.setEnabled(true);
-    txtdir.setEnabled(true);
-    txtemail.setEnabled(true);
-    txtruc.setEnabled(true);
-    txtdni.setEnabled(true);
-    btnguardarClientes.setEnabled(true);
-    btnnuevoClientes.setEnabled(false);
-    btncancelarClientes.setEnabled(true);
-    btnactualizarClientes.setEnabled(true);
-    
+
+    void desbloquearClientes() {
+        txtidcliente.setEnabled(true);
+        txtnom.setEnabled(true);
+        txtdir.setEnabled(true);
+        txtemail.setEnabled(true);
+        txtruc.setEnabled(true);
+        txtdni.setEnabled(true);
+        btnguardarClientes.setEnabled(true);
+        btnnuevoClientes.setEnabled(false);
+        btncancelarClientes.setEnabled(true);
+        btnactualizarClientes.setEnabled(true);
+
     }
-     
-    void limpiarClientes(){
-    txtidcliente.setText("");
-    txtnom.setText("");
-    txtdir.setText("");
-    txtdni.setText("");
-    txtemail.setText("");
-    txtruc.setText("");
-     }
+
+    void limpiarClientes() {
+        txtidcliente.setText("");
+        txtnom.setText("");
+        txtdir.setText("");
+        txtdni.setText("");
+        txtemail.setText("");
+        txtruc.setText("");
+    }
 
     //marca
-    void bloquearMarca(){
-    
-    txtnombremarca.setEnabled(false);
-    txtdescripcionmarca.setEnabled(false);
-    btnguardarMarca.setEnabled(false);
-    btnnuevoMarca.setEnabled(true);
-    btneditarMarca.setEnabled(false);
-    btneliminarMarca.setEnabled(false);
-    btncancelarMarca.setEnabled(false);
-    }
-     
-    void desbloquearMarca(){
-    
-    txtnombremarca.setEnabled(true);
-    txtdescripcionmarca.setEnabled(true);
-    btnguardarMarca.setEnabled(true);
-    btnnuevoMarca.setEnabled(false);
-    btneliminarMarca.setEnabled(true);
-    btneditarMarca.setEnabled(true);
-    btncancelarMarca.setEnabled(true);
-    
-    }
-    
-    void desbloquearclikedMarca(){
-    
-    txtnombremarca.setEnabled(true);
-    txtdescripcionmarca.setEnabled(true);
-    btnguardarMarca.setEnabled(true);
-    btnnuevoMarca.setEnabled(true);
-    btneliminarMarca.setEnabled(true);
-    btncancelarMarca.setEnabled(true);
-    
-    }
-     
-    void limpiarMarca(){
-    txtnombremarca.setText("");
-    txtdescripcionmarca.setText("");
-    }
-   
-    void mostrarProductos(String buscar)  {
-         try {
-         String[] titulos = {"Codigo","Marca", "Proveedor","Descriptcion","Modelo","Stock","Precio"};
-         DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-            List<Producto> products = productoController.search(buscar);
-             String[] productos = new String[7];
-             products.forEach((producto) -> {
-                 productos[0] = producto.getId().toString();
-                 productos[1] = producto.getMarcaId().getDescripcion();
-                 productos[2] = producto.getProveedorId().getDescripcion();
-                 productos[3] = producto.getNombre();
-                 productos[4] = producto.getModelo();
-                 productos[5] = producto.getCantidad().toString();
-                 productos[6] = producto.getPrecio().toString();
-                 
-                modelo.addRow(productos);
-             });
-             
-             tbproducto.setModel(modelo);
-//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
-         } catch (Exception e) {
-              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
-              System.out.println("error = " + e.getMessage());
-         }
+    void bloquearMarca() {
+
+        txtnombremarca.setEnabled(false);
+        txtdescripcionmarca.setEnabled(false);
+        btnguardarMarca.setEnabled(false);
+        btnnuevoMarca.setEnabled(true);
+        btneditarMarca.setEnabled(false);
+        btneliminarMarca.setEnabled(false);
+        btncancelarMarca.setEnabled(false);
     }
 
-     private void llenacomboProd() throws NullPointerException { 
-        try{
-        List<Marca> marcas = marcaController.findMarcaEntities(); 
+    void desbloquearMarca() {
+
+        txtnombremarca.setEnabled(true);
+        txtdescripcionmarca.setEnabled(true);
+        btnguardarMarca.setEnabled(true);
+        btnnuevoMarca.setEnabled(false);
+        btneliminarMarca.setEnabled(true);
+        btneditarMarca.setEnabled(true);
+        btncancelarMarca.setEnabled(true);
+
+    }
+
+    void desbloquearclikedMarca() {
+
+        txtnombremarca.setEnabled(true);
+        txtdescripcionmarca.setEnabled(true);
+        btnguardarMarca.setEnabled(true);
+        btnnuevoMarca.setEnabled(true);
+        btneliminarMarca.setEnabled(true);
+        btncancelarMarca.setEnabled(true);
+
+    }
+
+    void limpiarMarca() {
+        txtnombremarca.setText("");
+        txtdescripcionmarca.setText("");
+    }
+
+    void mostrarProductos(String buscar) {
+        try {
+            String[] titulos = {"Codigo", "Marca", "Proveedor", "Descriptcion", "Modelo", "Stock", "Precio"};
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            List<Producto> products = productoController.search(buscar);
+            String[] productos = new String[7];
+            products.forEach((producto) -> {
+                productos[0] = producto.getId().toString();
+                productos[1] = producto.getMarcaId().getDescripcion();
+                productos[2] = producto.getProveedorId().getDescripcion();
+                productos[3] = producto.getNombre();
+                productos[4] = producto.getModelo();
+                productos[5] = producto.getCantidad().toString();
+                productos[6] = producto.getPrecio().toString();
+
+                modelo.addRow(productos);
+            });
+
+            tbproducto.setModel(modelo);
+//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
+            System.out.println("error = " + e.getMessage());
+        }
+    }
+
+    private void llenacomboProd() throws NullPointerException {
+        try {
+            List<Marca> marcas = marcaController.findMarcaEntities();
 //        System.out.println("users = " + users);
-        if (marcas.isEmpty()) {
-            System.out.println("Error on llenacombo return products null");
-        }   
-        marcas.forEach((marca) -> {
-          comboModeloMarca.addElement(marca);
-        });
+            if (marcas.isEmpty()) {
+                System.out.println("Error on llenacombo return products null");
+            }
+            marcas.forEach((marca) -> {
+                comboModeloMarca.addElement(marca);
+            });
 //        productoController.clsose();
-        cbomarca.setModel(comboModeloMarca);
-        }catch(NullPointerException e){
+            cbomarca.setModel(comboModeloMarca);
+        } catch (NullPointerException e) {
             System.out.println("error = " + e.getMessage());
 //            JOptionPane.showMessageDialog(this,"Error al cargar el lista de productos");
         }
     }
+
     //productos
-    void bloquearProducto(){
-    
-    txtproducto.setEnabled(false);
-    txtmodelo.setEnabled(false);
-    txtcantidad.setEnabled(false);
-    cbomarca.setEnabled(false);
-    txtprecio.setEnabled(false);
-    txtmodelo.setEnabled(false);
-    btnnuevoProducto.setEnabled(true);
-    btnguardarProducto.setEnabled(false);
-    btneditarProducto.setEnabled(false);
-    btneliminarProducto.setEnabled(false);
-    btncancelarProducto.setEnabled(false);
-    }
-     
-    void desbloquearProducto(){
-    
-    txtproducto.setEnabled(true);
-    txtmodelo.setEnabled(true);
-    txtcantidad.setEnabled(true);
-    cbomarca.setEnabled(true);
-    txtprecio.setEnabled(true);
-    txtmodelo.setEnabled(true);
-    btnnuevoProducto.setEnabled(false);
-    btnguardarProducto.setEnabled(true);
-    btneditarProducto.setEnabled(true);
-    btneliminarProducto.setEnabled(true);
-    btncancelarProducto.setEnabled(true);
-    
-    }
-     
-    void desbloquearclikedProducto(){
-    
-   txtproducto.setEnabled(true);
-    txtmodelo.setEnabled(true);
-    txtcantidad.setEnabled(true);
-    cbomarca.setEnabled(true);
-    txtmodelo.setEnabled(true);
-    btnnuevoProducto.setEnabled(true);
-    btnnuevoProducto.setEnabled(true);
-    btneditarProducto.setEnabled(true);
-    btneliminarProducto.setEnabled(true);
-    btncancelarProducto.setEnabled(true);
-    }
-     
-    void limpiarProducto(){
-    txtproducto.setText("");
-    txtmodelo.setText("");
-    txtcantidad.setText(""); 
-    //cbomarca.setText("");
-    txtmodelo.setText("");
-    }
-    
-    void mostrarMarcas(String buscar)  {
-         try {
-         String[] titulos = {"Codigo","Marca", "Descripcion"};
-         DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-            List<Marca> marks = marcasController.search(buscar);
-             String[] marcas = new String[3];
-             marks.forEach((marca) -> {
-                 marcas[0] = marca.getId().toString();
-                 marcas[1] = marca.getMarca();
-                 marcas[2] = marca.getDescripcion();
-                
-                 modelo.addRow(marcas);
-             });
-             
-             tbmarca.setModel(modelo);
-//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
-         } catch (Exception e) {
-              JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
-              System.out.println("error = " + e.getMessage());
-         }
+    void bloquearProducto() {
+
+        txtproducto.setEnabled(false);
+        txtmodelo.setEnabled(false);
+        txtcantidad.setEnabled(false);
+        cbomarca.setEnabled(false);
+        txtprecio.setEnabled(false);
+        txtmodelo.setEnabled(false);
+        btnnuevoProducto.setEnabled(true);
+        btnguardarProducto.setEnabled(false);
+        btneditarProducto.setEnabled(false);
+        btneliminarProducto.setEnabled(false);
+        btncancelarProducto.setEnabled(false);
     }
 
-    
+    void desbloquearProducto() {
+
+        txtproducto.setEnabled(true);
+        txtmodelo.setEnabled(true);
+        txtcantidad.setEnabled(true);
+        cbomarca.setEnabled(true);
+        txtprecio.setEnabled(true);
+        txtmodelo.setEnabled(true);
+        btnnuevoProducto.setEnabled(false);
+        btnguardarProducto.setEnabled(true);
+        btneditarProducto.setEnabled(true);
+        btneliminarProducto.setEnabled(true);
+        btncancelarProducto.setEnabled(true);
+
+    }
+
+    void desbloquearclikedProducto() {
+
+        txtproducto.setEnabled(true);
+        txtmodelo.setEnabled(true);
+        txtcantidad.setEnabled(true);
+        cbomarca.setEnabled(true);
+        txtmodelo.setEnabled(true);
+        btnnuevoProducto.setEnabled(true);
+        btnnuevoProducto.setEnabled(true);
+        btneditarProducto.setEnabled(true);
+        btneliminarProducto.setEnabled(true);
+        btncancelarProducto.setEnabled(true);
+    }
+
+    void limpiarProducto() {
+        txtproducto.setText("");
+        txtmodelo.setText("");
+        txtcantidad.setText("");
+        //cbomarca.setText("");
+        txtmodelo.setText("");
+    }
+
+    void mostrarMarcas(String buscar) {
+        try {
+            String[] titulos = {"Codigo", "Marca", "Descripcion"};
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            List<Marca> marks = marcasController.search(buscar);
+            String[] marcas = new String[3];
+            marks.forEach((marca) -> {
+                marcas[0] = marca.getId().toString();
+                marcas[1] = marca.getMarca();
+                marcas[2] = marca.getDescripcion();
+
+                modelo.addRow(marcas);
+            });
+
+            tbmarca.setModel(modelo);
+//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
+            System.out.println("error = " + e.getMessage());
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1464,6 +1489,8 @@ public class inicio extends javax.swing.JFrame {
 
         pnelVenta.setName("pnelVenta"); // NOI18N
         pnelVenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel27.setBackground(new java.awt.Color(33, 45, 62));
         pnelVenta.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 318, -1, -1));
 
         jPanel13.setBackground(new java.awt.Color(0, 102, 255));
@@ -1473,8 +1500,8 @@ public class inicio extends javax.swing.JFrame {
 
         jLabel28.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel28.setText("DE: BOUTIQUE TIA ELVA");
-        jPanel13.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 29, -1, 14));
+        jLabel28.setText("BOUTIQUE TIA ELVA");
+        jPanel13.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, 30));
 
         jLabel29.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(255, 255, 255));
@@ -1494,7 +1521,7 @@ public class inicio extends javax.swing.JFrame {
         jLabel32.setText("Asuncion - Paraguay");
         jPanel13.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 84, -1, -1));
 
-        pnelVenta.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 700, -1));
+        pnelVenta.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 700, 120));
 
         jPanel14.setBackground(new java.awt.Color(51, 102, 255));
         jPanel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1694,7 +1721,7 @@ public class inicio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnelVenta.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 800, 150));
+        pnelVenta.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 810, 170));
 
         jPanel16.setBackground(new java.awt.Color(0, 153, 255));
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1792,7 +1819,7 @@ public class inicio extends javax.swing.JFrame {
                     .addGap(0, 108, Short.MAX_VALUE)))
         );
 
-        pnelVenta.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, -1, 220));
+        pnelVenta.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, -1, 220));
 
         jPanel17.setBackground(new java.awt.Color(51, 153, 255));
 
@@ -1875,7 +1902,9 @@ public class inicio extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnelVenta.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 370, 200, 230));
+        pnelVenta.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 390, 200, 240));
+
+        jLabel46.setBackground(new java.awt.Color(33, 45, 62));
         pnelVenta.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 760));
 
         rSPanelsSlider1.add(pnelVenta, "card6");
@@ -1900,7 +1929,7 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
         // TODO add your handling code here:
-         if(!inicio.btnUsers.isSelected()){
+        if (!inicio.btnUsers.isSelected()) {
             inicio.btnClientes.setSelected(false);
             inicio.btnUsers.setSelected(true);
             inicio.btnProve.setSelected(false);
@@ -1908,15 +1937,15 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
             inicio.btnMarca.setSelected(false);
-            
+
             rSPanelsSlider1.setPanelSlider(pnelUsuario, RSPanelsSlider.DIRECT.RIGHT);
         }
-        
+
     }//GEN-LAST:event_btnUsersActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         // TODO add your handling code here:
-         if(!inicio.btnClientes.isSelected()){
+        if (!inicio.btnClientes.isSelected()) {
             inicio.btnClientes.setSelected(true);
             inicio.btnUsers.setSelected(false);
             inicio.btnProve.setSelected(false);
@@ -1924,7 +1953,7 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
             inicio.btnMarca.setSelected(false);
-            
+
             rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_btnClientesActionPerformed
@@ -2004,12 +2033,12 @@ public class inicio extends javax.swing.JFrame {
 
     private void tablausuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablausuarioMouseClicked
         // TODO add your handling code here:
-        int fila =tablausuario.rowAtPoint(evt.getPoint());
+        int fila = tablausuario.rowAtPoint(evt.getPoint());
 
         txtidusuario.setText(tablausuario.getValueAt(fila, 0).toString());
         txtlogin.setText(tablausuario.getValueAt(fila, 2).toString());
         txtpassword.setText(tablausuario.getValueAt(fila, 3).toString());
-        cboacceso1.setSelectedItem(tablausuario.getValueAt(fila,4).toString());
+        cboacceso1.setSelectedItem(tablausuario.getValueAt(fila, 4).toString());
         cboestado.setSelectedItem(tablausuario.getValueAt(fila, 5).toString());
         // dcfecha_ingreso.setDate(Date.valueOf(tablausuario.getValueAt(fila, 5).toString()));
     }//GEN-LAST:event_tablausuarioMouseClicked
@@ -2055,7 +2084,7 @@ public class inicio extends javax.swing.JFrame {
         }
 
         try {
-            Usuario dts =Usercontroller.findUsuario(Integer.parseInt(txtidusuario.getText()));
+            Usuario dts = Usercontroller.findUsuario(Integer.parseInt(txtidusuario.getText()));
             dts.setUsername(txtlogin.getText());
             String pass = txtpassword.getText().toString();
             dts.setPass(pass);
@@ -2097,7 +2126,7 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnguardarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarClientesActionPerformed
         // TODO add your handling code here:
-      
+
         if (txtnom.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar un nombre");
             txtnom.requestFocus();
@@ -2109,7 +2138,7 @@ public class inicio extends javax.swing.JFrame {
             txtdni.requestFocus();
             return;
         }
-          try {
+        try {
             Cliente cliente = new Cliente();
 
             cliente.setNombre(txtnom.getText());
@@ -2125,26 +2154,25 @@ public class inicio extends javax.swing.JFrame {
             bloquearClientes();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
-              System.out.println("error = " + e.getMessage());
-         }     
+            System.out.println("error = " + e.getMessage());
+        }
     }//GEN-LAST:event_btnguardarClientesActionPerformed
 
     private void btnactualizarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarClientesActionPerformed
         // TODO add your handling code here:
-        if(txtnom.getText().length()==0){
+        if (txtnom.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar un nombre");
             txtnom.requestFocus();
             return;
         }
 
-
-        if(txtdni.getText().length()==0){
+        if (txtdni.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el numero de cedula");
             txtdni.requestFocus();
             return;
         }
 
-            try {
+        try {
             Cliente cliente = clienteController.findCliente(Integer.parseInt(txtidcliente.getText()));
 
             cliente.setNombre(txtnom.getText());
@@ -2160,8 +2188,8 @@ public class inicio extends javax.swing.JFrame {
             bloquearClientes();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
-              System.out.println("error = " + e.getMessage());
-        }   
+            System.out.println("error = " + e.getMessage());
+        }
     }//GEN-LAST:event_btnactualizarClientesActionPerformed
 
     private void btncancelarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarClientesActionPerformed
@@ -2174,19 +2202,16 @@ public class inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         //               desbloquear();
         btnactualizarClientes.setEnabled(true);
-        int filamodificar= tbclientes.getSelectedRow();
-        if(filamodificar>=0)
-        {
+        int filamodificar = tbclientes.getSelectedRow();
+        if (filamodificar >= 0) {
             txtidcliente.setText(tbclientes.getValueAt(filamodificar, 0).toString());
             txtnom.setText(tbclientes.getValueAt(filamodificar, 1).toString());
             txtemail.setText(tbclientes.getValueAt(filamodificar, 2).toString());
             txtruc.setText(tbclientes.getValueAt(filamodificar, 3).toString());
-            txtdni.setText(tbclientes.getValueAt(filamodificar, 4).toString());            
-            
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(this,"No ha seleccionado ");
+            txtdni.setText(tbclientes.getValueAt(filamodificar, 4).toString());
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No ha seleccionado ");
         }
     }//GEN-LAST:event_tbclientesMouseClicked
 
@@ -2208,7 +2233,7 @@ public class inicio extends javax.swing.JFrame {
     private void tbmarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbmarcaMouseClicked
         // TODO add your handling code here:
         desbloquearClientes();
-        int fila =tbmarca.rowAtPoint(evt.getPoint());
+        int fila = tbmarca.rowAtPoint(evt.getPoint());
 
         txtidmarca.setText(tbmarca.getValueAt(fila, 0).toString());
         txtnombremarca.setText(tbmarca.getValueAt(fila, 1).toString());
@@ -2239,23 +2264,23 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnguardarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarMarcaActionPerformed
 
-        if(txtnombremarca.getText().length()==0){
+        if (txtnombremarca.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar una marca");
             txtnombremarca.requestFocus();
             return;
         }
 
-        if(txtdescripcionmarca.getText().length()==0){
+        if (txtdescripcionmarca.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar una descripcion");
             txtdescripcionmarca.requestFocus();
             return;
         }
-           try {
+        try {
             Marca marca = new Marca();
 
             marca.setMarca(txtnombremarca.getText());
             marca.setDescripcion(txtdescripcionmarca.getText());
-            
+
             marcaController.create(marca);
             JOptionPane.showMessageDialog(rootPane, "Marca creada satisfactoriamente");
             mostrarMarcas("");
@@ -2263,7 +2288,7 @@ public class inicio extends javax.swing.JFrame {
             bloquearMarca();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
-              System.out.println("error = " + e.getMessage());
+            System.out.println("error = " + e.getMessage());
         }
     }//GEN-LAST:event_btnguardarMarcaActionPerformed
 
@@ -2290,24 +2315,24 @@ public class inicio extends javax.swing.JFrame {
 
     private void btneditarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarMarcaActionPerformed
         // TODO add your handling code here:
-        if(txtnombremarca.getText().length()==0){
+        if (txtnombremarca.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar una marca");
             txtnombremarca.requestFocus();
             return;
         }
 
-        if(txtdescripcionmarca.getText().length()==0){
+        if (txtdescripcionmarca.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar una descripcion");
             txtdescripcionmarca.requestFocus();
             return;
         }
 
-           try {
+        try {
             Marca marca = marcaController.findMarca(Integer.parseInt(txtidmarca.getText()));
 
             marca.setMarca(txtnombremarca.getText());
             marca.setDescripcion(txtdescripcionmarca.getText());
-            
+
             marcaController.edit(marca);
             JOptionPane.showMessageDialog(rootPane, "Marca actualizada satisfactoriamente");
             mostrarMarcas("");
@@ -2315,7 +2340,7 @@ public class inicio extends javax.swing.JFrame {
             bloquearMarca();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
-              System.out.println("error = " + e.getMessage());
+            System.out.println("error = " + e.getMessage());
         }
     }//GEN-LAST:event_btneditarMarcaActionPerformed
 
@@ -2329,23 +2354,20 @@ public class inicio extends javax.swing.JFrame {
 
     private void tbproductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbproductoMouseClicked
         // TODO add your handling code here:
-        int fila= tbproducto.getSelectedRow();
-        try{
+        int fila = tbproducto.getSelectedRow();
+        try {
             System.out.println("fila = " + fila);
-            if(fila>=0)
-            {
+            if (fila >= 0) {
 //                Idproducto.setText(tbproducto.getValueAt(fila, 0).toString());
                 txtproducto.setText(tbproducto.getValueAt(fila, 1).toString());
                 txtmodelo.setText(tbproducto.getValueAt(fila, 2).toString());
                 txtcantidad.setText(tbproducto.getValueAt(fila, 3).toString());
                 txtprecio.setText(tbproducto.getValueAt(fila, 4).toString());
 
+            } else {
+                JOptionPane.showMessageDialog(this, "No ha seleccionado ");
             }
-            else
-            {
-                JOptionPane.showMessageDialog(this,"No ha seleccionado ");
-            }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("e = " + e.getMessage());
         }
     }//GEN-LAST:event_tbproductoMouseClicked
@@ -2375,25 +2397,25 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnguardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarProductoActionPerformed
         // TODO add your handling code here:
-        if(txtproducto.getText().length()==0){
+        if (txtproducto.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el producto");
             txtproducto.requestFocus();
             return;
         }
 
-        if(txtmodelo.getText().length()==0){
+        if (txtmodelo.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el modelo");
             txtmodelo.requestFocus();
             return;
         }
 
-        if(txtcantidad.getText().length()==0){
+        if (txtcantidad.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar la cantidad");
             txtcantidad.requestFocus();
             return;
         }
 
-        if(txtprecio.getText().length()==0){
+        if (txtprecio.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el precio");
             txtprecio.requestFocus();
             return;
@@ -2417,36 +2439,36 @@ public class inicio extends javax.swing.JFrame {
         //
         //
         //            if(func.insertar(dts)){
-            //                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
-            //                mostrar("");
-            //                limpiar();
-            //                bloquear();
-            //            }
+        //                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
+        //                mostrar("");
+        //                limpiar();
+        //                bloquear();
+        //            }
 
     }//GEN-LAST:event_btnguardarProductoActionPerformed
 
     private void btneditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarProductoActionPerformed
         // TODO add your handling code here:
 
-        if(txtproducto.getText().length()==0){
+        if (txtproducto.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el producto");
             txtproducto.requestFocus();
             return;
         }
 
-        if(txtmodelo.getText().length()==0){
+        if (txtmodelo.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el modelo");
             txtmodelo.requestFocus();
             return;
         }
 
-        if(txtcantidad.getText().length()==0){
+        if (txtcantidad.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar la cantidad");
             txtcantidad.requestFocus();
             return;
         }
 
-        if(txtprecio.getText().length()==0){
+        if (txtprecio.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes Ingresar el precio");
             txtprecio.requestFocus();
             return;
@@ -2470,11 +2492,11 @@ public class inicio extends javax.swing.JFrame {
         //        dts.setidproducto(idproducto);
         //
         //            if(func.editar(dts)){
-            //                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
-            //                mostrar("");
-            //                limpiar();
-            //                bloquear();
-            //            }
+        //                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
+        //                mostrar("");
+        //                limpiar();
+        //                bloquear();
+        //            }
     }//GEN-LAST:event_btneditarProductoActionPerformed
 
     private void btneliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarProductoActionPerformed
@@ -2507,13 +2529,12 @@ public class inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         clients_table cli = new clients_table();
         cli.setVisible(true);
-
     }//GEN-LAST:event_btnclientesActionPerformed
 
     private void btnproductosFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductosFacturaActionPerformed
         // TODO add your handling code here:
         try {
-            products_table pro= new products_table();
+            products_table pro = new products_table();
 //            frminicio.Escritorio.add(pro);
 //            pro.toFront();
             pro.setVisible(true);
@@ -2525,24 +2546,60 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnguardarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarFacturaActionPerformed
         // TODO add your handling code here:
-        if((txtidcliente.getText().equals("")) || (txtsubtotal.getText().equals("")))
-        {
+        if ((txtcod1.getText().equals("")) || (txtsubtotal.getText().equals(""))) {
             JOptionPane.showMessageDialog(this, "No ingreso cliente,productos o realice operacion");
-        }
-        else
-        {
-            String capcod="",capcan="";
-            for(int i=0;i<frmfactura.tbdet.getRowCount();i++)
-            {
-                capcod=frmfactura.tbdet.getValueAt(i, 0).toString();
-                capcan=frmfactura.tbdet.getValueAt(i, 3).toString();
-//                descontarstock(capcod, capcan);
+        } else {
+            String capcod = "", capcan = "";
+            Collection<DetalleFactura> detalles = new ArrayList<DetalleFactura>();
+            for (int i = 0; i < inicio.tbdet.getRowCount(); i++) {
+                capcod = inicio.tbdet.getValueAt(i, 0).toString();
+                capcan = inicio.tbdet.getValueAt(i, 3).toString();
+                try {
+                    productoController.descontarstock(capcod, capcan);
+                } catch (Exception ex) {
+                    System.out.println("error al generar factura = " + ex.getMessage());
+//                    Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
-//            factura();
-            //    detallefactura();
-//            mostrarFactura();
+            try {
+                Cliente cli = clienteController.findCliente(Integer.parseInt(txtcod1.getText()));
+                Factura factura = new Factura();
+                factura.setClienteId(cli);
+                factura.setNumeroFac(txtfac.getText());
+                factura.setUsuarioId(Usercontroller.getUserLogged());
+                factura.setEstado("Pendiente");
+                factura.setFecha(new Date());
+                Factura fac = facturaController.create(factura);
+                for (int i = 0; i < inicio.tbdet.getRowCount(); i++) {
+                    Producto product = productoController.findProducto(Integer.parseInt(capcod));
+//                    System.out.println("product descontar stock = " + product);
+                    DetalleFactura detalle = new DetalleFactura();
+                    detalle.setDescuento(0.0);
+                    detalle.setFacturaId(fac);
+                    detalle.setProductoId(product);
+                    detalle.setTotalventa((Double) inicio.tbdet.getValueAt(i, 4));
+                    detalle.setCantidad((Integer) inicio.tbdet.getValueAt(i, 3));
+                    detalles.add(detalle);
+                    detalleFacController.create(detalle);
+                    product.getDetalleFacturaCollection().add(detalle);
+                    productoController.edit(product);
+                }
+                fac.setDetalleFacturaCollection(detalles);
+                fac.setIva(Integer.parseInt(txtigv.getText()));
+                fac.setSubtotal(Integer.parseInt(txtsubtotal.getText()));
+                fac.setTotalfactura(Integer.parseInt(txttotal.getText()));
+                facturaController.edit(fac);
+            } catch (NumberFormatException e) {
+                System.out.println("error al generar factura = " + e.getMessage());
+                JOptionPane.showMessageDialog(rootPane, "Ocurrio un error al generar la factura, favor intente nuevamente", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
+            //factura();
+            //detallefactura();
+            //mostrarFactura();
             txtidcliente.setText("");
             txtnomape.setText("");
             txtdir.setText("");
@@ -2553,10 +2610,9 @@ public class inicio extends javax.swing.JFrame {
             txttotal.setText("");
 
             DefaultTableModel modelo = (DefaultTableModel) tbdet.getModel();
-            int a =tbdet.getRowCount()-1;
+            int a = tbdet.getRowCount() - 1;
             int i;
-            for(i=a;i>=0;i--)
-            {
+            for (i = a; i >= 0; i--) {
                 modelo.removeRow(i);
             }
 
@@ -2572,13 +2628,11 @@ public class inicio extends javax.swing.JFrame {
 
     private void btncalcularFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncalcularFacturaActionPerformed
         // TODO add your handling code here:
-        if(tbdet.getRowCount()<1)
-        {
+        if (tbdet.getRowCount() < 1) {
             JOptionPane.showMessageDialog(this, "Error, no ingreso ningun producto");
+        } else {
+            helper.calcular(this);
         }
-        else{
-//            calcular();
-        }                                    
 
 
     }//GEN-LAST:event_btncalcularFacturaActionPerformed
@@ -2587,19 +2641,16 @@ public class inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel modelo = (DefaultTableModel) tbdet.getModel();
         int fila = tbdet.getSelectedRow();
-        if(fila>=0)
-        {
+        if (fila >= 0) {
             modelo.removeRow(fila);
-        }
-        else
-        {
+        } else {
             JOptionPane.showMessageDialog(null, "No Selecciono ninguna fila");
         }
     }//GEN-LAST:event_btneliminarFacturaActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         // TODO add your handling code here:
-        if(!inicio.btnProductos.isSelected()){
+        if (!inicio.btnProductos.isSelected()) {
             inicio.btnClientes.setSelected(false);
             inicio.btnUsers.setSelected(false);
             inicio.btnProve.setSelected(false);
@@ -2607,28 +2658,28 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
             inicio.btnMarca.setSelected(false);
-            
+
             rSPanelsSlider1.setPanelSlider(pnelProducto, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnProveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveActionPerformed
         // TODO add your handling code here:
-        if(!inicio.btnProve.isSelected()){
+        if (!inicio.btnProve.isSelected()) {
             inicio.btnClientes.setSelected(false);
             inicio.btnUsers.setSelected(false);
             inicio.btnProve.setSelected(true);
             inicio.btnProductos.setSelected(false);
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
-            
+
             rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_btnProveActionPerformed
 
     private void btnReporActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporActionPerformed
         // TODO add your handling code here:
-        if(!inicio.btnRepor.isSelected()){
+        if (!inicio.btnRepor.isSelected()) {
             inicio.btnClientes.setSelected(false);
             inicio.btnUsers.setSelected(false);
             inicio.btnProve.setSelected(false);
@@ -2636,14 +2687,14 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(true);
             inicio.btnMarca.setSelected(false);
-            
+
             rSPanelsSlider1.setPanelSlider(pnelClientes, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_btnReporActionPerformed
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
         // TODO add your handling code here:
-        if(!inicio.btnVenta.isSelected()){
+        if (!inicio.btnVenta.isSelected()) {
             inicio.btnClientes.setSelected(false);
             inicio.btnUsers.setSelected(false);
             inicio.btnProve.setSelected(false);
@@ -2659,8 +2710,12 @@ public class inicio extends javax.swing.JFrame {
     private void txtrucKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrucKeyTyped
         // TODO add your handling code here:
         char car = evt.getKeyChar();
-        if(txtruc.getText().length()>=11) evt.consume();
-        if((car<'0' || car>'9') && (car<'A' || car>'Z')) evt.consume();
+        if (txtruc.getText().length() >= 11) {
+            evt.consume();
+        }
+        if ((car < '0' || car > '9') && (car < 'A' || car > 'Z')) {
+            evt.consume();
+        }
 
     }//GEN-LAST:event_txtrucKeyTyped
 
@@ -2675,11 +2730,11 @@ public class inicio extends javax.swing.JFrame {
     private void txtdniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdniKeyTyped
         // TODO add your handling code here:
         char car = evt.getKeyChar();
-        if(txtdni.getText().length()>=8){
+        if (txtdni.getText().length() >= 8) {
             JOptionPane.showMessageDialog(rootPane, "Favor verifique el numero de cedula, debe ser mayor a 8 digitos");
             evt.consume();
         }
-        if((car<'0' || car>'9')){
+        if ((car < '0' || car > '9')) {
             JOptionPane.showMessageDialog(rootPane, "Solo numeros del 0 al 9");
             evt.consume();
         }
@@ -2696,8 +2751,7 @@ public class inicio extends javax.swing.JFrame {
     private void txtnomKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnomKeyTyped
         // TODO add your handling code here:
         char car = evt.getKeyChar();
-        if((car<'a' || car>'z') && (car<'A' || car>'Z') && (car!=(char)KeyEvent.VK_SPACE))
-        {
+        if ((car < 'a' || car > 'z') && (car < 'A' || car > 'Z') && (car != (char) KeyEvent.VK_SPACE)) {
             JOptionPane.showMessageDialog(rootPane, "Favor ingrese solo letras");
             evt.consume();
         }
@@ -2705,7 +2759,7 @@ public class inicio extends javax.swing.JFrame {
 
     private void btnMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcaActionPerformed
         // TODO add your handling code here:
-        if(!inicio.btnMarca.isSelected()){
+        if (!inicio.btnMarca.isSelected()) {
             inicio.btnClientes.setSelected(false);
             inicio.btnUsers.setSelected(false);
             inicio.btnProve.setSelected(false);
@@ -2713,7 +2767,7 @@ public class inicio extends javax.swing.JFrame {
             inicio.btnVenta.setSelected(false);
             inicio.btnRepor.setSelected(false);
             inicio.btnMarca.setSelected(true);
-            
+
             rSPanelsSlider1.setPanelSlider(pnelMarca, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_btnMarcaActionPerformed
@@ -2721,10 +2775,11 @@ public class inicio extends javax.swing.JFrame {
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         // TODO add your handling code here:
         int input = JOptionPane.showConfirmDialog(null, "Deseas Salir de la aplicacion? ");
-        if (input == 0) 
-             System.exit(0);   
-        
-        
+        if (input == 0) {
+            System.exit(0);
+        }
+
+
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
@@ -2907,7 +2962,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JTextField txtidcliente;
     private javax.swing.JTextField txtidmarca;
     private javax.swing.JTextField txtidusuario;
-    private javax.swing.JTextField txtigv;
+    public javax.swing.JTextField txtigv;
     private javax.swing.JTextField txtlogin;
     private javax.swing.JTextField txtmodelo;
     private javax.swing.JTextField txtnom;
@@ -2918,8 +2973,8 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JTextField txtproducto;
     private javax.swing.JTextField txtruc;
     public static javax.swing.JTextField txtruc1;
-    private javax.swing.JTextField txtsubtotal;
-    private javax.swing.JTextField txttotal;
+    public javax.swing.JTextField txtsubtotal;
+    public javax.swing.JTextField txttotal;
     // End of variables declaration//GEN-END:variables
 
     public void run() {

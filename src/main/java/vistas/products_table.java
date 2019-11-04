@@ -24,6 +24,7 @@ public class products_table extends javax.swing.JFrame {
     public products_table() {
         initComponents();
         this.productoController = new ProductoJpaController();
+        mostrar("");
     }
 
     /**
@@ -115,23 +116,7 @@ public class products_table extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-//       private String comparar(String cod)
-//    {
-//        String cant="";
-//        try {
-//            Statement st = cn.createStatement();
-//            ResultSet rs = st.executeQuery("SELECT cantidad FROM producto WHERE idproducto='"+cod+"'");
-//            while(rs.next())
-//            {
-//                cant=rs.getString(1);
-//            }
-//            System.out.println("cant = " + cant);       
-//        } catch (SQLException ex) {
-//            Logger.getLogger(tabla_productos.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return cant;
-//        
-//    }
+
      private void mostrar(String buscar)  {
          try {
          String[] titulos = {"Codigo","Nombre", "Marca", "Modelo", "Precio", "Cantidad"};
@@ -148,8 +133,6 @@ public class products_table extends javax.swing.JFrame {
                 
                  modelo.addRow(productos);
              });
-//             System.out.println("clientes = " + Arrays.toString(productos));
-//             System.out.println("modelo = " + modelo);
              
              tbprod.setModel(modelo);
              lbltotalregistros.setText("Total Registros: "+Integer.toString(productoController.getProductoCount()));
@@ -176,8 +159,8 @@ public class products_table extends javax.swing.JFrame {
             else
             {
                 String codins=tbprod.getValueAt(fila, 0).toString();
-                String desins=tbprod.getValueAt(fila, 1).toString();
-                String cantins=tbprod.getValueAt(fila,3).toString();
+                String desins=tbprod.getValueAt(fila, 1).toString() + " " + tbprod.getValueAt(fila, 3).toString();
+                String cantins=tbprod.getValueAt(fila,5).toString();
                 String preins=tbprod.getValueAt(fila, 4).toString();
                 int c=0;
                 int j=0;
@@ -197,7 +180,7 @@ public class products_table extends javax.swing.JFrame {
                     }
                     else
                     {
-                        for(int i=0;i<inicio.tbdet.getRowCount();i++)
+                        for(int i=0;i < inicio.tbdet.getRowCount(); i++)
                         {
                             Object com=inicio.tbdet.getValueAt(i,0);
                             System.out.println("com = " + com);
@@ -228,8 +211,8 @@ public class products_table extends javax.swing.JFrame {
                 }
 
             }
-
-        } catch (HeadlessException | NumberFormatException e) {
+               this.dispose();
+        } catch (HeadlessException  | NumberFormatException e) {
             System.out.println("error = " + e.getMessage());
         }
     }//GEN-LAST:event_tbprodMouseClicked

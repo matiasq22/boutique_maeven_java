@@ -27,6 +27,7 @@ ClienteJpaController clienteController;
     public clients_table() {
         initComponents();
         this.clienteController = new ClienteJpaController();
+        mostrar("");
     }
     
     /**

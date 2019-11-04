@@ -22,7 +22,7 @@ import modelo.Usuario;
  * @author matias
  */
 public class UsuarioJpaController implements Serializable {
-
+    public static Usuario userLogged = null;
     private EntityManagerFactory emf = null;
 
     public UsuarioJpaController() {
@@ -194,5 +194,26 @@ public class UsuarioJpaController implements Serializable {
         }
         return null;
     }
+    
+    
+   public boolean setUserLogged(Usuario user){
+       try {
+           if(findUsuario(user.getId()) == null){
+               System.out.println("error al crear usuario logueado no existe");
+               return false;
+           }
+           userLogged = user;
+           System.out.println("user logged  = " + user);
+           return true;
+       } catch (Exception e) {
+           System.out.println("error on user session = " + e.getMessage());
+       }
+        return false;
+   }
+   
+   
+   public Usuario getUserLogged(){
+       return (userLogged != null) ? userLogged : null ;
+   }
 
 }

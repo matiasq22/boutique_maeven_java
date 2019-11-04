@@ -276,4 +276,19 @@ public class ProductoJpaController implements Serializable {
         }
     }
     
+    public void descontarstock(String id, String cantidad) throws NonexistentEntityException, Exception {
+       EntityManager em  = getEntityManager();
+       int idp = Integer.parseInt(id);
+       Producto producto; 
+       try {
+         producto = findProducto(idp);
+         producto.setCantidad(Integer.parseInt(cantidad));
+         edit(producto);
+//         return producto;
+        } catch (NumberFormatException e) {
+            System.out.println("error al descontar stock = " + e.getMessage());
+        }
+//        return null;
+    }
+    
 }

@@ -44,6 +44,16 @@ public class DetalleFactura implements Serializable {
     private Double descuento;
     @Column(name = "totalventa")
     private Double totalventa;
+    @Column(name = "cantidad")
+    private Integer cantidad;
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
     @JoinColumn(name = "producto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Producto productoId;

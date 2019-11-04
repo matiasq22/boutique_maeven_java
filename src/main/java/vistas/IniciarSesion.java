@@ -7,6 +7,7 @@ package vistas;
 
 import controladores.UsuarioJpaController;
 import com.sun.awt.AWTUtilities;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
@@ -206,7 +207,7 @@ public class IniciarSesion extends javax.swing.JFrame {
             }
             else{  
                  JOptionPane.showMessageDialog(rootPane, "Acceso concedido","Acceso al Sistema",JOptionPane.INFORMATION_MESSAGE);
-
+                controller.setUserLogged(login);
                 this.dispose();
                 inicio form= new inicio();
                 form.toFront();
@@ -221,7 +222,7 @@ public class IniciarSesion extends javax.swing.JFrame {
 //                     inicio.menuinventario.setEnabled(false);
                 }
             }
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(rootPane, "ERROR","Error al iniciar sesion",JOptionPane.ERROR_MESSAGE);
             System.out.println("error  = " + e.getMessage());
         }
