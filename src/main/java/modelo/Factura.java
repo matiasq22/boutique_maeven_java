@@ -6,6 +6,7 @@
 package modelo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -55,8 +56,7 @@ public class Factura implements Serializable {
     @Column(name = "estado")
     private String estado;
     @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private LocalDate fecha;
     @Column(name = "subtotal")
     private Integer subtotal;
     @Column(name = "iva")
@@ -103,11 +103,11 @@ public class Factura implements Serializable {
         this.estado = estado;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

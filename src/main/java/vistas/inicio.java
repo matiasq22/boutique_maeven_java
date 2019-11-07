@@ -13,10 +13,10 @@ import controladores.ProductoJpaController;
 import controladores.UsuarioJpaController;
 import controladores.exceptions.NonexistentEntityException;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Usuario;
 import rojeru_san.RSPanelsSlider;
 import java.util.logging.Logger;
+import javax.persistence.EntityTransaction;
 import modelo.Cliente;
 import modelo.DetalleFactura;
 import modelo.Factura;
@@ -405,7 +406,7 @@ public class inicio extends javax.swing.JFrame {
             });
 
             tbmarca.setModel(modelo);
-//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
             System.out.println("error = " + e.getMessage());
@@ -463,7 +464,7 @@ public class inicio extends javax.swing.JFrame {
         btneditarUsuarios = new javax.swing.JButton();
         btnbuscar1Usuarios = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        labeltotalusuarios = new javax.swing.JLabel();
         pnelClientes = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -588,7 +589,7 @@ public class inicio extends javax.swing.JFrame {
         lblacceso.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         lblacceso.setForeground(new java.awt.Color(255, 255, 255));
         lblacceso.setText("MUESTRA TIPO ACCESO");
-        sidebar.add(lblacceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 710, 200, -1));
+        sidebar.add(lblacceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 710, 220, -1));
 
         lblnombre.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         lblnombre.setForeground(new java.awt.Color(255, 255, 255));
@@ -868,7 +869,7 @@ public class inicio extends javax.swing.JFrame {
         lbltotalregistros.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         lbltotalregistros.setForeground(new java.awt.Color(255, 255, 255));
         lbltotalregistros.setText("Registros:");
-        jPanel5.add(lbltotalregistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 440, -1, -1));
+        jPanel5.add(lbltotalregistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 440, -1, -1));
 
         btneditarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btneditarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -900,15 +901,12 @@ public class inicio extends javax.swing.JFrame {
         jLabel1.setText("BUSCAR");
         jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 119, -1, -1));
 
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 680, 537));
+        labeltotalusuarios.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        labeltotalusuarios.setForeground(new java.awt.Color(255, 255, 255));
+        labeltotalusuarios.setText("Registros:");
+        jPanel5.add(labeltotalusuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(421, 440, 120, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salir1.JPG"))); // NOI18N
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
-        });
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 0, 30, 30));
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 680, 537));
 
         pnelUsuario.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 760));
 
@@ -2550,18 +2548,9 @@ public class inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No ingreso cliente,productos o realice operacion");
         } else {
             String capcod = "", capcan = "";
-            Collection<DetalleFactura> detalles = new ArrayList<DetalleFactura>();
-            for (int i = 0; i < inicio.tbdet.getRowCount(); i++) {
-                capcod = inicio.tbdet.getValueAt(i, 0).toString();
-                capcan = inicio.tbdet.getValueAt(i, 3).toString();
-                try {
-                    productoController.descontarstock(capcod, capcan);
-                } catch (Exception ex) {
-                    System.out.println("error al generar factura = " + ex.getMessage());
-//                    Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
+            List<DetalleFactura> detalles = new ArrayList<DetalleFactura>();
+//            EntityTransaction transaction = helper.NewSession();
+//            transaction.begin();
             try {
                 Cliente cli = clienteController.findCliente(Integer.parseInt(txtcod1.getText()));
                 Factura factura = new Factura();
@@ -2569,22 +2558,27 @@ public class inicio extends javax.swing.JFrame {
                 factura.setNumeroFac(txtfac.getText());
                 factura.setUsuarioId(Usercontroller.getUserLogged());
                 factura.setEstado("Pendiente");
-                factura.setFecha(new Date());
+                factura.setFecha(LocalDate.now());
                 Factura fac = facturaController.create(factura);
                 for (int i = 0; i < inicio.tbdet.getRowCount(); i++) {
+                    capcod = inicio.tbdet.getValueAt(i, 0).toString();
+                    capcan = inicio.tbdet.getValueAt(i, 3).toString();
                     Producto product = productoController.findProducto(Integer.parseInt(capcod));
-//                    System.out.println("product descontar stock = " + product);
                     DetalleFactura detalle = new DetalleFactura();
                     detalle.setDescuento(0.0);
                     detalle.setFacturaId(fac);
                     detalle.setProductoId(product);
                     detalle.setTotalventa((Double) inicio.tbdet.getValueAt(i, 4));
-                    detalle.setCantidad((Integer) inicio.tbdet.getValueAt(i, 3));
+                    detalle.setCantidad(Integer.parseInt(capcan));
                     detalles.add(detalle);
+                    int cant = product.getCantidad() - Integer.parseInt(inicio.tbdet.getValueAt(i, 3).toString());
+                    System.out.println("cant = " + cant);
+                    product.setCantidad(cant);
+                    product.addDetalleFactura(detalle);
                     detalleFacController.create(detalle);
-                    product.getDetalleFacturaCollection().add(detalle);
                     productoController.edit(product);
                 }
+                System.out.println("factura a modificar = " + fac);
                 fac.setDetalleFacturaCollection(detalles);
                 fac.setIva(Integer.parseInt(txtigv.getText()));
                 fac.setSubtotal(Integer.parseInt(txtsubtotal.getText()));
@@ -2594,7 +2588,8 @@ public class inicio extends javax.swing.JFrame {
                 System.out.println("error al generar factura = " + e.getMessage());
                 JOptionPane.showMessageDialog(rootPane, "Ocurrio un error al generar la factura, favor intente nuevamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("exception = " + ex.getMessage());
+                Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex.getMessage());
             }
 
             //factura();
@@ -2613,7 +2608,7 @@ public class inicio extends javax.swing.JFrame {
             int a = tbdet.getRowCount() - 1;
             int i;
             for (i = a; i >= 0; i--) {
-                modelo.removeRow(i);
+                    modelo.removeRow(i);
             }
 
 //            numeros();
@@ -2772,16 +2767,6 @@ public class inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMarcaActionPerformed
 
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
-        int input = JOptionPane.showConfirmDialog(null, "Deseas Salir de la aplicacion? ");
-        if (input == 0) {
-            System.exit(0);
-        }
-
-
-    }//GEN-LAST:event_jLabel6MouseClicked
-
     private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtprecioActionPerformed
@@ -2904,7 +2889,6 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2928,6 +2912,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel labeltotalusuarios;
     public static javax.swing.JLabel lblacceso;
     private javax.swing.JLabel lblhora;
     public static javax.swing.JLabel lblnombre;

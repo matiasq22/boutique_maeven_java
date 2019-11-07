@@ -187,7 +187,7 @@ public class UsuarioJpaController implements Serializable {
                 return null;
             }
             em.close();
-            close();
+//            close();
             return user;
         } catch (Exception e) {
             System.out.println("error = " + e.getMessage());
@@ -197,6 +197,7 @@ public class UsuarioJpaController implements Serializable {
     
     
    public boolean setUserLogged(Usuario user){
+       EntityManager em = getEntityManager();
        try {
            if(findUsuario(user.getId()) == null){
                System.out.println("error al crear usuario logueado no existe");
@@ -204,8 +205,10 @@ public class UsuarioJpaController implements Serializable {
            }
            userLogged = user;
            System.out.println("user logged  = " + user);
+           em.close();
            return true;
        } catch (Exception e) {
+           em.close();
            System.out.println("error on user session = " + e.getMessage());
        }
         return false;
@@ -213,7 +216,7 @@ public class UsuarioJpaController implements Serializable {
    
    
    public Usuario getUserLogged(){
-       return (userLogged != null) ? userLogged : null ;
+       return userLogged;
    }
 
 }

@@ -5,7 +5,12 @@
  */
 package utils;
 
+import configs.configs;
 import controladores.FacturaJpaController;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import org.hibernate.Session;
 import static vistas.inicio.tbdet;
 import vistas.inicio;
 
@@ -18,11 +23,16 @@ public class helpers {
     private int dato;
     private final int cont;
     private String num="";
+    private EntityManagerFactory emf = null;
 
     public helpers() {
         this.cont = 1;
+        this.emf = configs.conexion();
     }
 
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
     public void generar(int dato) {
         this.dato = dato;
            if((this.dato>=10000000) || (this.dato<100000000)) 
@@ -125,6 +135,17 @@ public class helpers {
             }
         } catch (NumberFormatException e) {
             System.out.println("error = " + e.getMessage());
+        }
+        return null;
+    }
+    
+    
+    public EntityTransaction NewSession(){
+        try{
+            EntityManager em = getEntityManager();
+            return em.getTransaction();
+        }catch(Exception e){
+            System.out.println("error al generar transaction = " + e.getMessage());
         }
         return null;
     }

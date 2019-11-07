@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,7 +54,7 @@ public class Producto implements Serializable {
     private Integer cantidad;
     @Column(name = "precio")
     private Integer precio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoId",fetch = FetchType.EAGER)
     private Collection<DetalleFactura> detalleFacturaCollection;
     @JoinColumn(name = "marca_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -132,6 +133,20 @@ public class Producto implements Serializable {
 
     public void setProveedorId(Proveedor proveedorId) {
         this.proveedorId = proveedorId;
+    }
+    
+    public void addDetalleFactura(DetalleFactura detalle){
+        if(!getDetalleFacturaCollection().contains(detalle)){
+            getDetalleFacturaCollection().add(detalle);
+            detalle.setProductoId(this);
+        }
+    }
+    
+    public void removeDetalleFactura(DetalleFactura detalle){
+        if(getDetalleFacturaCollection().contains(detalle)){
+            getDetalleFacturaCollection().remove(detalle);
+            detalle.setProductoId(null);
+        }
     }
 
     @Override

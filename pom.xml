@@ -65,6 +65,11 @@
             <artifactId>RojeruSan.lib</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>5.4.8.Final</version>
+        </dependency>
     </dependencies>
     <name>Boutique</name>
 </project>

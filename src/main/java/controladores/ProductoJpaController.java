@@ -94,68 +94,68 @@ public class ProductoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Producto persistentProducto = em.find(Producto.class, producto.getId());
-            Marca marcaIdOld = persistentProducto.getMarcaId();
-            Marca marcaIdNew = producto.getMarcaId();
-            Proveedor proveedorIdOld = persistentProducto.getProveedorId();
-            Proveedor proveedorIdNew = producto.getProveedorId();
-            Collection<DetalleFactura> detalleFacturaCollectionOld = persistentProducto.getDetalleFacturaCollection();
-            Collection<DetalleFactura> detalleFacturaCollectionNew = producto.getDetalleFacturaCollection();
-            List<String> illegalOrphanMessages = null;
-            for (DetalleFactura detalleFacturaCollectionOldDetalleFactura : detalleFacturaCollectionOld) {
-                if (!detalleFacturaCollectionNew.contains(detalleFacturaCollectionOldDetalleFactura)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain DetalleFactura " + detalleFacturaCollectionOldDetalleFactura + " since its productoId field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (marcaIdNew != null) {
-                marcaIdNew = em.getReference(marcaIdNew.getClass(), marcaIdNew.getId());
-                producto.setMarcaId(marcaIdNew);
-            }
-            if (proveedorIdNew != null) {
-                proveedorIdNew = em.getReference(proveedorIdNew.getClass(), proveedorIdNew.getId());
-                producto.setProveedorId(proveedorIdNew);
-            }
-            Collection<DetalleFactura> attachedDetalleFacturaCollectionNew = new ArrayList<DetalleFactura>();
-            for (DetalleFactura detalleFacturaCollectionNewDetalleFacturaToAttach : detalleFacturaCollectionNew) {
-                detalleFacturaCollectionNewDetalleFacturaToAttach = em.getReference(detalleFacturaCollectionNewDetalleFacturaToAttach.getClass(), detalleFacturaCollectionNewDetalleFacturaToAttach.getId());
-                attachedDetalleFacturaCollectionNew.add(detalleFacturaCollectionNewDetalleFacturaToAttach);
-            }
-            detalleFacturaCollectionNew = attachedDetalleFacturaCollectionNew;
-            producto.setDetalleFacturaCollection(detalleFacturaCollectionNew);
+//            Marca marcaIdOld = persistentProducto.getMarcaId();
+//            Marca marcaIdNew = producto.getMarcaId();
+//            Proveedor proveedorIdOld = persistentProducto.getProveedorId();
+//            Proveedor proveedorIdNew = producto.getProveedorId();
+//            Collection<DetalleFactura> detalleFacturaCollectionOld = persistentProducto.getDetalleFacturaCollection();
+//            Collection<DetalleFactura> detalleFacturaCollectionNew = producto.getDetalleFacturaCollection();
+//            List<String> illegalOrphanMessages = null;
+//            for (DetalleFactura detalleFacturaCollectionOldDetalleFactura : detalleFacturaCollectionOld) {
+//                if (!detalleFacturaCollectionNew.contains(detalleFacturaCollectionOldDetalleFactura)) {
+//                    if (illegalOrphanMessages == null) {
+//                        illegalOrphanMessages = new ArrayList<String>();
+//                    }
+//                    illegalOrphanMessages.add("You must retain DetalleFactura " + detalleFacturaCollectionOldDetalleFactura + " since its productoId field is not nullable.");
+//                }
+//            }
+//            if (illegalOrphanMessages != null) {
+//                throw new IllegalOrphanException(illegalOrphanMessages);
+//            }
+//            if (marcaIdNew != null) {
+//                marcaIdNew = em.getReference(marcaIdNew.getClass(), marcaIdNew.getId());
+//                producto.setMarcaId(marcaIdNew);
+//            }
+//            if (proveedorIdNew != null) {
+//                proveedorIdNew = em.getReference(proveedorIdNew.getClass(), proveedorIdNew.getId());
+//                producto.setProveedorId(proveedorIdNew);
+//            }
+//            Collection<DetalleFactura> attachedDetalleFacturaCollectionNew = new ArrayList<DetalleFactura>();
+//            for (DetalleFactura detalleFacturaCollectionNewDetalleFacturaToAttach : detalleFacturaCollectionNew) {
+//                detalleFacturaCollectionNewDetalleFacturaToAttach = em.getReference(detalleFacturaCollectionNewDetalleFacturaToAttach.getClass(), detalleFacturaCollectionNewDetalleFacturaToAttach.getId());
+//                attachedDetalleFacturaCollectionNew.add(detalleFacturaCollectionNewDetalleFacturaToAttach);
+//            }
+//            detalleFacturaCollectionNew = attachedDetalleFacturaCollectionNew;
+//            producto.setDetalleFacturaCollection(detalleFacturaCollectionNew);
             producto = em.merge(producto);
-            if (marcaIdOld != null && !marcaIdOld.equals(marcaIdNew)) {
-                marcaIdOld.getProductoCollection().remove(producto);
-                marcaIdOld = em.merge(marcaIdOld);
-            }
-            if (marcaIdNew != null && !marcaIdNew.equals(marcaIdOld)) {
-                marcaIdNew.getProductoCollection().add(producto);
-                marcaIdNew = em.merge(marcaIdNew);
-            }
-            if (proveedorIdOld != null && !proveedorIdOld.equals(proveedorIdNew)) {
-                proveedorIdOld.getProductoCollection().remove(producto);
-                proveedorIdOld = em.merge(proveedorIdOld);
-            }
-            if (proveedorIdNew != null && !proveedorIdNew.equals(proveedorIdOld)) {
-                proveedorIdNew.getProductoCollection().add(producto);
-                proveedorIdNew = em.merge(proveedorIdNew);
-            }
-            for (DetalleFactura detalleFacturaCollectionNewDetalleFactura : detalleFacturaCollectionNew) {
-                if (!detalleFacturaCollectionOld.contains(detalleFacturaCollectionNewDetalleFactura)) {
-                    Producto oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura = detalleFacturaCollectionNewDetalleFactura.getProductoId();
-                    detalleFacturaCollectionNewDetalleFactura.setProductoId(producto);
-                    detalleFacturaCollectionNewDetalleFactura = em.merge(detalleFacturaCollectionNewDetalleFactura);
-                    if (oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura != null && !oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura.equals(producto)) {
-                        oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura.getDetalleFacturaCollection().remove(detalleFacturaCollectionNewDetalleFactura);
-                        oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura = em.merge(oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura);
-                    }
-                }
-            }
-            em.getTransaction().commit();
+//            if (marcaIdOld != null && !marcaIdOld.equals(marcaIdNew)) {
+//                marcaIdOld.getProductoCollection().remove(producto);
+//                marcaIdOld = em.merge(marcaIdOld);
+//            }
+//            if (marcaIdNew != null && !marcaIdNew.equals(marcaIdOld)) {
+//                marcaIdNew.getProductoCollection().add(producto);
+//                marcaIdNew = em.merge(marcaIdNew);
+//            }
+//            if (proveedorIdOld != null && !proveedorIdOld.equals(proveedorIdNew)) {
+//                proveedorIdOld.getProductoCollection().remove(producto);
+//                proveedorIdOld = em.merge(proveedorIdOld);
+//            }
+//            if (proveedorIdNew != null && !proveedorIdNew.equals(proveedorIdOld)) {
+//                proveedorIdNew.getProductoCollection().add(producto);
+//                proveedorIdNew = em.merge(proveedorIdNew);
+//            }
+//            for (DetalleFactura detalleFacturaCollectionNewDetalleFactura : detalleFacturaCollectionNew) {
+//                if (!detalleFacturaCollectionOld.contains(detalleFacturaCollectionNewDetalleFactura)) {
+//                    Producto oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura = detalleFacturaCollectionNewDetalleFactura.getProductoId();
+//                    detalleFacturaCollectionNewDetalleFactura.setProductoId(producto);
+//                    detalleFacturaCollectionNewDetalleFactura = em.merge(detalleFacturaCollectionNewDetalleFactura);
+//                    if (oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura != null && !oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura.equals(producto)) {
+//                        oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura.getDetalleFacturaCollection().remove(detalleFacturaCollectionNewDetalleFactura);
+//                        oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura = em.merge(oldProductoIdOfDetalleFacturaCollectionNewDetalleFactura);
+//                    }
+//                }
+//            }
+//            em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -289,6 +289,16 @@ public class ProductoJpaController implements Serializable {
             System.out.println("error al descontar stock = " + e.getMessage());
         }
 //        return null;
+    }
+    
+    public void commit(){
+        EntityManager em = (EntityManager) emf;
+        em.getTransaction().commit();
+    }
+    
+    public void rollback(){
+        EntityManager em =(EntityManager) emf;
+        em.getTransaction().rollback();
     }
     
 }

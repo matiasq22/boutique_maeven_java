@@ -208,6 +208,7 @@ public class IniciarSesion extends javax.swing.JFrame {
             else{  
                  JOptionPane.showMessageDialog(rootPane, "Acceso concedido","Acceso al Sistema",JOptionPane.INFORMATION_MESSAGE);
                 controller.setUserLogged(login);
+                System.out.println("login = " + controller.getUserLogged());
                 this.dispose();
                 inicio form= new inicio();
                 form.toFront();

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,7 +55,7 @@ public class Cliente implements Serializable {
     private Integer cedula;
     @Column(name = "estado")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteId",fetch = FetchType.EAGER)
     private Collection<Factura> facturaCollection;
 
     public Cliente() {
@@ -119,6 +120,20 @@ public class Cliente implements Serializable {
 
     public void setFacturaCollection(Collection<Factura> facturaCollection) {
         this.facturaCollection = facturaCollection;
+    }
+    
+    public void addFactura(Factura factura){
+         if(!getFacturaCollection().contains(factura)){
+             getFacturaCollection().add(factura);
+             factura.setClienteId(this);
+         }
+    }
+    
+    public void removeFactura(Factura factura){
+        if(getFacturaCollection().contains(factura)){
+            getFacturaCollection().remove(factura);
+            factura.setClienteId(null);
+        }
     }
 
     @Override
