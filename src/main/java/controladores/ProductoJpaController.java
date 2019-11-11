@@ -270,7 +270,7 @@ public class ProductoJpaController implements Serializable {
             em.close();
             return productos;
         } catch (Exception e) {
-            System.out.println("error = " + e.getMessage());
+            System.out.println("productocontroller::search | error = " + e.getMessage());
             em.close();
             return null;
         }

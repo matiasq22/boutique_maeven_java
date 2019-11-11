@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class Proveedor implements Serializable {
     private String ruc;
     @Column(name = "telefono")
     private String telefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorId",fetch = FetchType.LAZY)
     private Collection<Producto> productoCollection;
 
     public Proveedor() {
@@ -121,7 +122,7 @@ public class Proveedor implements Serializable {
 
     @Override
     public String toString() {
-        return "Proveedor{" + "id=" + id + ", descripcion=" + descripcion + ", ruc=" + ruc + ", telefono=" + telefono + ", productoCollection=" + productoCollection + '}';
+        return getDescripcion();
     }
 
     

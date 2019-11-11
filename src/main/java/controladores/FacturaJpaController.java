@@ -244,7 +244,7 @@ public class FacturaJpaController implements Serializable {
             Session session = (Session) em.getDelegate();
             Criteria criteria = session
                     .createCriteria(Factura.class)
-                    .setProjection(Projections.max("numero_fac"));
+                    .setProjection(Projections.max("numeroFac"));
             factura = (String) criteria.uniqueResult();
             System.out.println("factura = " + factura);
         } catch (HibernateException e) {

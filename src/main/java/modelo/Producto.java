@@ -54,7 +54,7 @@ public class Producto implements Serializable {
     private Integer cantidad;
     @Column(name = "precio")
     private Integer precio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoId",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoId")
     private Collection<DetalleFactura> detalleFacturaCollection;
     @JoinColumn(name = "marca_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

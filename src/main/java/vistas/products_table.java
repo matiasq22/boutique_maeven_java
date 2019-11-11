@@ -138,7 +138,8 @@ public class products_table extends javax.swing.JFrame {
              lbltotalregistros.setText("Total Registros: "+Integer.toString(productoController.getProductoCount()));
          } catch (Exception e) {
               JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de clientes");
-              System.out.println("error = " + e.getMessage());
+              System.out.println("products_table::mostrar | error = " + e.getMessage());
+              e.getStackTrace();
          }
     }
     
@@ -165,7 +166,7 @@ public class products_table extends javax.swing.JFrame {
                 int c=0;
                 int j=0;
                 String  cant=JOptionPane.showInputDialog("ingrese cantidad");
-                if((cant.equals("")) || (cant.equals("0")))
+                if((cant == null) || (cant.equals("")) || (cant.equals("0")))
                 {
                     JOptionPane.showMessageDialog(this, "Debe ingresar algun valor mayor que 0");
                 }
@@ -213,7 +214,8 @@ public class products_table extends javax.swing.JFrame {
             }
                this.dispose();
         } catch (HeadlessException  | NumberFormatException e) {
-            System.out.println("error = " + e.getMessage());
+            System.out.println("produtcs_table::mouseclicked | error = " + e.getMessage());
+            e.getStackTrace();
         }
     }//GEN-LAST:event_tbprodMouseClicked
 

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="705e56ef-fd62-4533-bf82-c53cb398581a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="factura" class="java.lang.String"/>
+	<parameter name="ruc" class="java.lang.String"/>
+	<parameter name="producto" class="java.lang.String"/>
+	<parameter name="cantidad" class="java.lang.String"/>
+	<parameter name="precio" class="java.lang.String"/>
+	<parameter name="subtotal" class="java.lang.String"/>
+	<parameter name="total" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="121" splitType="Stretch">
+			<image>
+				<reportElement x="12" y="4" width="70" height="64" uuid="09479b4b-399b-474c-947f-dfadd6b8542e"/>
+				<imageExpression><![CDATA["/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/icono de formulario usuario/icons8-camiseta-forester-64.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="86" y="52" width="394" height="26" uuid="cd44051b-4ce9-4669-890f-4d7a6c279a93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Av. Luis Alberto del parana. c/ bejarano]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="133" y="9" width="303" height="33" uuid="0fcae694-2c71-4b94-a86a-71f66e3d6f1f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOUTIQUE TIA ELVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="78" width="317" height="33" uuid="480c2b9a-04e6-4aad-bd1a-1873d20c9bbd"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asuncion -- Paraguay]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="162" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="250" height="115" uuid="980879a6-9e09-4fbe-8a38-d2021591f4d5"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="292" y="0" width="263" height="115" uuid="027de4fc-9774-4052-b550-85989ba69909"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="20" y="15" width="66" height="29" uuid="04a32bac-76a1-4cc6-b0c2-3b6be94333c2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[CLIENTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="57" width="66" height="29" uuid="9bbf073f-1bae-4530-8b12-cfd35e0bdbc9"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[RUC:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="133" y="15" width="100" height="29" uuid="478c073f-db2e-43c7-af0a-8918235c3eac"/>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="133" y="57" width="100" height="30" uuid="07204dd9-1499-4e02-af7f-342a4365c78e"/>
+				<textFieldExpression><![CDATA[$P{ruc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="0" width="71" height="27" uuid="9bcea687-fa8c-46e5-b92d-35fcca6ab058"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Timbrado:                  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="58" height="27" uuid="7f8407cd-d868-467f-b75c-147bed04e449"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[1234567]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="30" width="71" height="27" uuid="6ff7d78e-b072-4842-a796-44117bdcdb4f"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Vencimiento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="30" width="70" height="27" uuid="ae99db3f-657a-4f2d-bbbf-15431ffb7cb4"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[2020/10/22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="72" width="81" height="27" uuid="17c72639-70d0-4c2f-85f6-31a1a4cf4ee0"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Numero Fac:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="410" y="72" width="108" height="27" uuid="d7315861-2198-48b1-ac64-60a3f7ee5ba2"/>
+				<textFieldExpression><![CDATA[$P{factura}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

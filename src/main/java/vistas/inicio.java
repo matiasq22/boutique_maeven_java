@@ -10,15 +10,20 @@ import controladores.FacturaJpaController;
 import controladores.DetalleFacturaJpaController;
 import controladores.MarcaJpaController;
 import controladores.ProductoJpaController;
+import controladores.ProveedorJpaController;
 import controladores.UsuarioJpaController;
 import controladores.exceptions.NonexistentEntityException;
+import dao.DetalleFacDao;
+import dao.FacturaDao;
+import dao.MarcaDao;
+import dao.ProductoDao;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
@@ -27,12 +32,13 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Usuario;
 import rojeru_san.RSPanelsSlider;
 import java.util.logging.Logger;
-import javax.persistence.EntityTransaction;
+import javax.swing.JComboBox;
 import modelo.Cliente;
 import modelo.DetalleFactura;
 import modelo.Factura;
 import modelo.Marca;
 import modelo.Producto;
+import modelo.Proveedor;
 import utils.helpers;
 
 /**
@@ -51,6 +57,7 @@ public class inicio extends javax.swing.JFrame {
     MarcaJpaController marcasController;
     ProductoJpaController productoController;
     MarcaJpaController marcaController;
+    ProveedorJpaController proveedorController;
     helpers helper;
     FacturaJpaController facturaController;
     DetalleFacturaJpaController detalleFacController;
@@ -72,18 +79,21 @@ public class inicio extends javax.swing.JFrame {
         helper = new helpers();
         facturaController = new FacturaJpaController();
         detalleFacController = new DetalleFacturaJpaController();
+        proveedorController = new ProveedorJpaController();
         mostrarUsuarios("");
         mostrarClientes("");
-//     llenacombo();
-        llenacomboProd();
+        mostrarMarcas("");
+        mostrarProductos("");
+        llenacomboProveedor(cboproveedor);
+        llenacomboProd(cbomarca);
         generateInvoiceNumber();
     }
-
+    
     private void generateInvoiceNumber() {
         try {
             String number = helper.GenerateNumber();
             if (!number.equals("")) {
-                this.txtfac.setText(number);
+                txtfac.setText(number);
             }
 
         } catch (Exception e) {
@@ -165,24 +175,23 @@ public class inicio extends javax.swing.JFrame {
             });
 
             tablausuario.setModel(modelo);
-            lbltotalregistros.setText("Total Registros: " + Integer.toString(Usercontroller.getUsuarioCount()));
+            usertotalregistros.setText(Integer.toString(Usercontroller.getUsuarioCount()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
             System.out.println("error = " + e.getMessage());
         }
     }
 
-    private void llenacombo() throws NullPointerException {
+    private void llenacomboProveedor(JComboBox<Proveedor> cboProveedor) throws NullPointerException {
         try {
-            List<Usuario> users = Usercontroller.findUsuarioEntities();
-            System.out.println("users = " + users);
-            if (users.isEmpty()) {
+            List<Proveedor> prove = proveedorController.findProveedorEntities();
+            
+            if (prove.isEmpty()) {
                 System.out.println("Error on llenacombo return users null");
             }
-            users.forEach((user) -> {
-                comboModelo.addElement(user);
+            prove.forEach((prov) -> {
+                cboProveedor.addItem(prov);
             });
-            Usercontroller.close();
         } catch (NullPointerException e) {
             System.out.println("error = " + e.getMessage());
             JOptionPane.showMessageDialog(this, "Error al cargar el lista de usuarios");
@@ -210,7 +219,7 @@ public class inicio extends javax.swing.JFrame {
             System.out.println("modelo = " + modelo);
 
             tbclientes.setModel(modelo);
-//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+             clientetotalreg.setText(Integer.toString(clienteController.getClienteCount()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de clientes");
             System.out.println("error = " + e.getMessage());
@@ -312,28 +321,26 @@ public class inicio extends javax.swing.JFrame {
             });
 
             tbproducto.setModel(modelo);
-//             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+             productototalreg.setText(Integer.toString(productoController.getProductoCount()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
             System.out.println("error = " + e.getMessage());
         }
     }
 
-    private void llenacomboProd() throws NullPointerException {
+    private void llenacomboProd(JComboBox<Marca> cboMarca) throws NullPointerException {
         try {
             List<Marca> marcas = marcaController.findMarcaEntities();
-//        System.out.println("users = " + users);
             if (marcas.isEmpty()) {
-                System.out.println("Error on llenacombo return products null");
+                System.out.println("Error on llenacombo return marcas null");
             }
             marcas.forEach((marca) -> {
-                comboModeloMarca.addElement(marca);
+                cboMarca.addItem(marca);
             });
-//        productoController.clsose();
-            cbomarca.setModel(comboModeloMarca);
-        } catch (NullPointerException e) {
+            System.out.println("marcas = " + marcas);
+        } catch (Exception e) {
             System.out.println("error = " + e.getMessage());
-//            JOptionPane.showMessageDialog(this,"Error al cargar el lista de productos");
+            JOptionPane.showMessageDialog(this,"Error al cargar el lista de marcas");
         }
     }
 
@@ -406,7 +413,7 @@ public class inicio extends javax.swing.JFrame {
             });
 
             tbmarca.setModel(modelo);
-             lbltotalregistros.setText("Total Registros: "+Integer.toString(Usercontroller.getUsuarioCount()));
+             marcatotalreg.setText(Integer.toString(marcaController.getMarcaCount()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "error al cargar tabla de usuarios");
             System.out.println("error = " + e.getMessage());
@@ -423,7 +430,7 @@ public class inicio extends javax.swing.JFrame {
     private void initComponents() {
 
         txtidusuario = new javax.swing.JTextField();
-        evaluatorLine2D1 = new org.jdesktop.swing.animation.timing.evaluators.EvaluatorLine2D();
+        txtidproducto = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         sidebar = new javax.swing.JPanel();
         lblacceso = new javax.swing.JLabel();
@@ -437,7 +444,6 @@ public class inicio extends javax.swing.JFrame {
         btnVenta = new rojeru_san.RSButton();
         btnMarca = new rojeru_san.RSButton();
         jPanel2 = new javax.swing.JPanel();
-        lblhora = new javax.swing.JLabel();
         rSPanelsSlider1 = new rojeru_san.RSPanelsSlider();
         pnelUsuario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -460,7 +466,7 @@ public class inicio extends javax.swing.JFrame {
         tablausuario = new javax.swing.JTable();
         txtbuscarUsuarios = new javax.swing.JTextField();
         btneliminarUsuarios = new javax.swing.JButton();
-        lbltotalregistros = new javax.swing.JLabel();
+        usertotalregistros = new javax.swing.JLabel();
         btneditarUsuarios = new javax.swing.JButton();
         btnbuscar1Usuarios = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -489,6 +495,8 @@ public class inicio extends javax.swing.JFrame {
         txtbuscarClientes = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         btnbuscarClientes = new javax.swing.JButton();
+        clientetotalreg = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         pnelMarca = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -507,6 +515,8 @@ public class inicio extends javax.swing.JFrame {
         tbmarca = new javax.swing.JTable();
         txtbuscarMarca = new javax.swing.JTextField();
         btnmostrarMarca = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        marcatotalreg = new javax.swing.JLabel();
         pnelProducto = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -519,6 +529,8 @@ public class inicio extends javax.swing.JFrame {
         txtprecio = new javax.swing.JTextField();
         txtcantidad = new javax.swing.JTextField();
         cbomarca = new javax.swing.JComboBox<>();
+        cboproveedor = new javax.swing.JComboBox<>();
+        jLabel47 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         btnnuevoProducto = new javax.swing.JButton();
         btnguardarProducto = new javax.swing.JButton();
@@ -530,6 +542,8 @@ public class inicio extends javax.swing.JFrame {
         btnbuscarProducto = new javax.swing.JButton();
         txtbuscarProducto = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        productototalreg = new javax.swing.JLabel();
         pnelVenta = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
@@ -577,6 +591,8 @@ public class inicio extends javax.swing.JFrame {
         jLabel46 = new javax.swing.JLabel();
 
         txtidusuario.setText("jTextField1");
+
+        txtidproducto.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -692,11 +708,6 @@ public class inicio extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(33, 45, 62));
         jPanel2.setForeground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblhora.setFont(new java.awt.Font("Agency FB", 1, 36)); // NOI18N
-        lblhora.setForeground(new java.awt.Color(255, 255, 255));
-        lblhora.setText("Muestra hora");
-        jPanel2.add(lblhora, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 670, 280, 90));
 
         rSPanelsSlider1.setBackground(new java.awt.Color(33, 45, 62));
 
@@ -866,10 +877,9 @@ public class inicio extends javax.swing.JFrame {
         });
         jPanel5.add(btneliminarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 427, -1, -1));
 
-        lbltotalregistros.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        lbltotalregistros.setForeground(new java.awt.Color(255, 255, 255));
-        lbltotalregistros.setText("Registros:");
-        jPanel5.add(lbltotalregistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 440, -1, -1));
+        usertotalregistros.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        usertotalregistros.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel5.add(usertotalregistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 430, 90, 40));
 
         btneditarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btneditarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -1071,7 +1081,7 @@ public class inicio extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tbclientes);
 
-        pnelClientes.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 930, -1));
+        pnelClientes.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, 930, -1));
 
         txtbuscarClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1083,12 +1093,12 @@ public class inicio extends javax.swing.JFrame {
                 txtbuscarClientesKeyReleased(evt);
             }
         });
-        pnelClientes.add(txtbuscarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 360, -1));
+        pnelClientes.add(txtbuscarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, 360, -1));
 
         jLabel16.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("BUSCAR:");
-        pnelClientes.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
+        pnelClientes.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, -1, -1));
 
         btnbuscarClientes.setBackground(new java.awt.Color(51, 153, 255));
         btnbuscarClientes.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
@@ -1099,7 +1109,16 @@ public class inicio extends javax.swing.JFrame {
                 btnbuscarClientesActionPerformed(evt);
             }
         });
-        pnelClientes.add(btnbuscarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 300, -1, -1));
+        pnelClientes.add(btnbuscarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 280, -1, -1));
+
+        clientetotalreg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        clientetotalreg.setForeground(new java.awt.Color(255, 255, 255));
+        pnelClientes.add(clientetotalreg, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 720, 100, 30));
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Total Registros");
+        pnelClientes.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 720, -1, -1));
 
         rSPanelsSlider1.add(pnelClientes, "card2");
 
@@ -1158,7 +1177,7 @@ public class inicio extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnelMarca.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 670, 180));
+        pnelMarca.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 670, 210));
 
         jPanel10.setBackground(new java.awt.Color(0, 102, 204));
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ACCIONES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -1254,14 +1273,14 @@ public class inicio extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tbmarca);
 
-        pnelMarca.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 760, 392));
+        pnelMarca.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 760, 392));
 
         txtbuscarMarca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtbuscarMarcaKeyReleased(evt);
             }
         });
-        pnelMarca.add(txtbuscarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 496, -1));
+        pnelMarca.add(txtbuscarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 496, -1));
 
         btnmostrarMarca.setBackground(new java.awt.Color(0, 153, 255));
         btnmostrarMarca.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
@@ -1272,7 +1291,16 @@ public class inicio extends javax.swing.JFrame {
                 btnmostrarMarcaActionPerformed(evt);
             }
         });
-        pnelMarca.add(btnmostrarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 270, -1, -1));
+        pnelMarca.add(btnmostrarMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 280, -1, -1));
+
+        jLabel20.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("Total Registros");
+        pnelMarca.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 720, -1, -1));
+
+        marcatotalreg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        marcatotalreg.setForeground(new java.awt.Color(255, 255, 255));
+        pnelMarca.add(marcatotalreg, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 720, 120, 30));
 
         rSPanelsSlider1.add(pnelMarca, "card4");
 
@@ -1293,22 +1321,22 @@ public class inicio extends javax.swing.JFrame {
         jLabel22.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("Modelo:");
-        jPanel11.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
+        jPanel11.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, -1, -1));
 
         jLabel23.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setText("Cantidad:");
-        jPanel11.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, -1, -1));
+        jPanel11.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
 
         jLabel24.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setText("Precio:");
-        jPanel11.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
+        jPanel11.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, -1, -1));
 
         jLabel25.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setText("Marca:");
-        jPanel11.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
+        jPanel11.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
 
         txtproducto.setFont(new java.awt.Font("Rockwell Condensed", 0, 14)); // NOI18N
         jPanel11.add(txtproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 191, -1));
@@ -1318,15 +1346,15 @@ public class inicio extends javax.swing.JFrame {
                 txtmodeloActionPerformed(evt);
             }
         });
-        jPanel11.add(txtmodelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 190, -1));
+        jPanel11.add(txtmodelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 190, -1));
 
         txtprecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtprecioActionPerformed(evt);
             }
         });
-        jPanel11.add(txtprecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 190, -1));
-        jPanel11.add(txtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 190, -1));
+        jPanel11.add(txtprecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 190, -1));
+        jPanel11.add(txtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 190, -1));
 
         cbomarca.setForeground(new java.awt.Color(255, 255, 255));
         cbomarca.addActionListener(new java.awt.event.ActionListener() {
@@ -1334,7 +1362,20 @@ public class inicio extends javax.swing.JFrame {
                 cbomarcaActionPerformed(evt);
             }
         });
-        jPanel11.add(cbomarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 190, -1));
+        jPanel11.add(cbomarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 190, -1));
+
+        cboproveedor.setForeground(new java.awt.Color(255, 255, 255));
+        cboproveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboproveedorActionPerformed(evt);
+            }
+        });
+        jPanel11.add(cboproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 190, -1));
+
+        jLabel47.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel47.setText("Proveedor:");
+        jPanel11.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
         pnelProducto.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 580, 460));
 
@@ -1482,6 +1523,15 @@ public class inicio extends javax.swing.JFrame {
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setText("BUSCAR:");
         pnelProducto.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 520, 110, -1));
+
+        jLabel48.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel48.setText("Total Registros");
+        pnelProducto.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 720, -1, -1));
+
+        productototalreg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        productototalreg.setForeground(new java.awt.Color(255, 255, 255));
+        pnelProducto.add(productototalreg, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 710, 90, 40));
 
         rSPanelsSlider1.add(pnelProducto, "card5");
 
@@ -2274,17 +2324,14 @@ public class inicio extends javax.swing.JFrame {
             return;
         }
         try {
-            Marca marca = new Marca();
-
-            marca.setMarca(txtnombremarca.getText());
-            marca.setDescripcion(txtdescripcionmarca.getText());
-
-            marcaController.create(marca);
-            JOptionPane.showMessageDialog(rootPane, "Marca creada satisfactoriamente");
+            MarcaDao dao = new MarcaDao();
+            Collection<Producto> productoCollection = new ArrayList<>();
+            String message = dao.create(txtdescripcionmarca.getText(), txtnombremarca.getText(), productoCollection);
+            JOptionPane.showMessageDialog(rootPane, message);
             mostrarMarcas("");
             limpiarMarca();
             bloquearMarca();
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
             System.out.println("error = " + e.getMessage());
         }
@@ -2326,17 +2373,14 @@ public class inicio extends javax.swing.JFrame {
         }
 
         try {
-            Marca marca = marcaController.findMarca(Integer.parseInt(txtidmarca.getText()));
-
-            marca.setMarca(txtnombremarca.getText());
-            marca.setDescripcion(txtdescripcionmarca.getText());
-
-            marcaController.edit(marca);
-            JOptionPane.showMessageDialog(rootPane, "Marca actualizada satisfactoriamente");
+             MarcaDao dao = new MarcaDao();
+            Collection<Producto> productoCollection = new ArrayList<>();
+            String message = dao.update(Integer.parseInt(txtidmarca.getText()),txtdescripcionmarca.getText(), txtnombremarca.getText(), productoCollection);
+            JOptionPane.showMessageDialog(rootPane, message);
             mostrarMarcas("");
             limpiarMarca();
             bloquearMarca();
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
             System.out.println("error = " + e.getMessage());
         }
@@ -2356,7 +2400,7 @@ public class inicio extends javax.swing.JFrame {
         try {
             System.out.println("fila = " + fila);
             if (fila >= 0) {
-//                Idproducto.setText(tbproducto.getValueAt(fila, 0).toString());
+                txtidproducto.setText(tbproducto.getValueAt(fila, 0).toString());
                 txtproducto.setText(tbproducto.getValueAt(fila, 1).toString());
                 txtmodelo.setText(tbproducto.getValueAt(fila, 2).toString());
                 txtcantidad.setText(tbproducto.getValueAt(fila, 3).toString());
@@ -2418,31 +2462,17 @@ public class inicio extends javax.swing.JFrame {
             txtprecio.requestFocus();
             return;
         }
-        //
-        ////        vproducto dts =new vproducto();
-        ////        ftproductos func=new ftproductos();
-        //
-        //        dts.setNombre(txtproducto.getText());
-        //        String modelo = txtmodelo.getText();
-        //        String cantidad = txtcantidad.getText();
-        //        String precio = txtprecio.getText();
-        //        int seleccionado=cbomarca.getSelectedIndex();
-        ////        vmarca marca = (vmarca) cbomarca.getSelectedItem();
-        ////        dts.setidmarca(marca.getidmarca());
-        //        dts.setcantidad(cantidad);
-        //        dts.setprecio(precio);
-        //        dts.setmodelo(modelo);
-        //
-        //
-        //
-        //
-        //            if(func.insertar(dts)){
-        //                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
-        //                mostrar("");
-        //                limpiar();
-        //                bloquear();
-        //            }
-
+        
+        ProductoDao dao = new ProductoDao();
+        
+        Marca mark = cbomarca.getItemAt(cbomarca.getSelectedIndex());
+        Proveedor prove = cboproveedor.getItemAt(cboproveedor.getSelectedIndex());
+        Collection<DetalleFactura> detalleFacturaCollection = new ArrayList<>();
+        String message = dao.create(txtproducto.getText(), txtmodelo.getText(), Integer.parseInt(txtprecio.getText()), Integer.parseInt(txtcantidad.getText()), mark, prove, detalleFacturaCollection);
+        JOptionPane.showMessageDialog(this, message);
+        mostrarProductos("");
+        limpiarProducto();
+        bloquearProducto();
     }//GEN-LAST:event_btnguardarProductoActionPerformed
 
     private void btneditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarProductoActionPerformed
@@ -2472,46 +2502,35 @@ public class inicio extends javax.swing.JFrame {
             return;
         }
 
-        //        vproducto dts =new vproducto();
-        //        ftproductos func=new ftproductos();
-        //
-        //        dts.setNombre(txtproducto.getText());
-        //        String modelo = txtmodelo.getText();
-        //        String cantidad = txtcantidad.getText();
-        //        String precio = txtprecio.getText();
-        //        int seleccionado=cbomarca.getSelectedIndex();
-        ////        vmarca marca = (vmarca) cbomarca.getSelectedItem();
-        //        dts.setidmarca(marca.getidmarca());
-        //        dts.setcantidad(cantidad);
-        //        dts.setprecio(precio);
-        //        dts.setmodelo(modelo);
-        //        int fila = tbproducto.getSelectedRow();
-        //        int idproducto=Integer.parseInt(tbproducto.getValueAt(fila, 0).toString());
-        //        dts.setidproducto(idproducto);
-        //
-        //            if(func.editar(dts)){
-        //                JOptionPane.showConfirmDialog(rootPane, "El producto fue registrado satisfactoriamente");
-        //                mostrar("");
-        //                limpiar();
-        //                bloquear();
-        //            }
+         ProductoDao dao = new ProductoDao();
+        Marca mark = cbomarca.getItemAt(cbomarca.getSelectedIndex());
+        Proveedor prove = cboproveedor.getItemAt(cboproveedor.getSelectedIndex());
+        Collection<DetalleFactura> detalleFacturaCollection = new ArrayList<>();
+        String message = dao.update(Integer.parseInt(txtidproducto.getText()), txtproducto.getText(), txtmodelo.getText(), Integer.parseInt(txtprecio.getText()), Integer.parseInt(txtcantidad.getText()), mark, prove, detalleFacturaCollection);
+        JOptionPane.showMessageDialog(this, message);
+        mostrarProductos("");
+        limpiarProducto();
+        bloquearProducto();
     }//GEN-LAST:event_btneditarProductoActionPerformed
 
     private void btneliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarProductoActionPerformed
         // TODO add your handling code here:
-//        if(!Idproducto.getText().equals("")){
-//            int confirmacion=JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar el producto","Confirmar",2);
-//
-//            if(confirmacion==0){
-//                //                ftproductos func=new ftproductos();
-//                //                vproducto dts=new vproducto();
-//
-//                //             dts.setidproducto(Integer.parseInt(Idproducto.getText()));
-//                //                func.eliminar(dts);
-//                //                mostrar("");
-//                //                //inhabilitar();
-//            }
-//        }
+        if (!txtidproducto.getText().equals("")) {
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar el Usuario", "Confirmar", 2);
+
+            try {
+                if (confirmacion == 0) {
+
+                    Producto product;
+                    product = productoController.findProducto(Integer.parseInt(txtidusuario.getText()));
+                    Usercontroller.destroy(product.getId());
+                    mostrarProductos("");
+                    limpiarProducto();
+                }
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btneliminarProductoActionPerformed
 
     private void btncancelarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarProductoActionPerformed
@@ -2549,52 +2568,40 @@ public class inicio extends javax.swing.JFrame {
         } else {
             String capcod = "", capcan = "";
             List<DetalleFactura> detalles = new ArrayList<DetalleFactura>();
-//            EntityTransaction transaction = helper.NewSession();
-//            transaction.begin();
             try {
+                FacturaDao obj = new FacturaDao();
                 Cliente cli = clienteController.findCliente(Integer.parseInt(txtcod1.getText()));
-                Factura factura = new Factura();
-                factura.setClienteId(cli);
-                factura.setNumeroFac(txtfac.getText());
-                factura.setUsuarioId(Usercontroller.getUserLogged());
-                factura.setEstado("Pendiente");
-                factura.setFecha(LocalDate.now());
-                Factura fac = facturaController.create(factura);
+                String iva = txtigv.getText();
+                String total = txttotal.getText();
+                String subtotal = txtsubtotal.getText();
+                Factura invoice = obj.create(cli, "Pendiente", new Date(), Usercontroller.getUserLogged(), iva, txtfac.getText(), subtotal, total, detalles);
                 for (int i = 0; i < inicio.tbdet.getRowCount(); i++) {
+                    DetalleFacDao detalle = new DetalleFacDao();
+                    System.out.println("codigo de producto = " + tbdet.getValueAt(i, 0));
                     capcod = inicio.tbdet.getValueAt(i, 0).toString();
                     capcan = inicio.tbdet.getValueAt(i, 3).toString();
                     Producto product = productoController.findProducto(Integer.parseInt(capcod));
-                    DetalleFactura detalle = new DetalleFactura();
-                    detalle.setDescuento(0.0);
-                    detalle.setFacturaId(fac);
-                    detalle.setProductoId(product);
-                    detalle.setTotalventa((Double) inicio.tbdet.getValueAt(i, 4));
-                    detalle.setCantidad(Integer.parseInt(capcan));
-                    detalles.add(detalle);
-                    int cant = product.getCantidad() - Integer.parseInt(inicio.tbdet.getValueAt(i, 3).toString());
-                    System.out.println("cant = " + cant);
-                    product.setCantidad(cant);
-                    product.addDetalleFactura(detalle);
-                    detalleFacController.create(detalle);
-                    productoController.edit(product);
+                    int cant = product.getCantidad() - Integer.parseInt(capcan);
+                    ProductoDao pdao = new ProductoDao();
+                    pdao.updateStock(product.getId(), cant);
+                    double precio = (Double) inicio.tbdet.getValueAt(i, 4);
+                    detalle.create(Integer.parseInt(capcan), 0.0, invoice,product,precio);
                 }
-                System.out.println("factura a modificar = " + fac);
-                fac.setDetalleFacturaCollection(detalles);
-                fac.setIva(Integer.parseInt(txtigv.getText()));
-                fac.setSubtotal(Integer.parseInt(txtsubtotal.getText()));
-                fac.setTotalfactura(Integer.parseInt(txttotal.getText()));
-                facturaController.edit(fac);
-            } catch (NumberFormatException e) {
-                System.out.println("error al generar factura = " + e.getMessage());
-                JOptionPane.showMessageDialog(rootPane, "Ocurrio un error al generar la factura, favor intente nuevamente", "ERROR", JOptionPane.ERROR_MESSAGE);
+                int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Factura registrada. Desea imprimir la factura ?", "Confirmar", 2);
+                if(confirmacion == 0 ){
+                    try{
+                    obj.printInvoice(invoice.getId());
+                    }catch(Exception e){
+                        System.out.println("inicio::guardarFactura | error on print invoice = " + e.getMessage());
+                        JOptionPane.showMessageDialog(this, "Error al imprimir la fatura. Favor intetar mas tarde");
+                    }
+                }
+            } catch(NumberFormatException e){
+                System.out.println("error al parsear los datos = " + e.getMessage());
             } catch (Exception ex) {
                 System.out.println("exception = " + ex.getMessage());
                 Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex.getMessage());
             }
-
-            //factura();
-            //detallefactura();
-            //mostrarFactura();
             txtidcliente.setText("");
             txtnomape.setText("");
             txtdir.setText("");
@@ -2611,7 +2618,7 @@ public class inicio extends javax.swing.JFrame {
                     modelo.removeRow(i);
             }
 
-//            numeros();
+            generateInvoiceNumber();
         }
 
     }//GEN-LAST:event_btnguardarFacturaActionPerformed
@@ -2771,6 +2778,10 @@ public class inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtprecioActionPerformed
 
+    private void cboproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboproveedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboproveedorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2787,15 +2798,11 @@ public class inicio extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -2845,9 +2852,10 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnsalir2;
     private javax.swing.JComboBox cboacceso1;
     private javax.swing.JComboBox cboestado;
-    private javax.swing.JComboBox<String> cbomarca;
+    private javax.swing.JComboBox<Marca> cbomarca;
+    private javax.swing.JComboBox<Proveedor> cboproveedor;
+    private javax.swing.JLabel clientetotalreg;
     private com.toedter.calendar.JDateChooser dcfecha_ingreso;
-    private org.jdesktop.swing.animation.timing.evaluators.EvaluatorLine2D evaluatorLine2D1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2860,6 +2868,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -2888,7 +2897,10 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2914,14 +2926,14 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel labeltotalusuarios;
     public static javax.swing.JLabel lblacceso;
-    private javax.swing.JLabel lblhora;
     public static javax.swing.JLabel lblnombre;
-    private javax.swing.JLabel lbltotalregistros;
+    private javax.swing.JLabel marcatotalreg;
     private javax.swing.JPanel pnelClientes;
     private javax.swing.JPanel pnelMarca;
     private javax.swing.JPanel pnelProducto;
     private javax.swing.JPanel pnelUsuario;
     private javax.swing.JPanel pnelVenta;
+    private javax.swing.JLabel productototalreg;
     private rojeru_san.RSPanelsSlider rSPanelsSlider1;
     private javax.swing.JPanel sidebar;
     private javax.swing.JTable tablausuario;
@@ -2946,6 +2958,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JTextField txtfec;
     private javax.swing.JTextField txtidcliente;
     private javax.swing.JTextField txtidmarca;
+    private javax.swing.JTextField txtidproducto;
     private javax.swing.JTextField txtidusuario;
     public javax.swing.JTextField txtigv;
     private javax.swing.JTextField txtlogin;
@@ -2960,36 +2973,6 @@ public class inicio extends javax.swing.JFrame {
     public static javax.swing.JTextField txtruc1;
     public javax.swing.JTextField txtsubtotal;
     public javax.swing.JTextField txttotal;
+    private javax.swing.JLabel usertotalregistros;
     // End of variables declaration//GEN-END:variables
-
-    public void run() {
-        Thread ct = Thread.currentThread();
-        while (ct == h1) {
-            calcula();
-            lblhora.setText(hora + ":" + minutos + ":" + segundos + " " + ampm);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
-        }
-    }
-
-    public void calcula() {
-        Calendar calendario = new GregorianCalendar();
-        Date fechaHoraActual = new Date();
-
-        calendario.setTime(fechaHoraActual);
-        ampm = calendario.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
-
-        if (ampm.equals("PM")) {
-            int h = calendario.get(Calendar.HOUR_OF_DAY) - 12;
-            hora = h > 9 ? "" + h : "0" + h;
-        } else {
-            hora = calendario.get(Calendar.HOUR_OF_DAY) > 9 ? "" + calendario.get(Calendar.HOUR_OF_DAY) : "0" + calendario.get(Calendar.HOUR_OF_DAY);
-        }
-        minutos = calendario.get(Calendar.MINUTE) > 9 ? "" + calendario.get(Calendar.MINUTE) : "0" + calendario.get(Calendar.MINUTE);
-        segundos = calendario.get(Calendar.SECOND) > 9 ? "" + calendario.get(Calendar.SECOND) : "0" + calendario.get(Calendar.SECOND);
-
-    }
-
 }

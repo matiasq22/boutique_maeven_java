@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,20 +47,20 @@ public class DetalleFactura implements Serializable {
     private Double totalventa;
     @Column(name = "cantidad")
     private Integer cantidad;
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
     @JoinColumn(name = "producto_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Producto productoId;
     @JoinColumn(name = "factura_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Factura facturaId;
+
+    public DetalleFactura(Double descuento,Double precio, Integer cantidad, Producto productoId, Factura facturaId) {
+        this.descuento = descuento;
+        this.cantidad = cantidad;
+        this.totalventa = precio;
+        this.productoId = productoId;
+        this.facturaId = facturaId;
+    }
 
     public DetalleFactura() {
     }
@@ -98,6 +99,14 @@ public class DetalleFactura implements Serializable {
 
     public void setProductoId(Producto productoId) {
         this.productoId = productoId;
+    }
+    
+     public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
     public Factura getFacturaId() {

@@ -55,7 +55,7 @@ public class Cliente implements Serializable {
     private Integer cedula;
     @Column(name = "estado")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteId",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteId")
     private Collection<Factura> facturaCollection;
 
     public Cliente() {

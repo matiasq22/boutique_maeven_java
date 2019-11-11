@@ -110,7 +110,7 @@ public class Marca implements Serializable {
 
     @Override
     public String toString() {
-        return "Marca{" + "id=" + id + ", marca=" + marca + ", descripcion=" + descripcion + ", productoCollection=" + productoCollection + '}';
+        return descripcion;
     }
 
     

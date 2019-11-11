@@ -5,6 +5,7 @@
  */
 package controladores;
 
+import configs.configs;
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
 import java.io.Serializable;
@@ -26,8 +27,8 @@ import modelo.Proveedor;
  */
 public class ProveedorJpaController implements Serializable {
 
-    public ProveedorJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ProveedorJpaController() {
+        this.emf = configs.conexion();
     }
     private EntityManagerFactory emf = null;
 

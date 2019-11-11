@@ -56,13 +56,13 @@ public class Factura implements Serializable {
     @Column(name = "estado")
     private String estado;
     @Column(name = "fecha")
-    private LocalDate fecha;
+    private Date fecha;
     @Column(name = "subtotal")
-    private Integer subtotal;
+    private String subtotal;
     @Column(name = "iva")
-    private Integer iva;
+    private String iva;
     @Column(name = "totalfactura")
-    private Integer totalfactura;
+    private String totalfactura;
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Cliente clienteId;
@@ -103,35 +103,35 @@ public class Factura implements Serializable {
         this.estado = estado;
     }
 
-    public LocalDate getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
-    public Integer getSubtotal() {
+    public String getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(Integer subtotal) {
+    public void setSubtotal(String subtotal) {
         this.subtotal = subtotal;
     }
 
-    public Integer getIva() {
+    public String getIva() {
         return iva;
     }
 
-    public void setIva(Integer iva) {
+    public void setIva(String iva) {
         this.iva = iva;
     }
 
-    public Integer getTotalfactura() {
+    public String getTotalfactura() {
         return totalfactura;
     }
 
-    public void setTotalfactura(Integer totalfactura) {
+    public void setTotalfactura(String totalfactura) {
         this.totalfactura = totalfactura;
     }
 
