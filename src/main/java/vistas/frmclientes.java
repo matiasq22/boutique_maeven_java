@@ -146,14 +146,14 @@ public class frmclientes extends javax.swing.JInternalFrame {
         });
         jPopupMenu1.add(mneliminar);
 
-        setBackground(new java.awt.Color(0, 102, 204));
+        setBackground(new java.awt.Color(33, 45, 62));
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("REGISTRO DE CLIENTES");
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 204));
+        jPanel1.setBackground(new java.awt.Color(33, 45, 62));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detalle Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
@@ -311,7 +311,7 @@ public class frmclientes extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(0, 102, 204));
+        jPanel2.setBackground(new java.awt.Color(33, 45, 62));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnnuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N

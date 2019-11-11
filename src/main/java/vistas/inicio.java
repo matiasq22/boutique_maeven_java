@@ -454,6 +454,8 @@ public class inicio extends javax.swing.JFrame {
         btncancelarUsuarios = new javax.swing.JButton();
         btnnuevoUsuarios = new javax.swing.JButton();
         dcfecha_ingreso = new com.toedter.calendar.JDateChooser();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablausuario = new javax.swing.JTable();
@@ -463,6 +465,7 @@ public class inicio extends javax.swing.JFrame {
         btneditarUsuarios = new javax.swing.JButton();
         btnbuscar1Usuarios = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         pnelClientes = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -689,7 +692,6 @@ public class inicio extends javax.swing.JFrame {
         jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 760));
 
         jPanel2.setBackground(new java.awt.Color(33, 45, 62));
-        jPanel2.setForeground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblhora.setFont(new java.awt.Font("Agency FB", 1, 36)); // NOI18N
@@ -706,62 +708,79 @@ public class inicio extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(33, 45, 62));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel4.setBackground(new java.awt.Color(51, 102, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE DATOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("MS PGothic", 1, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel4.setBackground(new java.awt.Color(33, 45, 62));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE DATOS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("MS PGothic", 1, 14), new java.awt.Color(73, 181, 172))); // NOI18N
         jPanel4.setForeground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel8.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Agency FB", 1, 20)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Usuario:");
-        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, -1, 29));
+        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 60, 40));
 
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Password:");
-        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, 29));
+        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, 29));
 
         jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Agency FB", 1, 20)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Acceso:");
-        jPanel4.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, -1, 29));
+        jPanel4.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, 40));
 
         jLabel14.setBackground(new java.awt.Color(255, 255, 255));
         jLabel14.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Estado:");
-        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, -1, 29));
+        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, 40));
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Fec_Ingreso:");
-        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 345, -1, 29));
+        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, -1, 40));
 
+        txtlogin.setBackground(new java.awt.Color(33, 45, 62));
+        txtlogin.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        txtlogin.setForeground(new java.awt.Color(255, 255, 255));
+        txtlogin.setText("Enter your Usernme");
+        txtlogin.setToolTipText("");
+        txtlogin.setBorder(null);
+        txtlogin.setCaretColor(new java.awt.Color(33, 45, 62));
         txtlogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtloginActionPerformed(evt);
             }
         });
-        jPanel4.add(txtlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 114, -1));
+        jPanel4.add(txtlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 300, 30));
 
+        txtpassword.setBackground(new java.awt.Color(33, 45, 62));
+        txtpassword.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        txtpassword.setForeground(new java.awt.Color(255, 255, 255));
+        txtpassword.setText("Ennrnenen");
+        txtpassword.setBorder(null);
+        txtpassword.setCaretColor(new java.awt.Color(33, 45, 62));
         txtpassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtpasswordActionPerformed(evt);
             }
         });
-        jPanel4.add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 156, 128, -1));
+        jPanel4.add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 300, 30));
 
+        cboacceso1.setBackground(new java.awt.Color(33, 45, 62));
+        cboacceso1.setForeground(new java.awt.Color(33, 45, 62));
         cboacceso1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Seleccionar>", "Administrador", "Visitante" }));
+        cboacceso1.setBorder(null);
+        cboacceso1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cboacceso1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboacceso1ActionPerformed(evt);
             }
         });
-        jPanel4.add(cboacceso1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, -1, -1));
+        jPanel4.add(cboacceso1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 300, -1));
 
         cboestado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Seleccionar>", "A", "D" }));
         cboestado.addActionListener(new java.awt.event.ActionListener() {
@@ -769,57 +788,65 @@ public class inicio extends javax.swing.JFrame {
                 cboestadoActionPerformed(evt);
             }
         });
-        jPanel4.add(cboestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, -1, -1));
+        jPanel4.add(cboestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, 300, 20));
 
         btnguardarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btnguardarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnguardarUsuarios.setForeground(new java.awt.Color(51, 51, 51));
-        btnguardarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_norm.png"))); // NOI18N
+        btnguardarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-SAVE.png"))); // NOI18N
+        btnguardarUsuarios.setBorder(null);
         btnguardarUsuarios.setBorderPainted(false);
         btnguardarUsuarios.setContentAreaFilled(false);
         btnguardarUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnguardarUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_press.png"))); // NOI18N
-        btnguardarUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save_roll.png"))); // NOI18N
         btnguardarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnguardarUsuariosActionPerformed(evt);
             }
         });
-        jPanel4.add(btnguardarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, 453, -1, -1));
+        jPanel4.add(btnguardarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, 50));
 
         btncancelarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btncancelarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btncancelarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_norm.png"))); // NOI18N
+        btncancelarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-SALIR.png"))); // NOI18N
+        btncancelarUsuarios.setBorder(null);
         btncancelarUsuarios.setBorderPainted(false);
         btncancelarUsuarios.setContentAreaFilled(false);
-        btncancelarUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_press.png"))); // NOI18N
-        btncancelarUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/canc_roll.png"))); // NOI18N
         btncancelarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncancelarUsuariosActionPerformed(evt);
             }
         });
-        jPanel4.add(btncancelarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 450, -1, -1));
+        jPanel4.add(btncancelarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, -1, 50));
 
         btnnuevoUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btnnuevoUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnnuevoUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_norm.png"))); // NOI18N
+        btnnuevoUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-NUEVO.png"))); // NOI18N
+        btnnuevoUsuarios.setBorder(null);
         btnnuevoUsuarios.setBorderPainted(false);
         btnnuevoUsuarios.setContentAreaFilled(false);
-        btnnuevoUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_press.png"))); // NOI18N
-        btnnuevoUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_roll.png"))); // NOI18N
+        btnnuevoUsuarios.setFocusPainted(false);
+        btnnuevoUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/PRESS ICONS/NUEVO.png"))); // NOI18N
+        btnnuevoUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/PRESS ICONS/NUEVO.png"))); // NOI18N
         btnnuevoUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnnuevoUsuariosActionPerformed(evt);
             }
         });
-        jPanel4.add(btnnuevoUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 453, 129, -1));
-        jPanel4.add(dcfecha_ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, -1, -1));
+        jPanel4.add(btnnuevoUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 420, 90, 50));
+        jPanel4.add(dcfecha_ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, 300, -1));
+
+        jSeparator2.setBackground(new java.awt.Color(73, 181, 172));
+        jSeparator2.setForeground(new java.awt.Color(73, 181, 172));
+        jPanel4.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 300, 10));
+
+        jSeparator4.setBackground(new java.awt.Color(73, 181, 172));
+        jSeparator4.setForeground(new java.awt.Color(73, 181, 172));
+        jPanel4.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 300, 10));
 
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 31, 500, 537));
 
-        jPanel5.setBackground(new java.awt.Color(51, 102, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "LISTA DE USUARIOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("MS PGothic", 1, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel5.setBackground(new java.awt.Color(33, 45, 62));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "LISTA DE USUARIOS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("MS PGothic", 1, 14), new java.awt.Color(73, 181, 172))); // NOI18N
         jPanel5.setForeground(new java.awt.Color(102, 102, 102));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -843,27 +870,34 @@ public class inicio extends javax.swing.JFrame {
 
         jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 176, 650, 172));
 
+        txtbuscarUsuarios.setEditable(false);
+        txtbuscarUsuarios.setBackground(new java.awt.Color(33, 45, 62));
+        txtbuscarUsuarios.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        txtbuscarUsuarios.setForeground(new java.awt.Color(255, 255, 255));
+        txtbuscarUsuarios.setText("Search....");
+        txtbuscarUsuarios.setBorder(null);
         txtbuscarUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtbuscarUsuariosKeyReleased(evt);
             }
         });
-        jPanel5.add(txtbuscarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 117, 333, 30));
+        jPanel5.add(txtbuscarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(73, 110, 350, 30));
 
         btneliminarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btneliminarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btneliminarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_norm.png"))); // NOI18N
+        btneliminarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-DELETE.png"))); // NOI18N
+        btneliminarUsuarios.setBorder(null);
         btneliminarUsuarios.setBorderPainted(false);
         btneliminarUsuarios.setContentAreaFilled(false);
         btneliminarUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btneliminarUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_press.png"))); // NOI18N
-        btneliminarUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar_roll.png"))); // NOI18N
+        btneliminarUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-DELETE.png"))); // NOI18N
+        btneliminarUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/PRESS ICONS/ELIMINAR.png"))); // NOI18N
         btneliminarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneliminarUsuariosActionPerformed(evt);
             }
         });
-        jPanel5.add(btneliminarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 427, -1, -1));
+        jPanel5.add(btneliminarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, -1));
 
         lbltotalregistros.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         lbltotalregistros.setForeground(new java.awt.Color(255, 255, 255));
@@ -872,22 +906,28 @@ public class inicio extends javax.swing.JFrame {
 
         btneditarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btneditarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btneditarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_norm.png"))); // NOI18N
+        btneditarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-EDITAR.png"))); // NOI18N
+        btneditarUsuarios.setBorder(null);
         btneditarUsuarios.setBorderPainted(false);
         btneditarUsuarios.setContentAreaFilled(false);
-        btneditarUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_press.png"))); // NOI18N
-        btneditarUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_roll.png"))); // NOI18N
+        btneditarUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-EDITAR.png"))); // NOI18N
+        btneditarUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/PRESS ICONS/EDITAR.png"))); // NOI18N
         btneditarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneditarUsuariosActionPerformed(evt);
             }
         });
-        jPanel5.add(btneditarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 435, -1, 43));
+        jPanel5.add(btneditarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 420, -1, 43));
 
-        btnbuscar1Usuarios.setBackground(new java.awt.Color(51, 51, 255));
+        btnbuscar1Usuarios.setBackground(new java.awt.Color(73, 181, 172));
         btnbuscar1Usuarios.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         btnbuscar1Usuarios.setForeground(new java.awt.Color(255, 255, 255));
-        btnbuscar1Usuarios.setText("Mostrar Todos");
+        btnbuscar1Usuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-MOSTRAR.png"))); // NOI18N
+        btnbuscar1Usuarios.setBorder(null);
+        btnbuscar1Usuarios.setBorderPainted(false);
+        btnbuscar1Usuarios.setContentAreaFilled(false);
+        btnbuscar1Usuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-MOSTRAR.png"))); // NOI18N
+        btnbuscar1Usuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/PRESS ICONS/MOSTRAR.png"))); // NOI18N
         btnbuscar1Usuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnbuscar1UsuariosActionPerformed(evt);
@@ -899,6 +939,10 @@ public class inicio extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("BUSCAR");
         jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 119, -1, -1));
+
+        jSeparator3.setBackground(new java.awt.Color(73, 181, 172));
+        jSeparator3.setForeground(new java.awt.Color(73, 181, 172));
+        jPanel5.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 300, 10));
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 680, 537));
 
@@ -2928,6 +2972,9 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     public static javax.swing.JLabel lblacceso;
     private javax.swing.JLabel lblhora;
     public static javax.swing.JLabel lblnombre;
