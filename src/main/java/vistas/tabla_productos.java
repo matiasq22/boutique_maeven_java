@@ -74,9 +74,11 @@ public class tabla_productos extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         mnenviarpro = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbprod = new javax.swing.JTable();
+        jSeparator3 = new javax.swing.JSeparator();
         btnmostrar = new javax.swing.JButton();
         txtprod = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -102,13 +104,19 @@ public class tabla_productos extends javax.swing.JInternalFrame {
         });
         jPopupMenu1.add(mnenviarpro);
 
-        setBackground(new java.awt.Color(0, 102, 204));
+        jSeparator4.setBackground(new java.awt.Color(73, 181, 172));
+        jSeparator4.setForeground(new java.awt.Color(73, 181, 172));
+
+        setBackground(new java.awt.Color(33, 45, 62));
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("PRODUCTOS");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(33, 45, 62));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Producto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(73, 181, 172))); // NOI18N
 
         tbprod.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -129,17 +137,28 @@ public class tabla_productos extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tbprod);
 
-        btnmostrar.setBackground(new java.awt.Color(51, 102, 255));
+        jSeparator3.setBackground(new java.awt.Color(73, 181, 172));
+        jSeparator3.setForeground(new java.awt.Color(73, 181, 172));
+
+        btnmostrar.setBackground(new java.awt.Color(33, 45, 62));
         btnmostrar.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         btnmostrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnmostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Imagen4.png"))); // NOI18N
-        btnmostrar.setText("Mostrar todo");
+        btnmostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-MOSTRAR.png"))); // NOI18N
+        btnmostrar.setBorder(null);
+        btnmostrar.setContentAreaFilled(false);
+        btnmostrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/BTN-MOSTRAR.png"))); // NOI18N
+        btnmostrar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/new botons/PRESS ICONS/MOSTRAR.png"))); // NOI18N
         btnmostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnmostrarActionPerformed(evt);
             }
         });
 
+        txtprod.setBackground(new java.awt.Color(33, 45, 62));
+        txtprod.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtprod.setForeground(new java.awt.Color(255, 255, 255));
+        txtprod.setText("fhshkdhskl");
+        txtprod.setBorder(null);
         txtprod.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtprodKeyReleased(evt);
@@ -154,36 +173,45 @@ public class tabla_productos extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane2)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtprod, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnmostrar)))
-                    .addContainerGap()))
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(txtprod, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(btnmostrar)
+                    .addContainerGap(173, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 182, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(btnmostrar)
-                        .addComponent(txtprod, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(txtprod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnmostrar))
+                    .addContainerGap(207, Short.MAX_VALUE)))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 26, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -292,6 +320,8 @@ private void mnenviarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTable jTable1;
     private javax.swing.JMenuItem mnenviarpro;
     private javax.swing.JTable tbprod;

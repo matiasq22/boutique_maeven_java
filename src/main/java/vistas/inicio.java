@@ -435,6 +435,9 @@ public class inicio extends javax.swing.JFrame {
         btnRepor = new rojeru_san.RSButton();
         btnVenta = new rojeru_san.RSButton();
         btnMarca = new rojeru_san.RSButton();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblhora = new javax.swing.JLabel();
         rSPanelsSlider1 = new rojeru_san.RSPanelsSlider();
@@ -688,6 +691,34 @@ public class inicio extends javax.swing.JFrame {
             }
         });
         sidebar.add(btnMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 330, 50));
+
+        jPanel8.setBackground(new java.awt.Color(33, 45, 62));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagees/logofondo3.png"))); // NOI18N
+
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icono de formulario usuario/icons8-camiseta-forester-64.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addComponent(jLabel20)
+                .addGap(20, 20, 20))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        sidebar.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 310, 70));
 
         jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 760));
 
@@ -2919,6 +2950,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -2949,6 +2981,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2966,6 +2999,7 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
