@@ -830,10 +830,13 @@ public class inicio extends javax.swing.JFrame {
         btnguardarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btnguardarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnguardarUsuarios.setForeground(new java.awt.Color(51, 51, 51));
+        btnguardarUsuarios.setIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-REGISTRAR.png")); // NOI18N
         btnguardarUsuarios.setBorder(null);
         btnguardarUsuarios.setBorderPainted(false);
         btnguardarUsuarios.setContentAreaFilled(false);
         btnguardarUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnguardarUsuarios.setPressedIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-REGISTRAR.png")); // NOI18N
+        btnguardarUsuarios.setRolloverIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-REGISTRAR.png")); // NOI18N
         btnguardarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnguardarUsuariosActionPerformed(evt);
@@ -843,9 +846,12 @@ public class inicio extends javax.swing.JFrame {
 
         btncancelarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btncancelarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btncancelarUsuarios.setIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-CANCELAR.png")); // NOI18N
         btncancelarUsuarios.setBorder(null);
         btncancelarUsuarios.setBorderPainted(false);
         btncancelarUsuarios.setContentAreaFilled(false);
+        btncancelarUsuarios.setPressedIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/pressed/CANCELAR.png")); // NOI18N
+        btncancelarUsuarios.setRolloverIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-CANCELAR.png")); // NOI18N
         btncancelarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncancelarUsuariosActionPerformed(evt);
@@ -855,13 +861,13 @@ public class inicio extends javax.swing.JFrame {
 
         btnnuevoUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btnnuevoUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnnuevoUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botons/BTN-NUEVO.png"))); // NOI18N
+        btnnuevoUsuarios.setIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-NUEVO")); // NOI18N
         btnnuevoUsuarios.setBorder(null);
         btnnuevoUsuarios.setBorderPainted(false);
         btnnuevoUsuarios.setContentAreaFilled(false);
         btnnuevoUsuarios.setFocusPainted(false);
-        btnnuevoUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botons/pressed/NUEVO.png"))); // NOI18N
-        btnnuevoUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botons/pressed/NUEVO.png"))); // NOI18N
+        btnnuevoUsuarios.setPressedIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/pressed/NUEVO")); // NOI18N
+        btnnuevoUsuarios.setRolloverIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-NUEVO")); // NOI18N
         btnnuevoUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnnuevoUsuariosActionPerformed(evt);
@@ -933,10 +939,13 @@ public class inicio extends javax.swing.JFrame {
 
         btneliminarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btneliminarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btneliminarUsuarios.setIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-DELETE.png")); // NOI18N
         btneliminarUsuarios.setBorder(null);
         btneliminarUsuarios.setBorderPainted(false);
         btneliminarUsuarios.setContentAreaFilled(false);
         btneliminarUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btneliminarUsuarios.setPressedIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/pressed/ELIMINAR.png")); // NOI18N
+        btneliminarUsuarios.setRolloverIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-DELETE.png")); // NOI18N
         btneliminarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneliminarUsuariosActionPerformed(evt);
@@ -950,9 +959,12 @@ public class inicio extends javax.swing.JFrame {
 
         btneditarUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         btneditarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btneditarUsuarios.setIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-EDITAR.png")); // NOI18N
         btneditarUsuarios.setBorder(null);
         btneditarUsuarios.setBorderPainted(false);
         btneditarUsuarios.setContentAreaFilled(false);
+        btneditarUsuarios.setPressedIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/pressed/EDITAR.png")); // NOI18N
+        btneditarUsuarios.setRolloverIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-EDITAR.png")); // NOI18N
         btneditarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneditarUsuariosActionPerformed(evt);
@@ -968,9 +980,12 @@ public class inicio extends javax.swing.JFrame {
         btnbuscar1Usuarios.setBackground(new java.awt.Color(73, 181, 172));
         btnbuscar1Usuarios.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         btnbuscar1Usuarios.setForeground(new java.awt.Color(255, 255, 255));
+        btnbuscar1Usuarios.setIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-BUSCAR.png")); // NOI18N
         btnbuscar1Usuarios.setBorder(null);
         btnbuscar1Usuarios.setBorderPainted(false);
         btnbuscar1Usuarios.setContentAreaFilled(false);
+        btnbuscar1Usuarios.setPressedIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/pressed/BUSCAR.png")); // NOI18N
+        btnbuscar1Usuarios.setRolloverIcon(new javax.swing.ImageIcon("/home/matias/Documentos/NetBeansProjects/boutique_maeven_java/src/main/resources/botons/BTN-BUSCAR.png")); // NOI18N
         btnbuscar1Usuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnbuscar1UsuariosActionPerformed(evt);
@@ -2258,8 +2273,8 @@ public class inicio extends javax.swing.JFrame {
 
             clienteController.create(cliente);
             JOptionPane.showMessageDialog(rootPane, "El cliente fue registrado satisfactoriamente");
-            mostrarUsuarios("");
-            limpiarUsuarios();
+            mostrarClientes("");
+            limpiarClientes();
             bloquearClientes();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al guardar el registro ");
